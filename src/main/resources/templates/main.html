@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Alledrogo</title>
+  <link rel="stylesheet" type="text/css" href="/static/styles.css">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+
+ <!-- scripts -->
+<script src="/static/scriptProduct.js"></script>
+<script src="/static/scriptAuth.js"></script>
+<script src="/static/scriptPopup.js"></script>
+<script src="/static/scriptAuthConfirmation.js"></script> 
+
+
+<body>
+
+  <!-- main body -->
+  <div class="container">
+
+    <!--Main page buttons-->
+    <div class="left-column">
+      <div>
+        <a href="#" class="button" id="mainPageLoginButton">Zaloguj się</a>
+        <a href="#" class="button" id="mainPageSignupButton">Zarejestruj się</a>
+        <a href="#" class="button" id="mainPageSignoutButton" onclick="signOut()">Wyloguj się</a>
+      </div>
+    </div>
+
+    <!--Main page product list -->
+    <div class="middle-column">
+      <h1 style="text-align: center;">Przedmioty na sprzedaż</h1>
+      <!-- filled by .fetch. in scriptProduct.js on page reload -->
+      <ul id="product-list"></ul>
+    </div>
+
+    <!--Main page user interface -->
+    <div class="right-column">
+
+      <!--User data -->
+      <div> <!--filled by .fillUserData(). in scriptPupup.js after successfull login -->
+        <a>ID</a>       <a class="button" id="current_user_id">Not logged in</a>
+        <a>Username</a> <a class="button" id="current_user_username">Not logged in</a>
+        <a>Roles</a>    <a class="button" id="current_user_role">Not logged in</a>
+        <a>Balance</a>  <a class="button" id="current_user_ballance">Not logged in</a>
+      </div>
+
+      <div> <!-- Button to add new items to sell -->
+        <a href="#" class="button" id="mainPageAddProductButton">Dodaj przedmiot</a>
+      </div>
+
+      <!--bought products by user -->
+      <div>
+        <a style="text-align: center;" id="boughtItemsTextField"></a>
+        <!-- filled always i hope-->
+        <ul id="bought-product-list"></ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Login pupup -->
+  <div id="login-popup" class="popup">
+
+    <a href="#" class="popupclosebutton" id="popupLoginCloseButton">X</a>
+
+    <h2>Zaloguj się</h2>
+
+    <input type="text" placeholder="Username" id="loginInput" value="test01">
+    <input type="password" placeholder="Password" id="passwordInput" value="test01">
+
+    <a href="#" class="button" id="popupLoginButton" onclick="performLogin()" >Zaloguj się</a>
+
+    <a id="loginErrorTextField"></a>
+
+  </div>
+
+  <!-- Signin pupup -->
+  <div id="signup-popup" class="popup">
+
+    <a href="#" class="popupclosebutton" id="popupSignupCloseButton">X</a>
+
+    <h2>Zarejestruj się</h2>
+
+    <input type="text" placeholder="Username" id="signupInput" value="test02">
+    <input type="password" placeholder="Password" id="signupPasswordInput" value="test02">
+    <input type="password" placeholder="Confirm password" id="confirmSignupPasswordInput" value="test02">
+
+    <a href="#" class="button" id="popupSignupButton" onclick="performSignup()">Zarejestruj się</a>
+
+    <a id="signupErrorTextField"></a>
+
+  </div>
+
+   <!-- Add new item pupup -->
+   <div id="add-item-popup" class="popup">
+
+    <a href="#" class="popupclosebutton" id="popupAddItemCloseButton">X</a>
+
+    <h2>Dodaj przedmiot na sprzedaż</h2>
+
+    <input type="text" placeholder="Nazwa przedmiotu" id="itemNameInput" value="itemTestName">
+    <input type="text" placeholder="Opis przedmiotu" id="itemDescriptionInput" value="itemTestDescription">
+    <input type="number" placeholder="Cena" id="itemPriceInput" value=100>
+
+    <a href="#" class="button" id="popupAddItemButton" onclick="addItem()" >Dodaj przedmiot na sprzedaż</a>
+
+    <a id="addItemErrorTextField"></a>
+
+  </div>
+
+</body>
+
+</html>
