@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jakarta.validation.Valid;
 import main.dto.request.UserStatusRequest;
 import main.dto.request.LoginRequest;
 import main.dto.request.SignupRequest;
@@ -30,18 +31,15 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     JwtUtils jwtUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         if (!userRepository.existsByUsername(loginRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
@@ -54,13 +52,14 @@ public class AuthController {
         String token = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getId(), userDetails.getUsername(), roles, userDetails.getBalance()));
     }
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken!"));
@@ -72,11 +71,8 @@ public class AuthController {
         }
     }
 
-    //deprecated
-    //TODO powiedziec sugoiowi ze wcale za duzo komentow nie daje
-    /*TODO wincyj komentów */
     @PostMapping("/userStatus")
-    public ResponseEntity<?> authenticateLoginStatus(@RequestBody UserStatusRequest userStatusRequest) {
+    public ResponseEntity<?> authenticateLoginStatus(@Valid @RequestBody UserStatusRequest userStatusRequest) {
 
         if (!userRepository.existsByUsername(userStatusRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));

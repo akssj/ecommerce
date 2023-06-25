@@ -1,8 +1,6 @@
 package main.service;
 
 import main.entity.ProductEntity;
-import main.dto.request.ProductRequest;
-import main.dto.response.ProductResponse;
 
 import java.util.List;
 import java.util.Optional;

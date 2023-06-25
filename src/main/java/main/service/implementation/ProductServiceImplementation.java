@@ -1,9 +1,6 @@
 package main.service.implementation;
 
 import main.entity.ProductEntity;
-import main.dto.mapper.ProductMapper;
-import main.dto.request.ProductRequest;
-import main.dto.response.ProductResponse;
 import main.repository.ProductRepository;
 import main.service.ProductService;
 import org.springframework.stereotype.Service;

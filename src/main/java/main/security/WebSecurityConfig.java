@@ -60,9 +60,7 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/auth/signup").permitAll()
-                .requestMatchers("/error").permitAll()
                 .requestMatchers("/api/product/forSale").permitAll()
-                .requestMatchers("/api/product/all").permitAll()
                 .requestMatchers("/main").permitAll()
                 .requestMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()
