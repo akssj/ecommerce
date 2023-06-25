@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const SignupPopup = document.getElementById('signup-popup');
   const AddItempopup = document.getElementById('add-item-popup');
 
-  const MainPageLoginButton = document.getElementById('mainPageLoginButton');
-  const MainPagesignupButton = document.getElementById('mainPageSignupButton');
-  const MainPageAddProductButton = document.getElementById('mainPageAddProductButton');
+  const MainPageLoginButton = document.getElementById('main-page-login-button');
+  const MainPagesignupButton = document.getElementById('main-page-signup-button');
+  const MainPageAddProductButton = document.getElementById('main-page-add-product-button');
 
   MainPageLoginButton.addEventListener('click', () => {
     closePopups();
@@ -37,13 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function closePopups(){ //TODO make it more universal ie by button class or smht
   document.getElementById('login-popup').style.display = 'none';
-  document.getElementById('loginErrorTextField').innerText = "";
+  document.getElementById('login-error-text-field').innerText = "";
 
   document.getElementById('signup-popup').style.display = 'none';
-  document.getElementById('signupErrorTextField').innerText = "";
+  document.getElementById('signup-error-text-field').innerText = "";
 
   document.getElementById('add-item-popup').style.display = 'none';
-  document.getElementById('addItemErrorTextField').style.display = 'none';
+  document.getElementById('add-item-error-text-field"').style.display = 'none';
 }
 
 function fillUserData(){ //TODO going to be deprecated real fast

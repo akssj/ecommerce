@@ -4,10 +4,10 @@
 ==============*/ 
 
 function login() {
-  const Username = document.getElementById('loginInput').value;
-  const Password = document.getElementById('passwordInput').value;
+  const Username = document.getElementById('login-username-input').value;
+  const Password = document.getElementById('login-password-input').value;
 
-  const LoginErrorTextField = document.getElementById('loginErrorTextField');
+  const LoginErrorTextField = document.getElementById('login-error-text-field');
 
   //TODO make some if to check validity or smth
 
@@ -56,11 +56,11 @@ signup request
 ============*/
 
 function signup() {
-  const Username = document.getElementById('signupInput').value;
-  const Password = document.getElementById('signupPasswordInput').value;
-  const ConfirmPassword = document.getElementById('confirmSignupPasswordInput').value;
+  const Username = document.getElementById('signup-username-input').value;
+  const Password = document.getElementById('signup-password-input').value;
+  const ConfirmPassword = document.getElementById('confirm-signup-password-input').value;
 
-  const SignupErrorTextField = document.getElementById('signupErrorTextField');
+  const SignupErrorTextField = document.getElementById('signup-error-text-field');
 
   if (Password !== ConfirmPassword) {
     SignupErrorTextField.innerText = 'Passwords does not match';
@@ -86,7 +86,7 @@ function signup() {
   .then(response => {
     if (response.ok) {
       closePopups();
-      return response.json();
+      return response.json();   //TODO make it so you are loggined in after signup
     }else{
       return response.json().then( data => {
         const errorMessage = data.message;

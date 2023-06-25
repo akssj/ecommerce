@@ -4,14 +4,14 @@
 ======================*/
 
 function addItem() {
-  const ItemName = document.getElementById('itemNameInput').value;
-  const ItemDescription = document.getElementById('itemDescriptionInput').value;
-  const ItemPrice = document.getElementById('itemPriceInput').value;
+  const ItemName = document.getElementById('item-name-input').value;
+  const ItemDescription = document.getElementById('item-description-input').value;
+  const ItemPrice = document.getElementById('item-price-input').value;
 
   const Username = localStorage.getItem('username');
   const Token = localStorage.getItem('token');
 
-  const AddItemErrorTextField = document.getElementById('addItemErrorTextField');
+  const AddItemErrorTextField = document.getElementById('add-item-error-text-field');
 
   if (Username === null || Token === null) {
     AddItemErrorTextField.innerText = 'You are not logged in';
