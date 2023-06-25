@@ -81,8 +81,6 @@ public class ProductController {
         return filteredProducts;
     }
 
-
-
     //Delete items /api/product/delete/{id}
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProduct(@RequestBody DeleteProductRequest deleteProductRequest) {

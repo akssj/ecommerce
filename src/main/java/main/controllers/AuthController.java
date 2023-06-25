@@ -71,6 +71,10 @@ public class AuthController {
             return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
         }
     }
+
+    //deprecated
+    //TODO powiedziec sugoiowi ze wcale za duzo komentow nie daje
+    /*TODO wincyj komentów */
     @PostMapping("/userStatus")
     public ResponseEntity<?> authenticateLoginStatus(@RequestBody UserStatusRequest userStatusRequest) {
 

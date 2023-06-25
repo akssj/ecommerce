@@ -1,120 +1,110 @@
   
-  /*===========
+/*==============
   login request
-  ============*/ 
+==============*/ 
 
-  function performLogin() {
-    //username
-    const loginValue = document.getElementById('loginInput').value;
-    //password
-    const passwordValue = document.getElementById('passwordInput').value;
-    //error message field
-    const errorElement = document.getElementById('loginErrorTextField');
+function login() {
+  const Username = document.getElementById('loginInput').value;
+  const Password = document.getElementById('passwordInput').value;
 
-    //create request data
-    const credentials = {
-      username: loginValue,
-      password: passwordValue
-    };
+  const LoginErrorTextField = document.getElementById('loginErrorTextField');
 
-    const jsonCredentials = JSON.stringify(credentials);
+  //TODO make some if to check validity or smth
 
-    //create request
-    const requestLogin = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonCredentials
-    };
-
-    //send request to login user
-    fetch('http://localhost:8080/api/auth/login', requestLogin)
-    .then(response => {
-      if (response.ok) {
-        return response.json().then(data => {
-          for (const key in data) {
-            localStorage.setItem(key, data[key]);
-          }
-          closePopups();
-          fillUserData();
-          window.location.reload();
-        });
-      } else {
-        return response.json().then( data => {
-          const errorMessage = data.message;
-          errorElement.innerText = errorMessage;
-          throw new Error(errorMessage);
-        });
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+  const LoginData = {
+    username: Username,
+    password: Password
   };
 
+  const JsonLoginData = JSON.stringify(LoginData);
 
-  /*============
-  signup request
-  ============*/
+  const RequestLogin = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JsonLoginData
+  };
 
-  function performSignup() {
-    //username
-    const signUpValue = document.getElementById('signupInput').value;
-    //password
-    const signUpPasswordValue = document.getElementById('signupPasswordInput').value;
-    //password confirmation
-    const confirmPasswordValue = document.getElementById('confirmSignupPasswordInput').value;
-    //error message field
-    const errorElement = document.getElementById('signupErrorTextField');
-
-    //check if password match
-    if (signUpPasswordValue !== confirmPasswordValue) {
-      errorElement.innerText = 'Passwords do not match';
-      return;
-    }
-
-    //create request data
-    const userData = {
-      username: signUpValue,
-      password: signUpPasswordValue
-    };
-
-    const jsonUserData = JSON.stringify(userData);
-
-    //create request
-    const requestSignup = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonUserData
-    };
-
-    //send request to create user
-    fetch('http://localhost:8080/api/auth/signup', requestSignup)
-    .then(response => {
-      if (response.ok) {
+  fetch('http://localhost:8080/api/auth/login', RequestLogin)
+  .then(response => {
+    if (response.ok) {
+      return response.json().then(data => {
+        for (const key in data) {
+          localStorage.setItem(key, data[key]); //TODO make it session
+        }
         closePopups();
-        return response.json();
-      }else{
-        return response.json().then( data => {
-          const errorMessage = data.message;
-          errorElement.innerText = errorMessage;
-          throw new Error(errorMessage);
-        });
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
+        fillUserData();
+        window.location.reload();
+      });
+    } else {
+      return response.json().then( data => {
+        const errorMessage = data.message;
+        LoginErrorTextField.innerText = errorMessage;
+        throw new Error(errorMessage);
+      });
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+};
+
+
+/*============
+signup request
+============*/
+
+function signup() {
+  const Username = document.getElementById('signupInput').value;
+  const Password = document.getElementById('signupPasswordInput').value;
+  const ConfirmPassword = document.getElementById('confirmSignupPasswordInput').value;
+
+  const SignupErrorTextField = document.getElementById('signupErrorTextField');
+
+  if (Password !== ConfirmPassword) {
+    SignupErrorTextField.innerText = 'Passwords does not match';
+    return;
+  }
+
+  const SignupData = {
+    username: Username,
+    password: Password
   };
 
-  /*=====
-  Log out 
-  ======*/
+  const JsonSignupData = JSON.stringify(SignupData);
 
-  function signOut() {
-    localStorage.clear();
-    window.location.reload();
-  }
+  const RequestSignup = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JsonSignupData
+  };
+
+  fetch('http://localhost:8080/api/auth/signup', RequestSignup)
+  .then(response => {
+    if (response.ok) {
+      closePopups();
+      return response.json();
+    }else{
+      return response.json().then( data => {
+        const errorMessage = data.message;
+        SignupErrorTextField.innerText = errorMessage;
+        throw new Error(errorMessage);
+      });
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+};
+
+/*============
+  signout
+============*/
+
+function signOut() { //TODO make it so it deletes session
+  localStorage.clear();
+  window.location.reload();
+}
