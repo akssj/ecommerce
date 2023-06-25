@@ -13,15 +13,19 @@ function addItem() {
 
   const AddItemErrorTextField = document.getElementById('add-item-error-text-field');
 
-  if (Username === null || Token === null) {
-    AddItemErrorTextField.innerText = 'You are not logged in';
-  }
-
-  if (ItemName === null || ItemDescription === null || ItemPrice === null) {
-    AddItemErrorTextField.innerText = 'Fill empty fileds';
+  try{
+    if (Username === null || Token === null) {
+      AddItemErrorTextField.innerText = "You are not logged in";
+      throw new Error("You are not logged in");
+    }
+    if (ItemName === "" || ItemDescription === "" || ItemPrice === "") {
+      AddItemErrorTextField.innerText = "Fill empty fileds";
+      throw new Error("Fill empty fileds");
+    }
+  }catch(error){
     return;
   }
-
+  
   const AddItemData = {
     name: ItemName,
     price: ItemPrice,
@@ -68,7 +72,16 @@ function buyItem(event){
   const Username = localStorage.getItem('username');
   const Token = localStorage.getItem('token');
 
-  //TODO make some if to check if it exist or smh
+  try{
+    if (Username === null || Token === null) {
+      throw new Error("You are not logged in");
+    }
+    if (ItemId === null) {
+      throw new Error("Item no longer exists");
+    }
+  }catch(error){
+    return;
+  }
 
   const BuyItemData = {
     item_id: ItemId,
@@ -107,7 +120,16 @@ function deleteItem(event){
   const Username = localStorage.getItem('username');
   const Token = localStorage.getItem('token');
 
-  //TODO make some if to check if it exist or smh
+  try{
+    if (Username === null || Token === null) {
+      throw new Error("You are not logged in");
+    }
+    if (ItemId === null) {
+      throw new Error("Item no longer exists");
+    }
+  }catch(error){
+    return;
+  }
 
   const DeleteItemData = {
     item_id: ItemId,

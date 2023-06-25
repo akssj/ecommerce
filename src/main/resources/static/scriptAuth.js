@@ -9,7 +9,14 @@ function login() {
 
   const LoginErrorTextField = document.getElementById('login-error-text-field');
 
-  //TODO make some if to check validity or smth
+  try{
+    if (Username === "" || Username === "") {
+      LoginErrorTextField.innerText = "Fill empty fileds";
+      throw new Error("Fill empty fileds");
+    }
+  }catch(error){
+    return;
+  }
 
   const LoginData = {
     username: Username,
@@ -62,8 +69,16 @@ function signup() {
 
   const SignupErrorTextField = document.getElementById('signup-error-text-field');
 
-  if (Password !== ConfirmPassword) {
-    SignupErrorTextField.innerText = 'Passwords does not match';
+  try{
+    if (Username === "" || Password === "") {
+      SignupErrorTextField.innerText = "Fill empty fileds";
+      throw new Error("Fill empty fileds");
+    }
+    if (Password !== ConfirmPassword) {
+      SignupErrorTextField.innerText = "Passwords does not match";
+      throw new Error("Passwords does not match");
+    }
+  }catch(error){
     return;
   }
 

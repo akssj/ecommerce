@@ -43,7 +43,7 @@ function closePopups(){ //TODO make it more universal ie by button class or smht
   document.getElementById('signup-error-text-field').innerText = "";
 
   document.getElementById('add-item-popup').style.display = 'none';
-  document.getElementById('add-item-error-text-field"').style.display = 'none';
+  document.getElementById('add-item-error-text-field').innerText = "";
 }
 
 function fillUserData(){ //TODO going to be deprecated real fast
