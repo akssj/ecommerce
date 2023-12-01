@@ -22,6 +22,7 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 + TODO Fix bugs (ie errors after token expiration - user is not auto logged out)
 + TODO Error messages, codes
 + TODO Security
++ TODO .gitignore
 
 ## Tech
 + architecture: mvc/rest
