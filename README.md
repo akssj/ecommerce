@@ -1,8 +1,5 @@
-# MyFirstWebApp aka Alledrogo
-## Intro
-This is an attempt to make a scalable web app using rest api.
-Technologies and code itself is not well thought out due to lack of knowledge about any of this.
-Anyway im doing it to get some know-how about creating and maintaining project.
+# Test branch
+This is Test branch.
 
 ## Features
 + Single page with api to change page content (i might want to change that)
@@ -10,7 +7,7 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 + User data saved in session(local storage at this point)
 + CRUD products for users to buy (authentication)
 + Database (User and Products)
-+ CURRENT TASK: TODO Tests(TestNG, maybe selenium), TCs, Documentation 
++ CURRENT TASK: TODO Tests(TestNG, maybe selenium), TCs, Documentation
 + TODO Use of some external api (idk what for but I want to do that)
 + TODO User profile, data
 + TODO Looking up other users
@@ -31,6 +28,7 @@ Anyway im doing it to get some know-how about creating and maintaining project.
   + Frontend: html, css, .js
 + Library: Springboot, jwt,
 + Database: postgresql
++ Test tech: TestNG, REST Assured
 
 ## Api
 + /main - GET main page, displays main.html file
