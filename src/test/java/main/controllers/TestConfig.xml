@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Alledrogo>
+
+    <TestAccountSetupData>
+        <Test_Account_Username>test01</Test_Account_Username>
+        <Test_Account_Password>test01</Test_Account_Password>
+    </TestAccountSetupData>
+
+    <TestAccountData>
+    </TestAccountData>
+
+</Alledrogo>

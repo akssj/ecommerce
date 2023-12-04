@@ -10,15 +10,16 @@ import static org.hamcrest.Matchers.*;
 
 public class AuthControllerTest {
 
-    private static final String username = "test01";
-    private static final String password = "test01";
-    JSONObject data = new JSONObject();
+    //TODO get make config files with all static variable values such as roles so changing roles does not require changing all variables in all tests
+    private static final String TEST_ACCOUNT_USERNAME = "test01";
+    private static final String TEST_ACCOUNT_PASSWORD = "test01";
+    JSONObject testJsonRequest = new JSONObject();
 
     @BeforeClass
     public void beforeClass(){
         try {
-            data.put("username", username);
-            data.put("password", password);
+            testJsonRequest.put("username", TEST_ACCOUNT_USERNAME);
+            testJsonRequest.put("password", TEST_ACCOUNT_PASSWORD);
         } catch (JSONException e) {
             throw new RuntimeException(e);
             //TODO handle it
@@ -29,7 +30,7 @@ public class AuthControllerTest {
     public void registerUserTest() {
         given()
                 .contentType(ContentType.JSON)
-                .body(data.toString())
+                .body(testJsonRequest.toString())
                 .when()
                 .post("http://localhost:8080/api/auth/signup")
                 .then()
@@ -40,7 +41,7 @@ public class AuthControllerTest {
     public void registerExistingUserTest() {
         given()
                 .contentType(ContentType.JSON)
-                .body(data.toString())
+                .body(testJsonRequest.toString())
                 .when()
                 .post("http://localhost:8080/api/auth/signup")
                 .then()
@@ -51,7 +52,7 @@ public class AuthControllerTest {
     public void authenticateUserTest() {
         given()
                 .contentType(ContentType.JSON)
-                .body(data.toString())
+                .body(testJsonRequest.toString())
                 .when()
                 .post("http://localhost:8080/api/auth/login")
                 .then()
@@ -59,7 +60,23 @@ public class AuthControllerTest {
                 .body("token", notNullValue())
                 .body("type", equalTo("Bearer"))
                 .body("id", notNullValue())
-                .body("username", equalTo(username))
+                .body("username", equalTo(TEST_ACCOUNT_USERNAME))
+                .body("roles", contains(equalTo("User")))
+                .body("balance", notNullValue());
+    }
+    @Test(priority = 4, description = "Checks if userStatus endpoint is working")
+    public void authenticateLoginStatusTest() {
+        given()
+                .contentType(ContentType.JSON)
+                .body(testJsonRequest.toString())
+                .when()
+                .post("http://localhost:8080/api/auth/login")
+                .then()
+                .statusCode(200)
+                .body("token", notNullValue())
+                .body("type", equalTo("Bearer"))
+                .body("id", notNullValue())
+                .body("username", equalTo(TEST_ACCOUNT_USERNAME))
                 .body("roles", contains(equalTo("User")))
                 .body("balance", notNullValue());
     }
