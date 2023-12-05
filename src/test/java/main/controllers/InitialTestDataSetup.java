@@ -1,8 +1,5 @@
 package main.controllers;
 
-import org.json.JSONObject;
-import org.json.XML;
-import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -91,60 +88,48 @@ public class InitialTestDataSetup {
             e.printStackTrace();
         }
     }
-    //  "{\"key1\":\"value1\",\"key2\":\"value2\"}";
-    // {"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDE3MzM2MjEsImV4cCI6MTcwMTczNDIyMX0.0HXE2RdbN9c_Uzp6QFQ8LIGLczVEyDhWEY7Pw99-n_U",
-    // "type":"Bearer",
-    // "id":1,
-    // "username":"test01",
-    // "roles":["User"],
-    // "balance":900}
     @AfterClass
     public void writeTestAccountData() {
         try {
             File file = new File(CONFIG_FILE_DIRECTORY);
-
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             document.getDocumentElement().normalize();
             Path filePath = file.toPath();
 
-            insertJsonDataIntoXml(document);
+            Element element = (Element) document.getElementsByTagName(TEST_ACCOUNT_CREATED_DATA_NODE).item(0);
+            if (element == null) {
+                element = document.createElement(TEST_ACCOUNT_CREATED_DATA_NODE);
+                document.getDocumentElement().appendChild(element);
+            } else {
+                while (element.hasChildNodes()) {
+                    element.removeChild(element.getFirstChild());
+                }
+            }
 
-            String modifiedXmlString = documentToString(document);
+            String jsonData = testAccountLoginResponse.toString();
+            String[] keyValuePairs = jsonData.replaceAll("[{}\"]", "").split(",");
+            for (String keyValuePair : keyValuePairs) {
+                String[] keyValue = keyValuePair.split(":");
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+                key = escapeXml(key);
+                value = escapeXml(value);
+                Element keyElement = element.getOwnerDocument().createElement(key);
+                keyElement.appendChild(element.getOwnerDocument().createTextNode(value));
+                element.appendChild(keyElement);
+            }
+
+            javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
+            javax.xml.transform.Transformer transformer = tf.newTransformer();
+            java.io.StringWriter writer = new java.io.StringWriter();
+            transformer.transform(new javax.xml.transform.dom.DOMSource(document), new javax.xml.transform.stream.StreamResult(writer));
+            String modifiedXmlString = writer.toString().replaceAll("></", ">\n</");
+
             Files.write(filePath, modifiedXmlString.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    private void insertJsonDataIntoXml(Document document) {
-        Element element = (Element) document.getElementsByTagName(TEST_ACCOUNT_CREATED_DATA_NODE).item(0);
-
-        while (element.hasChildNodes()) {
-            element.removeChild(element.getFirstChild());
-        }
-
-        String jsonData = testAccountLoginResponse.toString();
-        String[] keyValuePairs = jsonData.replaceAll("[{}\"]", "").split(",");
-
-        for (String keyValuePair : keyValuePairs) {
-            String[] keyValue = keyValuePair.split(":");
-            String key = keyValue[0].trim();
-            String value = keyValue[1].trim();
-            key = escapeXml(key);
-            value = escapeXml(value);
-            Element keyElement = document.createElement(key);
-            keyElement.appendChild(document.createTextNode(value));
-            element.appendChild(keyElement);
-        }
-    }
-    private static String documentToString(Document document) throws Exception {
-        javax.xml.transform.TransformerFactory tf = javax.xml.transform.TransformerFactory.newInstance();
-        javax.xml.transform.Transformer transformer = tf.newTransformer();
-        java.io.StringWriter writer = new java.io.StringWriter();
-        transformer.transform(new javax.xml.transform.dom.DOMSource(document), new javax.xml.transform.stream.StreamResult(writer));
-        return writer.toString();
-    }
-
     private static String escapeXml(String input) {
         return input.replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt;")
@@ -153,4 +138,3 @@ public class InitialTestDataSetup {
                 .replaceAll("'", "&apos;");
     }
 }
-

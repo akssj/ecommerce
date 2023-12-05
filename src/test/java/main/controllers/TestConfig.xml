@@ -5,6 +5,7 @@
         <Test_Account_Password>test01</Test_Account_Password>
     </TestAccountSetupData>
 
-    <TestAccountCreatedData><token>eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDE3MzQ3NTksImV4cCI6MTcwMTczNTM1OX0.iUFn664Fwo-wfk9wzHiWDeKY21pLecQ8FpTV-vrCxtU</token><type>Bearer</type><id>1</id><username>test01</username><roles>[User]</roles><balance>900</balance></TestAccountCreatedData>
 
+<TestAccountCreatedData><token>eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDE3MzU3MzcsImV4cCI6MTcwMTczNjMzN30.GFrLs_sJ_x9a9reWJ3aIVnj1FoQwMNNHKCAjT6tX-cM</token><type>Bearer</type><id>1</id><username>test01</username><roles>[User]</roles><balance>900</balance>
+</TestAccountCreatedData>
 </Alledrogo>
