@@ -1,5 +1,8 @@
-# Test branch
-This is Test branch.
+# MyFirstWebApp aka Alledrogo
+##Intro
+This is an attempt to make a scalable web app using rest api. 
+Technologies and code itself is not well-thought-out due to lack of knowledge about any of this. 
+Anyway im doing it to get some know-how about creating and maintaining project.
 
 ## Features
 + Single page with api to change page content (i might want to change that)
