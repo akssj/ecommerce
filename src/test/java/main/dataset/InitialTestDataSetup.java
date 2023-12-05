@@ -1,4 +1,4 @@
-package main.controllers;
+package main.dataset;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -17,7 +17,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 public class InitialTestDataSetup {
-    private static final String CONFIG_FILE_DIRECTORY = "src/test/java/main/controllers/TestConfig.xml";
+    private static final String CONFIG_FILE_DIRECTORY = "src/test/java/main/dataset/TestAccountConfig.xml";
+    private static final String DATASET_FILE_DIRECTORY = "src/test/java/main/dataset/TestAccountDataset.xml";
     private static final String TEST_ACCOUNT_SETUP_DATA_NODE = "TestAccountSetupData";
     private static final String TEST_ACCOUNT_USERNAME_ELEMENT = "Test_Account_Username";
     private static final String TEST_ACCOUNT_PASSWORD_ELEMENT = "Test_Account_Password";
@@ -54,7 +55,7 @@ public class InitialTestDataSetup {
         }
     }
 
-    //TODO fix it
+    //TODO fix it and make it first "test" to be executed
     @Test
     public void performInitialTestDataSetup(){
         try {
@@ -91,11 +92,12 @@ public class InitialTestDataSetup {
     @AfterClass
     public void writeTestAccountData() {
         try {
-            File file = new File(CONFIG_FILE_DIRECTORY);
+            File file = new File(DATASET_FILE_DIRECTORY);
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             document.getDocumentElement().normalize();
             Path filePath = file.toPath();
 
+            //TODO fix that .isempty
             Element element = (Element) document.getElementsByTagName(TEST_ACCOUNT_CREATED_DATA_NODE).item(0);
             if (element == null) {
                 element = document.createElement(TEST_ACCOUNT_CREATED_DATA_NODE);
@@ -123,7 +125,7 @@ public class InitialTestDataSetup {
             javax.xml.transform.Transformer transformer = tf.newTransformer();
             java.io.StringWriter writer = new java.io.StringWriter();
             transformer.transform(new javax.xml.transform.dom.DOMSource(document), new javax.xml.transform.stream.StreamResult(writer));
-            String modifiedXmlString = writer.toString().replaceAll("></", ">\n</");
+            String modifiedXmlString = writer.toString();
 
             Files.write(filePath, modifiedXmlString.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
         } catch (Exception e) {

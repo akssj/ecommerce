@@ -3,6 +3,7 @@
 <suite name="First Suite">
     <test thread-count="5" name="MyFirstWebApp">
         <classes>
+            <class name="main.dataset.InitialTestDataSetup"/>
             <class name="main.controllers.AuthControllerTest"/>
         </classes>
     </test>

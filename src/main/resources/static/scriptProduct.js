@@ -67,7 +67,7 @@ function createRequest(){ //TODO unnecessery at this point
   const RequestUserBoughtProductList = {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer '+ Token,
+      'Authorization': 'Bearer ' + Token,
       'Content-Type': 'application/json'
     },
     body: JsonUserDataCheck
