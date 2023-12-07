@@ -2,7 +2,7 @@ package main.security.services;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.entity.UserEntity;
+import main.data.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

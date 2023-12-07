@@ -1,35 +1,33 @@
 package main.controllers;
 
 import jakarta.validation.Valid;
-import main.dto.request.AddProductRequest;
-import main.dto.response.MessageResponse;
-import main.entity.ProductEntity;
-import main.entity.UserEntity;
-import main.repository.ProductRepository;
-import main.repository.UserRepository;
+import main.io.request.AddProductRequest;
+import main.io.response.MessageResponse;
+import main.data.entity.ProductEntity;
+import main.data.entity.UserEntity;
 import main.security.jwt.JwtUtils;
+import main.service.ProductHandlingService;
 import main.service.ProductService;
+import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/product/handling")
 public class ProductHandlerController {
     private final ProductService productService;
-    private final ProductRepository productRepository;
-    private final UserRepository userRepository;
+    private final ProductHandlingService productHandlingService;
+    private final UserService userService;
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public ProductHandlerController(ProductService productService, ProductRepository productRepository, UserRepository userRepository, JwtUtils jwtUtils) {
+    public ProductHandlerController(ProductService productService, ProductHandlingService productHandlingService, UserService userService, JwtUtils jwtUtils) {
         this.productService = productService;
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
+        this.productHandlingService = productHandlingService;
+        this.userService = userService;
         this.jwtUtils = jwtUtils;
     }
 
@@ -42,7 +40,7 @@ public class ProductHandlerController {
             addProductRequest.getDescription(),
             jwtUtils.getUserNameFromJwtToken(token)
         );
-        productService.saveProduct(newProduct);
+        productHandlingService.saveProduct(newProduct);
 
         return ResponseEntity.ok(new MessageResponse("Item added"));
     }
@@ -56,59 +54,57 @@ public class ProductHandlerController {
             ProductEntity product = productEntity.get();
 
             if (product.getCreator().equals(jwtUtils.getUserNameFromJwtToken(token))) {
-                productService.deleteProduct(id);
+                productHandlingService.deleteProduct(id);
                 return ResponseEntity.ok(true);
             }else {
                 return ResponseEntity.badRequest().body(new MessageResponse("You do not own this item"));
             }
-
         }else {
             return ResponseEntity.badRequest().body(new MessageResponse("Item does not exist"));
         }
     }
 
     @PutMapping("/buy/{id}")
-    public ResponseEntity<?> buyoutProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<?> buyProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
 
-        Optional<ProductEntity> ProductEntity = productRepository.findById(id);
-        Optional<UserEntity> BuyerUserEntity = userRepository.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
+        //TODO fix that
 
-        if (ProductEntity.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Item does not exist!"));
-        }
-        if (BuyerUserEntity.isEmpty()) {
+        if (!userService.existsByUsername(jwtUtils.getUserNameFromJwtToken(token))) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist"));
         }
+        if (!productService.existsById(id)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Item does not exist!"));
+        }
 
-        ProductEntity product = ProductEntity.get();
-        UserEntity Buyer = BuyerUserEntity.get();
-        Optional<UserEntity> OwnerUserEntity = userRepository.findByUsername(product.getCreator());
+        UserEntity userEntityBuyer = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token)).get();
+        ProductEntity productEntity = productService.findById(id).get();
 
-        if (!product.getBuyer().equals("")){
+        if (!productEntity.getBuyer().equals("")){
             return ResponseEntity.badRequest().body(new MessageResponse("Item is no longer available for sale!"));
         }
-        if (product.getCreator().equals(jwtUtils.getUserNameFromJwtToken(token))){
+        if (productEntity.getCreator().equals(jwtUtils.getUserNameFromJwtToken(token))){
             return ResponseEntity.badRequest().body(new MessageResponse("You can not buy your items!"));
         }
-        if (!(Buyer.getBalance() >= product.getPrice())){
-            return ResponseEntity.badRequest().body(new MessageResponse("You have insufficient balance!"));
+        if (!(userEntityBuyer.getBalance() >= productEntity.getPrice())){
+            return ResponseEntity.badRequest().body(new MessageResponse("You have insufficient funds!"));
         }
-        if (OwnerUserEntity.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Seller no longer exist!"));
+
+        if (userService.findByUsername(productEntity.getCreator()).isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Seller no longer exists"));
             //TODO delete all items that exist without active creator
         }
 
-        UserEntity Owner = OwnerUserEntity.get();
+        UserEntity userEntityProductOwner = userService.findByUsername(productEntity.getCreator()).get();
 
         try{
-            product.setBuyer(jwtUtils.getUserNameFromJwtToken(token));
-            productRepository.save(product);
+            productEntity.setBuyer(jwtUtils.getUserNameFromJwtToken(token));
+            productHandlingService.buyProduct(productEntity);
 
-            Buyer.setBalance(Buyer.getBalance() - product.getPrice());
-            userRepository.save(Buyer);
+            userEntityBuyer.setBalance(userEntityBuyer.getBalance() - productEntity.getPrice());
+            userService.createUser(userEntityBuyer);
 
-            Owner.setBalance(Owner.getBalance() + product.getPrice());
-            userRepository.save(Owner);
+            userEntityProductOwner.setBalance(userEntityProductOwner.getBalance() + productEntity.getPrice());
+            userService.createUser(userEntityProductOwner);
 
             return ResponseEntity.ok(new MessageResponse("Product bought!"));
         } catch(Exception e) {

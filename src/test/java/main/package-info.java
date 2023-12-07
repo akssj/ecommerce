@@ -29,7 +29,7 @@ Token data is accessible via Getters.
 ### CONTROLLERS PACKAGE ###
 ##########################*/
 
-/*  AuthControllerTest CLASS
+/*  AuthenticationControllerTest CLASS
 Performs api tests associated with /api/auth/signup /login /userStatus
 Goal is to verify that each of these endpoints are working as intended (verification scenarios).
 

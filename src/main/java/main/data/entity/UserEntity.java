@@ -1,4 +1,4 @@
-package main.entity;
+package main.data.entity;
 
 import jakarta.persistence.*;
 
@@ -18,9 +18,7 @@ public class UserEntity {
     @Column(name = "balance")
     private Integer balance;
 
-    public UserEntity() {
-    }
-
+    public UserEntity() {}
     public UserEntity(String username, String password) {
         this.username = username;
         this.password = password;

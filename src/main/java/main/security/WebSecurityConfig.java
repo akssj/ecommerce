@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class WebSecurityConfig {
   @Autowired
-  UserDetailsServiceImpl userDetailsService;
+  private UserDetailsServiceImpl userDetailsService;
 
   @Autowired
   private AuthEntryPointJwt unauthorizedHandler;
@@ -61,7 +61,6 @@ public class WebSecurityConfig {
                 .requestMatchers("/api/auth/login").permitAll()
                 .requestMatchers("/api/auth/signup").permitAll()
                 .requestMatchers("/api/product/forSale").permitAll()
-                .requestMatchers("/api/product/test").permitAll()
                 .requestMatchers("/main").permitAll()
                 .requestMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()

@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class AuthControllerTest {
+public class AuthenticationControllerTest {
 
     //TODO get make config files with all static variable values such as roles so changing roles does not require changing all variables in all tests
     private static final String TEST_ACCOUNT_USERNAME = "test01";
