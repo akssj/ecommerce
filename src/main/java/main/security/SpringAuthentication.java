@@ -20,12 +20,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-public class WebSecurityConfig {
-  @Autowired
-  private UserDetailsServiceImpl userDetailsService;
+public class SpringAuthentication {
+  private final UserDetailsServiceImpl userDetailsService;
+  private final AuthEntryPointJwt authEntryPointJwt;
 
   @Autowired
-  private AuthEntryPointJwt unauthorizedHandler;
+  public SpringAuthentication(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt authEntryPointJwt) {
+    this.userDetailsService = userDetailsService;
+    this.authEntryPointJwt = authEntryPointJwt;
+  }
 
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -53,9 +56,9 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable())
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+        .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login").permitAll()

@@ -1,7 +1,7 @@
 package main.security.services;
 
 import main.data.entity.UserEntity;
-import main.data.repository.UserRepository;
+import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,18 +9,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+  private final UserService userService;
   @Autowired
-  UserRepository userRepository;
-
+  public UserDetailsServiceImpl(UserService userService) {
+    this.userService = userService;
+  }
   @Override
   @Transactional
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserEntity user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: {}" + username));
-
-    return UserDetailsImpl.build(user);
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+    try{
+      Optional<UserEntity> optionalUserEntity = userService.findByUsername(username);
+      UserEntity userEntity = optionalUserEntity.get();
+      return new UserDetailsImpl(userEntity);
+    }catch (Exception e){
+      throw new UsernameNotFoundException("Username Not Found Exception: " + e);
+    }
   }
-
 }

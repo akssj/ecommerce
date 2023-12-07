@@ -50,12 +50,6 @@ public class UserEntity {
     public void setRole(String role) {
         this.roles = roles;
     }
-    public String getRoles() {
-        return roles;
-    }
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
     public Integer getBalance() {
         return balance;
     }

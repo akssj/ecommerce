@@ -64,7 +64,7 @@ public class AuthenticationControllerTest {
             .body("type", equalTo("Bearer"))
             .body("id", notNullValue())
             .body("username", equalTo(TEST_ACCOUNT_USERNAME))
-            .body("roles", contains(equalTo("User")))
+            .body("roles.authority", notNullValue())
             .body("balance", notNullValue());
     }
     @Test(priority = 4, description = "Checks if userStatus endpoint is working")

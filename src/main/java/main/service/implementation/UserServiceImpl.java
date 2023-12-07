@@ -1,14 +1,11 @@
 package main.service.implementation;
 
-import main.data.entity.ProductEntity;
 import main.data.entity.UserEntity;
-import main.data.repository.ProductRepository;
 import main.data.repository.UserRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -34,11 +31,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public boolean existsByUsername(String username){
-        if (userRepository.findByUsername(username).isEmpty()){
-            return false;
-        }else{
-            return true;
-        }
+        return userRepository.findByUsername(username).isPresent();
     }
     @Override
     public UserEntity createUser(UserEntity userEntity){
@@ -51,5 +44,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(UserEntity userEntity){
         userRepository.delete(userEntity);
+    }
+    @Override
+    public UserEntity getUser(String username){
+
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
+        return userEntityOptional.get();
     }
 }

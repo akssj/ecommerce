@@ -1,10 +1,8 @@
 package main.controllers;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import jakarta.validation.Valid;
+
 import main.io.request.LoginRequest;
 import main.io.request.SignupRequest;
 import main.io.response.JwtResponse;
@@ -13,8 +11,8 @@ import main.io.response.UserStatusResponse;
 import main.data.entity.UserEntity;
 import main.security.services.UserDetailsImpl;
 import main.security.jwt.JwtUtils;
-
 import main.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,7 +30,6 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
 
     private final UserService userService;
-
     private final PasswordEncoder passwordEncoder;
 
     private final JwtUtils jwtUtils;
@@ -55,14 +52,12 @@ public class AuthenticationController {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String token = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
+        UserDetailsImpl userDetails = new UserDetailsImpl(userService.getUser(loginRequest.getUsername()));
 
-        return ResponseEntity.ok(new JwtResponse(token, userDetails.getId(), userDetails.getUsername(), roles, userDetails.getBalance()));
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getId(), loginRequest.getUsername(), userDetails.getAuthorities(), userDetails.getBalance()));
     }
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -77,7 +72,7 @@ public class AuthenticationController {
         }
     }
 
-    //TODO update current user data on demand?
+    //TODO update current user data on demand with new token
     @GetMapping("/userStatus")
     public ResponseEntity<?> updateUserStatus(@RequestHeader(name = "Authorization") String token) {
 
