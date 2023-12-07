@@ -1,4 +1,5 @@
 package main;
+
 /**#####################
 ### DATASET PACKAGE ###
 ######################*/
@@ -29,7 +30,7 @@ Token data is accessible via Getters.
 ##########################*/
 
 /*  AuthControllerTest CLASS
-Performs api tests associated with /signup /login /userStatus
+Performs api tests associated with /api/auth/signup /login /userStatus
 Goal is to verify that each of these endpoints are working as intended (verification scenarios).
 
 registerUserTest() METHOD
@@ -46,7 +47,25 @@ authenticateUserTest() METHOD
                      expected token and user-data: <token><type><id><username><roles><balance>
 
 authenticateLoginStatusTest() METHOD
-    sends already logged-in user data (username and token) in POST request to /userStatus endpoint.
+    sends already logged-in user data (token) in GET request to /userStatus endpoint.
     expected result: Respond from server is a success, user receives user-data from server.
                      expected user-data: <id><username><roles><balance>
 */
+
+/* ProductControllerTest CLASS
+performs api tests associated with /api/product/forSale /all /bought
+Goal is to verify that each of these endpoint are working as intended (verification scenarios).
+
+findForSaleProductTest() METHOD
+    sends correct GET request to /forSale endpoint.
+    expected result: Receive list of non-sold items("buyer":"" field is empty).
+
+findAllProductTest() METHOD
+    sends already logged-in user data (token) in GET request to /all endpoint.
+    expected result: Receive list of all items.
+
+findBoughtProductTest() METHOD
+    sends already logged-in user data (token) in GET request to /bought endpoint.
+    expected result: Receive list of items bought by current user.
+
+ */

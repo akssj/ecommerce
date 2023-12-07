@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class AlledrogoController {
     @GetMapping
     public ModelAndView showMainPage() {
-        ModelAndView modelAndView = new ModelAndView("main");
-        return modelAndView;
+        return new ModelAndView("main");
     }
 }

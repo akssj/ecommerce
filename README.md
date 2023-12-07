@@ -5,10 +5,10 @@ Technologies and code itself is not well-thought-out due to lack of knowledge ab
 Anyway im doing it to get some know-how about creating and maintaining project.
 
 ## Features
-+ Single page with api to change page content (i might want to change that)
++ Single page with api to change page content (I might want to change that)
 + Login, Signup (authorization)
 + User data saved in session(local storage at this point)
-+ CRUD products for users to buy (authentication)
++ CRUD products for users to buy (TODO authentication)
 + Database (User and Products)
 + CURRENT TASK: TODO Tests(TestNG, maybe selenium), TCs, Documentation
 + TODO Use of some external api (idk what for but I want to do that)
@@ -29,22 +29,25 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 + Language: 
   + Backend: Java,
   + Frontend: html, css, .js
-+ Library: Springboot, jwt,
++ Library: Spring boot, jwt,
 + Database: postgresql
 + Test tech: TestNG, REST Assured
 
 ## Api
-+ /main - GET main page, displays main.html file
-+ /api/static - GET provides .js, css files for user (names of files are in Script sectiont in .html file)
-+ /login - POST self explanatory
-+ /signup - POST self explanatory
-+ /userStatus - POST borked, supposed to verify if user is logged in and authenticate but its unnecessary at this point
-+ /api/product/forSale - GET returns products available for sale
-+ /api/product/all - GET returns list of all products
-+ /api/product/bought - GET returns list of current user bought products
-+ /api/product/handling/add - POST self explanatory, allow current user to add product for sale
-+ /api/product/handling/delete/{id} - DELETE self explanatory, allow current user to delete created product
-+ /api/product/handling/buy/{id} - PUT self explanatory, allow current user to buy product
++ /main - GET main page, provides main.html file
++ /api/static - GET provides .js, css files for the user
++ USER RELATED:
++ /api/auth/login - POST self-explanatory
++ /api/auth/signup - POST self-explanatory
++ /api/auth/userStatus - GET update current user data on demand
++ PRODUCT RELATED:
++ /api/product/forSale - GET provides list of available products
++ /api/product/all - GET provides list of all products
++ /api/product/bought - GET provides list of bought products by current user
++ OPERATIONS ON PRODUCTS:
++ /api/product/handling/add - POST allow current user to add product for sale
++ /api/product/handling/delete/{id} - DELETE allow current user to delete created product
++ /api/product/handling/buy/{id} - PUT allow current user to buy product
 
 
 

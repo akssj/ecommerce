@@ -15,6 +15,7 @@ public class AuthControllerTest {
     //TODO get make config files with all static variable values such as roles so changing roles does not require changing all variables in all tests
     private static final String TEST_ACCOUNT_USERNAME = "test01";
     private static final String TEST_ACCOUNT_PASSWORD = "test01";
+    private static final TestDataDealer testDataDealer = new TestDataDealer();
     JSONObject testJsonRequest = new JSONObject();
 
     @BeforeClass
@@ -68,14 +69,11 @@ public class AuthControllerTest {
     }
     @Test(priority = 4, description = "Checks if userStatus endpoint is working")
     public void authenticateLoginStatusTest() {
-        TestDataDealer testDataDealer = new TestDataDealer();
-
         RestAssured.given()
             .contentType(ContentType.JSON)
             .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
-            .body(testJsonRequest.toString())
         .when()
-            .post("http://localhost:8080/api/auth/userStatus")
+            .get("http://localhost:8080/api/auth/userStatus")
         .then()
             .statusCode(200)
             .body("id", notNullValue())

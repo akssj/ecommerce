@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Date;
@@ -40,6 +41,9 @@ public class JwtUtils {
   }
 
   public String getUserNameFromJwtToken(String token) {
+    if (token.startsWith("Bearer ")) {
+      token = token.substring(7);
+    }
     return Jwts.parserBuilder().setSigningKey(key()).build()
                .parseClaimsJws(token).getBody().getSubject();
   }

@@ -5,6 +5,8 @@
         <classes>
             <class name="main.dataset.InitialTestDataSetup"/>
             <class name="main.controllers.AuthControllerTest"/>
+            <class name="main.controllers.ProductControllerTest"/>
+            <class name="main.controllers.ProductHandlerControllerTest"/>
         </classes>
     </test>
 </suite>
