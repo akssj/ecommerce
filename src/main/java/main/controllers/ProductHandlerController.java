@@ -23,14 +23,14 @@ public class ProductHandlerController {
     private final ProductService productService;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
-    @Autowired
-    JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
 
     @Autowired
-    public ProductHandlerController(ProductService productService, ProductRepository productRepository, UserRepository userRepository) {
+    public ProductHandlerController(ProductService productService, ProductRepository productRepository, UserRepository userRepository, JwtUtils jwtUtils) {
         this.productService = productService;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping("/add")
@@ -42,7 +42,7 @@ public class ProductHandlerController {
             addProductRequest.getDescription(),
             jwtUtils.getUserNameFromJwtToken(token)
         );
-        productRepository.save(newProduct);
+        productService.saveProduct(newProduct);
 
         return ResponseEntity.ok(new MessageResponse("Item added"));
     }
@@ -50,16 +50,7 @@ public class ProductHandlerController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
 
-        Logger logger = Logger.getLogger("DevLog ");
-        logger.setLevel(Level.INFO);
-
-        logger.info("=======");
-        logger.info("token: " + token);
-        logger.info("username: " + jwtUtils.getUserNameFromJwtToken(token));
-        logger.info("item id: " + id);
-        logger.info("=======");
-
-        Optional<ProductEntity> productEntity = productRepository.findById(id);
+        Optional<ProductEntity> productEntity = productService.findById(id);
 
         if (productEntity.isPresent()) {
             ProductEntity product = productEntity.get();

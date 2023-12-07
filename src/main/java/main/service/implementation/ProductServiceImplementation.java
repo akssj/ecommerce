@@ -3,6 +3,7 @@ package main.service.implementation;
 import main.entity.ProductEntity;
 import main.repository.ProductRepository;
 import main.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class ProductServiceImplementation implements ProductService {
 
     private final ProductRepository productRepository;
 
+    @Autowired
     public ProductServiceImplementation(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
@@ -28,6 +30,14 @@ public class ProductServiceImplementation implements ProductService {
     }
     @Override
     public ProductEntity saveProduct(ProductEntity productEntity) {
+        return productRepository.save(productEntity);
+    }
+    @Override
+    public ProductEntity updateProduct(ProductEntity productEntity) {
+        return productRepository.save(productEntity);
+    }
+    @Override
+    public ProductEntity buyProduct(ProductEntity productEntity) {
         return productRepository.save(productEntity);
     }
     @Override

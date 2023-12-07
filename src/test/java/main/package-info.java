@@ -47,7 +47,7 @@ authenticateUserTest() METHOD
                      expected token and user-data: <token><type><id><username><roles><balance>
 
 authenticateLoginStatusTest() METHOD
-    sends already logged-in user data (username and token) in POST request to /userStatus endpoint.
+    sends already logged-in user data (token) in GET request to /userStatus endpoint.
     expected result: Respond from server is a success, user receives user-data from server.
                      expected user-data: <id><username><roles><balance>
 */
@@ -61,11 +61,11 @@ findForSaleProductTest() METHOD
     expected result: Receive list of non-sold items("buyer":"" field is empty).
 
 findAllProductTest() METHOD
-    sends correct GET request to /all endpoint.
+    sends already logged-in user data (token) in GET request to /all endpoint.
     expected result: Receive list of all items.
 
 findBoughtProductTest() METHOD
-    sends correct POST request to /bought endpoint. TODO change to GET in near future
+    sends already logged-in user data (token) in GET request to /bought endpoint.
     expected result: Receive list of items bought by current user.
 
  */

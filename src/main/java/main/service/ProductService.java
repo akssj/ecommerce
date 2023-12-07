@@ -10,6 +10,8 @@ public interface ProductService {
     Optional<ProductEntity> findById(Long id);
     List<ProductEntity> findByName(String name);
     ProductEntity saveProduct(ProductEntity productEntity);
+    ProductEntity updateProduct(ProductEntity productEntity);
+    ProductEntity buyProduct(ProductEntity productEntity);
     void deleteProduct(Long id);
 
 }
