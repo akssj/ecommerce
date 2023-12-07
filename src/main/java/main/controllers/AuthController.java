@@ -71,6 +71,7 @@ public class AuthController {
         }
     }
 
+    //TODO change it to GET or even get rid of it
     @PostMapping("/userStatus")
     public ResponseEntity<?> authenticateLoginStatus(@Valid @RequestBody UserStatusRequest userStatusRequest) {
 

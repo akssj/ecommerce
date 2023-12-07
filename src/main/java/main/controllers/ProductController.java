@@ -38,6 +38,7 @@ public class ProductController {
     @GetMapping("/all")
     public List<ProductEntity> findAllProduct(){return productService.findAllProduct();}
 
+    //TODO change it to GET as its unnecessary to receive data from user here
     @PostMapping("/bought")
     public List<ProductEntity> findBoughtProduct(@RequestBody UserStatusRequest userStatusRequest) {
         List<ProductEntity> allProducts = productService.findAllProduct();

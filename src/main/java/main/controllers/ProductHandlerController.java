@@ -60,7 +60,7 @@ public class ProductHandlerController {
             }
 
         }else {
-            return ResponseEntity.badRequest().body(new MessageResponse("Item is not present"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Item does not exist"));
         }
     }
 
