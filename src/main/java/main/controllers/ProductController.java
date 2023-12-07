@@ -1,11 +1,10 @@
 package main.controllers;
 
-import main.dto.request.UserStatusRequest;
+import main.dto.response.MessageResponse;
 import main.entity.ProductEntity;
-import main.repository.ProductRepository;
-import main.repository.UserRepository;
 import main.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import main.security.jwt.JwtUtils;
 
@@ -16,6 +15,8 @@ import java.util.List;
 @RequestMapping("/api/product")
 public class ProductController {
     private final ProductService productService;
+    @Autowired
+    JwtUtils jwtUtils;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -39,16 +40,23 @@ public class ProductController {
     public List<ProductEntity> findAllProduct(){return productService.findAllProduct();}
 
     //TODO change it to GET as its unnecessary to receive data from user here
-    @PostMapping("/bought")
-    public List<ProductEntity> findBoughtProduct(@RequestBody UserStatusRequest userStatusRequest) {
-        List<ProductEntity> allProducts = productService.findAllProduct();
-        List<ProductEntity> filteredProducts = new ArrayList<>();
+    @GetMapping("/bought")
+    public  ResponseEntity<?> findBoughtProduct(@RequestHeader(name = "Authorization") String token) {
+        try {
+            List<ProductEntity> allProducts = productService.findAllProduct();
+            List<ProductEntity> filteredProducts = new ArrayList<>();
 
-        for (ProductEntity product : allProducts) {
-            if (userStatusRequest.getUsername().equals(product.getBuyer())) {
-                filteredProducts.add(product);
+            String usernameFromToken = jwtUtils.getUserNameFromJwtToken(token);
+
+            for (ProductEntity product : allProducts) {
+                if (usernameFromToken.equals(product.getBuyer())) {
+                    filteredProducts.add(product);
+                }
             }
+            return ResponseEntity.ok(filteredProducts);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error retrieving products"));
         }
-        return filteredProducts;
     }
+
 }

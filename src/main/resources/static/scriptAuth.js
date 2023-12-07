@@ -11,8 +11,8 @@ function login() {
 
   try{
     if (Username === "" || Username === "") {
-      LoginErrorTextField.innerText = "Fill empty fileds";
-      throw new Error("Fill empty fileds");
+      LoginErrorTextField.innerText = "Fill empty filed!";
+      throw new Error("Fill empty filed!");
     }
   }catch(error){
     return;
@@ -101,7 +101,7 @@ function signup() {
   .then(response => {
     if (response.ok) {
       closePopups();
-      return response.json();   //TODO make it so you are loggined in after signup
+      return response.json();   //TODO make it so you are logged in after signup
     }else{
       return response.json().then( data => {
         const errorMessage = data.message;
@@ -116,7 +116,7 @@ function signup() {
 };
 
 /*============
-  signout
+  sign out
 ============*/
 
 function signOut() { //TODO make it so it deletes session

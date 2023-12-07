@@ -11,8 +11,6 @@ public class AddProductRequest implements Serializable {
     private Integer price;
     @NotBlank
     private String description;
-    @NotBlank
-    private String creator_username;
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
@@ -20,5 +18,5 @@ public class AddProductRequest implements Serializable {
     public void setPrice(Integer price) {this.price = price;}
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
-    public String getCreator_username() {return creator_username;}
+
 }

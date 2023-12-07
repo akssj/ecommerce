@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
-import main.dto.request.UserStatusRequest;
 import main.dto.request.LoginRequest;
 import main.dto.request.SignupRequest;
 import main.dto.response.JwtResponse;
@@ -71,18 +70,17 @@ public class AuthController {
         }
     }
 
-    //TODO change it to GET or even get rid of it
-    @PostMapping("/userStatus")
-    public ResponseEntity<?> authenticateLoginStatus(@Valid @RequestBody UserStatusRequest userStatusRequest) {
+    //TODO update current user data on demand?
+    @GetMapping("/userStatus")
+    public ResponseEntity<?> authenticateLoginStatus(@RequestHeader(name = "Authorization") String token) {
 
-        if (!userRepository.existsByUsername(userStatusRequest.getUsername())) {
+        Optional<UserEntity> userEntity = userRepository.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
+
+        if (userEntity.isPresent()) {
+            UserEntity user = userEntity.get();
+            return ResponseEntity.ok(new UserStatusResponse(user.getId(), user.getUsername(), user.getRole(), user.getBalance()));
+        }else {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
         }
-
-        Optional<UserEntity> userEntity = userRepository.findByUsername(userStatusRequest.getUsername());
-
-        UserEntity user = userEntity.get();
-
-        return ResponseEntity.ok(new UserStatusResponse(user.getId(), user.getUsername(), user.getRole(), user.getBalance()));
     }
 }

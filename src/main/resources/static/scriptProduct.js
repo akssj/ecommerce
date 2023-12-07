@@ -48,49 +48,34 @@ fetch('http://localhost:8080/api/product/forSale')
 
 /*=====================
 fill site with users                      
-  bought produscts                 
-======================*/    //WNF
-function createRequest(){ //TODO unnecessery at this point
-  //username
-  const Username = localStorage.getItem('username');
-  //token
-  const Token = localStorage.getItem('token');
+  bought products
+======================*/
+function createRequest(){
 
-  //create request data
-  const UserDataCheck = {
-    username: Username
-  };
+    const token = localStorage.getItem('token');
 
-  const JsonUserDataCheck = JSON.stringify(UserDataCheck);
-
-  //create request
-  const RequestUserBoughtProductList = {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + Token,
-      'Content-Type': 'application/json'
-    },
-    body: JsonUserDataCheck
-  };
-  return RequestUserBoughtProductList;
+    const RequestUserBoughtProductList = {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        }
+    }
+    return RequestUserBoughtProductList;
 }
-  //send request to check login status
+
   fetch('http://localhost:8080/api/product/bought', createRequest())
     .then(res => {
       return res.json();
     })
     .then(data => {
-
-        //target
         const DataList = document.getElementById('bought-product-list');
-        //text panel
-        document.getElementById('boughtItemsTextField').textContent = "Kupione przedmioty"; //kek fix this shit
+        document.getElementById('boughtItemsTextField').textContent = "Kupione przedmioty";
 
       data.forEach(item => {
         const Div = document.createElement('div');
         Div.classList.add('list-item');
 
-        //create item data
         Div.textContent = `
           ${item.id}.
           ${item.name}

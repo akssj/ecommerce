@@ -18,17 +18,6 @@ import static org.hamcrest.Matchers.*;
 public class ProductControllerTest {
 
     private static final TestDataDealer testDataDealer = new TestDataDealer();
-    JSONObject testJsonRequest = new JSONObject();
-
-    @BeforeClass
-    public void beforeClass(){
-        try {
-            testJsonRequest.put("username", testDataDealer.getUsername());
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-            //TODO handle it
-        }
-    }
 
     @Test(priority = 1)
     public void findForSaleProductTest() {
@@ -75,9 +64,8 @@ public class ProductControllerTest {
             given()
                 .contentType(ContentType.JSON)
                 .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
-                .body(testJsonRequest.toString())
             .when()
-                .post("http://localhost:8080/api/product/bought")
+                .get("http://localhost:8080/api/product/bought")
             .then()
                 .statusCode(200)
                 .extract()
