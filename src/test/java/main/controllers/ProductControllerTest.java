@@ -3,10 +3,7 @@ package main.controllers;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import main.dataset.TestDataDealer;
-import main.entity.ProductEntity;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
+import main.data.entity.ProductEntity;
 import org.testng.annotations.Test;
 
 import java.util.List;

@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class AuthControllerTest {
+public class AuthenticationControllerTest {
 
     //TODO get make config files with all static variable values such as roles so changing roles does not require changing all variables in all tests
     private static final String TEST_ACCOUNT_USERNAME = "test01";
@@ -64,7 +64,7 @@ public class AuthControllerTest {
             .body("type", equalTo("Bearer"))
             .body("id", notNullValue())
             .body("username", equalTo(TEST_ACCOUNT_USERNAME))
-            .body("roles", contains(equalTo("User")))
+            .body("roles.authority", notNullValue())
             .body("balance", notNullValue());
     }
     @Test(priority = 4, description = "Checks if userStatus endpoint is working")

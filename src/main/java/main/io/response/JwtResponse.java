@@ -1,16 +1,18 @@
-package main.dto.response;
+package main.io.response;
 
-import java.util.List;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 public class JwtResponse {
   private String token;
   private String type = "Bearer";
   private Long id;
   private String username;
-  private List<String> roles;
+  private Collection<? extends GrantedAuthority> roles;
   private Integer balance;
 
-  public JwtResponse(String token, Long id, String username, List<String> roles, Integer balance) {
+  public JwtResponse(String token, Long id, String username, Collection<? extends GrantedAuthority> roles, Integer balance) {
     this.token = token;
     this.id = id;
     this.username = username;
@@ -18,18 +20,13 @@ public class JwtResponse {
     this.balance = balance;
   }
 
-  public Long getId() {
-    return id;
-  }
-
+  public Long getId() {return id;}
   public void setId(Long id) {
     this.id = id;
   }
-
   public String getUsername() {
     return username;
   }
-
   public void setUsername(String username) {
     this.username = username;
   }
@@ -38,12 +35,6 @@ public class JwtResponse {
   }
   public void setBalance(Integer balance) {
     this.balance = balance;
-  }
-  public List<String> getRoles() {
-    return roles;
-  }
-  public void setRoles(List<String> roles) {
-    this.roles = roles;
   }
   public String getToken() {
     return token;
@@ -57,5 +48,6 @@ public class JwtResponse {
   public void setType(String type) {
     this.type = type;
   }
-
+  public Collection<? extends GrantedAuthority> getRoles() {return roles;}
+  public void setRoles(Collection<? extends GrantedAuthority> roles) {this.roles = roles;}
 }

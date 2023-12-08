@@ -1,4 +1,4 @@
-package main.dto.request;
+package main.io.request;
 
 import javax.validation.constraints.NotBlank;
 

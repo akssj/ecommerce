@@ -1,16 +1,16 @@
-package main.dto.request;
+package main.io.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-public class AddProductRequest implements Serializable {
+public class AddProductRequest{
     @NotBlank
     private String name;
     @NotNull
     private Integer price;
     @NotBlank
     private String description;
+
 
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}

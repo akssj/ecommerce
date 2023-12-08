@@ -1,4 +1,4 @@
-package main.dto.response;
+package main.io.response;
 
 import java.io.Serializable;
 
@@ -7,7 +7,6 @@ public class MessageResponse implements Serializable {
   public MessageResponse(String message) {
     this.message = message;
   }
-
   public String getMessage() {
     return message;
   }

@@ -1,4 +1,4 @@
-package main.dto.response;
+package main.io.response;
 
 import java.io.Serializable;
 
@@ -9,8 +9,7 @@ public class ProductResponse implements Serializable {
     private String description;
     private String creator_username;
 
-    public ProductResponse(){
-    }
+    public ProductResponse(){}
 
     public Long getId() {
         return id;
