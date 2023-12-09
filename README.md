@@ -5,16 +5,16 @@ Technologies and code itself is not well-thought-out due to lack of knowledge ab
 Anyway im doing it to get some know-how about creating and maintaining project.
 
 ## Features
-+ Single page with api to change page content (I might want to change that)
++ Single page web app with api to change page content (I might want to change that)
 + Login, Signup (authentication)
 + User data saved in session(local storage at this point)
-+ CRUD products for users to buy (TODO authorization need roles and such)
-+ Database (User and Products)
-+ Tests(Unit api)
-+ Current task: rebuild backend + Update code to be less painful to look at
++ buy, sell, list for sale products - for everyone to see!(TODO authorization need roles and such)
++ Database (User and Products tables)
++ Some tests(Unit api)
++ Current task: refactor backend + Update code to be less painful to look at
 + TODO proper Documentation
-+ TODO Use of some external api (idk what for but I want to do that)
-+ TODO User profile, data
++ TODO Use of some external api
++ TODO User profile(data) page
 + TODO Looking up other users
 + TODO Admin role, page, etc.
 + TODO Track user behavior
@@ -28,27 +28,30 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 ## Tech
 + architecture: mvc/rest
 + Language: 
-  + Backend: Java,
+  + Backend: Java(Spring boot, jwt)
   + Frontend: html, css, .js
-+ Library: Spring boot, jwt,
 + Database: postgresql
 + Test tech: TestNG, REST Assured
 
 ## Api
+
++ MainPage:
 + /main - GET main page, provides main.html file
-+ /api/static - GET provides .js, css files for the user
-+ USER RELATED:
-+ /api/auth/login - POST self-explanatory
-+ /api/auth/signup - POST self-explanatory
-+ /api/auth/userStatus - GET update current user data on demand
-+ PRODUCT RELATED:
-+ /api/product/forSale - GET provides list of available products
-+ /api/product/all - GET provides list of all products
-+ /api/product/bought - GET provides list of bought products by current user
-+ OPERATIONS ON PRODUCTS:
-+ /api/product/handling/add - POST allow current user to add product for sale
-+ /api/product/handling/delete/{id} - DELETE allow current user to delete created product
-+ /api/product/handling/buy/{id} - PUT allow current user to buy product
++ /static/* - GET provides .js, css files for the user
++ USER RELATED: /auth + :
++ /login - POST self-explanatory
++ /signup - POST self-explanatory
++ /{id}/userStatus - GET provide user with current account data
++ /{id}/delete - DELETE deletes current user account
++ /{id}/update - PUT update current user account data
++ PRODUCT RELATED: /product + :
++ /forSale - GET provides list of products available to buy
++ /bought - GET provides list of products bought by current user
++ /sold - GET provides list of products sold by current user
++ /all - GET provides list of all the products
++ /handling/add - POST adds product for sale
++ /handling/{id}/delete - DELETE delete product created by current user
++ /handling/{id}/buy - PUT buy product created by other user
 
 
 
