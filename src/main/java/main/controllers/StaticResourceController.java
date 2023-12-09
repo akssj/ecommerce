@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @RestController
-@RequestMapping("/api/static")
+@RequestMapping("/static")
 public class StaticResourceController {
 
     @GetMapping(value = "{fileName}", produces = "text/javascript")

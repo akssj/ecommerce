@@ -5,10 +5,12 @@ import main.data.repository.UserRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -22,33 +24,30 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
     @Override
-    public Optional<UserEntity> findByUsername(String username){
-        return userRepository.findByUsername(username);
+    public UserEntity findByUsername(String username){
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
+        return userEntityOptional.orElse(null);
     }
     @Override
-    public Optional<UserEntity> findById(Long id){
-        return userRepository.findById(id);
+    public UserEntity findById(Long id){
+        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
+        return userEntityOptional.orElse(null);
     }
     @Override
     public boolean existsByUsername(String username){
         return userRepository.findByUsername(username).isPresent();
     }
     @Override
-    public UserEntity createUser(UserEntity userEntity){
-        return userRepository.save(userEntity);
+    public void createUser(UserEntity userEntity){
+        userRepository.save(userEntity);
     }
     @Override
-    public UserEntity updateUser(UserEntity userEntity){
-        return userRepository.save(userEntity);
+    public void updateUser(UserEntity userEntity){
+        userRepository.save(userEntity);
     }
     @Override
     public void deleteUser(UserEntity userEntity){
         userRepository.delete(userEntity);
     }
-    @Override
-    public UserEntity getUser(String username){
 
-        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
-        return userEntityOptional.get();
-    }
 }

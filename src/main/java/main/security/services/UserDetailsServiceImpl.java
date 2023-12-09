@@ -22,8 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
     try{
-      Optional<UserEntity> optionalUserEntity = userService.findByUsername(username);
-      UserEntity userEntity = optionalUserEntity.get();
+      UserEntity userEntity = userService.findByUsername(username);
       return new UserDetailsImpl(userEntity);
     }catch (Exception e){
       throw new UsernameNotFoundException("Username Not Found Exception: " + e);

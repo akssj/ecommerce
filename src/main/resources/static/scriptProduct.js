@@ -4,7 +4,7 @@ fill site with products
       on refresh
 ======================*/
 
-fetch('http://localhost:8080/api/product/forSale')
+fetch('http://localhost:8080/product/forSale')
   .then(res => {
     return res.json();
   })
@@ -64,7 +64,7 @@ function createRequest(){
     return RequestUserBoughtProductList;
 }
 
-  fetch('http://localhost:8080/api/product/bought', createRequest())
+  fetch('http://localhost:8080/product/bought', createRequest())
     .then(res => {
       return res.json();
     })

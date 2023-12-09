@@ -42,7 +42,7 @@ function addItem() {
     body: JsonAddItemData
   };
 
-  fetch('http://localhost:8080/api/product/handling/add', RequestAddItem)
+  fetch('http://localhost:8080/product/handling/add', RequestAddItem)
   .then(response => {
     if (response.ok) {
       window.location.reload(); //TODO make so it makes more sense
@@ -88,7 +88,7 @@ function buyItem(event){
     },
   };
 
-  fetch(`http://localhost:8080/api/product/handling/buy/${ItemId}`, RequestBuyItem)
+  fetch(`http://localhost:8080/product/handling/buy/${ItemId}`, RequestBuyItem)
   .then(response => {
     if (response.ok) {
       performUserStatusCheck();
@@ -126,7 +126,7 @@ function deleteItem(event){
     },
   };
 
-  fetch(`http://localhost:8080/api/product/handling/delete/${ItemId}`, RequestDeleteItem)
+  fetch(`http://localhost:8080/product/handling/delete/${ItemId}`, RequestDeleteItem)
   .then(response => {
     if (response.ok) {
     window.location.reload(); //TODO make so it makes more sense and respond with message

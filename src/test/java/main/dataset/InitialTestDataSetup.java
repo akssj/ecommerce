@@ -23,7 +23,7 @@ public class InitialTestDataSetup {
     private static final String TEST_ACCOUNT_USERNAME_ELEMENT = "Test_Account_Username";
     private static final String TEST_ACCOUNT_PASSWORD_ELEMENT = "Test_Account_Password";
     private static final String TEST_ACCOUNT_CREATED_DATA_NODE = "TestAccountCreatedData";
-    private static final String LOGIN_ENDPOINT = "http://localhost:8080/api/auth/login";
+    private static final String LOGIN_ENDPOINT = "http://localhost:8080/auth/login";
     private String testAccountUsername;
     private String testAccountPassword;
     private StringBuilder testAccountLoginResponse;

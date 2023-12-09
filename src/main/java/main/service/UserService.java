@@ -8,11 +8,11 @@ import java.util.Optional;
 @Transactional
 public interface UserService {
     List<UserEntity> findAllUsers();
-    Optional<UserEntity> findByUsername(String username);
-    Optional<UserEntity> findById(Long id);
+    UserEntity findByUsername(String username);
+    UserEntity findById(Long id);
     boolean existsByUsername(String username);
-    UserEntity createUser(UserEntity userEntity);
-    UserEntity updateUser(UserEntity userEntity);
-    UserEntity getUser(String username);
+
+    void createUser(UserEntity userEntity);
+    void updateUser(UserEntity userEntity);
     void deleteUser(UserEntity userEntity);
 }

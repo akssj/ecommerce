@@ -1,9 +1,11 @@
 package main.security.services;
 
 import main.data.entity.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 import java.io.Serial;
 import java.util.Collection;
@@ -13,7 +15,7 @@ public class UserDetailsImpl implements UserDetails {
   @Serial
   private static final long serialVersionUID = 1L;
   private final UserEntity userEntity;
-
+  @Autowired
   public UserDetailsImpl(UserEntity userEntity) {
     this.userEntity = userEntity;
   }

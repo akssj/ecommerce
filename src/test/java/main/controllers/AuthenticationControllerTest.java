@@ -5,8 +5,8 @@ import io.restassured.http.ContentType;
 import main.dataset.TestDataDealer;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -35,7 +35,7 @@ public class AuthenticationControllerTest {
             .contentType(ContentType.JSON)
             .body(testJsonRequest.toString())
         .when()
-            .post("http://localhost:8080/api/auth/signup")
+            .post("http://localhost:8080/auth/signup")
         .then()
             .statusCode(200)
             .body("message", equalTo("User registered successfully!"));
@@ -46,18 +46,18 @@ public class AuthenticationControllerTest {
             .contentType(ContentType.JSON)
             .body(testJsonRequest.toString())
         .when()
-            .post("http://localhost:8080/api/auth/signup")
+            .post("http://localhost:8080/auth/signup")
         .then()
             .statusCode(400)
             .body("message", equalTo("Username is already taken!"));
     }
     @Test(priority = 3, description = "Checks if login endpoint is working")
-    public void authenticateUserTest() {
+    public void loginUserTest() {
         given()
             .contentType(ContentType.JSON)
             .body(testJsonRequest.toString())
         .when()
-            .post("http://localhost:8080/api/auth/login")
+            .post("http://localhost:8080/auth/login")
         .then()
             .statusCode(200)
             .body("token", notNullValue())
@@ -72,13 +72,28 @@ public class AuthenticationControllerTest {
         RestAssured.given()
             .contentType(ContentType.JSON)
             .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
+                .pathParam("id", testDataDealer.getId())
         .when()
-            .get("http://localhost:8080/api/auth/userStatus")
+            .get("http://localhost:8080/auth/{id}/userStatus")
         .then()
             .statusCode(200)
             .body("id", notNullValue())
             .body("username", notNullValue())
             .body("roles", notNullValue())
             .body("balance", notNullValue());
+    }
+
+    @Test(priority = 5, description = "Checks if deleteUser endpoint is working")
+    public void deleteUserTest() {
+        RestAssured.given()
+            .contentType(ContentType.JSON)
+            .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
+            .body(testJsonRequest.toString())
+            .pathParam("id", testDataDealer.getId())
+        .when()
+            .delete("http://localhost:8080/auth/{id}/delete")
+        .then()
+            .statusCode(200)
+            .body("message", equalTo("User deleted successfully!"));
     }
 }

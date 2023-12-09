@@ -2,7 +2,7 @@ package main.io.request;
 
 import javax.validation.constraints.NotBlank;
 
-public class LoginRequest {
+public class AuthenticationRequest {
 	@NotBlank
 	private String username;
 	@NotBlank
