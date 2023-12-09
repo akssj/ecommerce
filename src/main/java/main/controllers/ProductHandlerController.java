@@ -47,7 +47,7 @@ public class ProductHandlerController {
         return ResponseEntity.ok(new MessageResponse("Item added."));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
 
         Optional<ProductEntity> productEntity = productService.findById(id);
@@ -68,7 +68,7 @@ public class ProductHandlerController {
         }
     }
 
-    @PutMapping("/buy/{id}")
+    @PutMapping("/{id}/buy")
     public ResponseEntity<?> buyProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
 
         //TODO fix that

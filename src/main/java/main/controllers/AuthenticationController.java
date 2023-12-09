@@ -1,6 +1,5 @@
 package main.controllers;
 
-import java.util.Optional;
 import jakarta.validation.Valid;
 
 import main.io.request.AuthenticationRequest;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthenticationController {
-
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -95,6 +93,7 @@ public class AuthenticationController {
 
         try{
             userService.deleteUser(userEntity);
+            //TODO delete all listed products and such
             return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
         } catch(Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!." + e));

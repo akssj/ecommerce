@@ -15,7 +15,7 @@ import java.nio.file.Path;
 @RequestMapping("/static")
 public class StaticResourceController {
 
-    @GetMapping(value = "{fileName}", produces = "text/javascript")
+    @GetMapping(value = "/{fileName}", produces = "text/javascript")
     public byte[] getScriptFile(@PathVariable String fileName) throws IOException {
         Resource resource = new ClassPathResource("static/" + fileName);
         return Files.readAllBytes(Path.of(resource.getURI()));
