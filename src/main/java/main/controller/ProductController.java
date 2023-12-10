@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import main.data.entity.ProductEntity;
 import main.service.ProductService;
@@ -10,7 +10,7 @@ import main.security.jwt.JwtUtils;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
     private final JwtUtils jwtUtils;

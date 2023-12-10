@@ -1,4 +1,4 @@
-package main.security.services;
+package main.security.service;
 
 import main.data.entity.UserEntity;
 import main.service.UserService;
@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -22,8 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
     try{
-      Optional<UserEntity> optionalUserEntity = userService.findByUsername(username);
-      UserEntity userEntity = optionalUserEntity.get();
+      UserEntity userEntity = userService.findByUsername(username);
       return new UserDetailsImpl(userEntity);
     }catch (Exception e){
       throw new UsernameNotFoundException("Username Not Found Exception: " + e);

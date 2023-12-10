@@ -4,7 +4,7 @@ fill site with products
       on refresh
 ======================*/
 
-fetch('http://localhost:8080/api/product/forSale')
+fetch('http://localhost:8080/product/forSale')
   .then(res => {
     return res.json();
   })
@@ -18,9 +18,9 @@ fetch('http://localhost:8080/api/product/forSale')
       Div.textContent = `
         ${item.id}.
         ${item.name}
-        Price: ${item.price}
-        Description: ${item.description}
         Creator: ${item.creator}
+        Description: ${item.description}
+        Price: ${item.price}
       `;
       
       const BuyButton = document.createElement('button');
@@ -50,6 +50,9 @@ fetch('http://localhost:8080/api/product/forSale')
 fill site with users                      
   bought products
 ======================*/
+
+//TODO make it fetch only if logged in
+
 function createRequest(){
 
     const token = localStorage.getItem('token');
@@ -64,7 +67,7 @@ function createRequest(){
     return RequestUserBoughtProductList;
 }
 
-  fetch('http://localhost:8080/api/product/bought', createRequest())
+  fetch('http://localhost:8080/product/bought', createRequest())
     .then(res => {
       return res.json();
     })

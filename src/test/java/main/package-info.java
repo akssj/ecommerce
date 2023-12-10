@@ -30,8 +30,11 @@ Token data is accessible via Getters.
 ##########################*/
 
 /*  AuthenticationControllerTest CLASS
-Performs api tests associated with /api/auth/signup /login /userStatus
+Performs api tests associated with following endpoints /auth + /signup /login /userStatus /{id}/delete
 Goal is to verify that each of these endpoints are working as intended (verification scenarios).
+
+beforeClass() METHOD
+    Creates testJsonRequest data to send Authentication request (username password)
 
 registerUserTest() METHOD
     sends correct (non taken username and password) POST request to /signup endpoint.
@@ -41,7 +44,7 @@ registerExistingUserTest() METHOD
     sends already existing test user data (username) POST request to /signup endpoint.
     expected result: Account not is being created. User receive message stating username is not available.
 
-authenticateUserTest() METHOD
+loginUserTest() METHOD
     sends already existing test user data (username and password) POST request to /login endpoint.
     expected result: Login succeed, user receives token and user-data from server.
                      expected token and user-data: <token><type><id><username><roles><balance>
@@ -50,10 +53,14 @@ authenticateLoginStatusTest() METHOD
     sends already logged-in user data (token) in GET request to /userStatus endpoint.
     expected result: Respond from server is a success, user receives user-data from server.
                      expected user-data: <id><username><roles><balance>
+
+deleteUserTest() METHOD
+    sends already existing test user data (username, password and token) in DELETE request to /{id}/delete endpoint.
+    expected result: Account deleted. User receive message stating operation is a success.
 */
 
 /* ProductControllerTest CLASS
-performs api tests associated with /api/product/forSale /all /bought
+performs api tests associated with following endpoints /product + /forSale /all /bought
 Goal is to verify that each of these endpoint are working as intended (verification scenarios).
 
 findForSaleProductTest() METHOD

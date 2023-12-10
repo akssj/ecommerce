@@ -1,11 +1,13 @@
 
 /*=====================
   check if logged in
+  or whatever
 ======================*/
 
   async function performUserStatusCheck() {
 
     const token = localStorage.getItem('token');
+    Long id = localStorage.getItem('id');
 
     const requestUserStatusCheck = {
       method: 'GET',
@@ -15,7 +17,7 @@
       },
     };
 
-    await fetch('http://localhost:8080/api/auth/userStatus', requestUserStatusCheck)
+    await fetch(`http://localhost:8080/auth/${id}/userStatus`, requestUserStatusCheck)
     .then(response => {
       if (response.ok) {
         return response.json().then(data => {

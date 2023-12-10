@@ -33,7 +33,7 @@ function login() {
     body: JsonLoginData
   };
 
-  fetch('http://localhost:8080/api/auth/login', RequestLogin)
+  fetch('http://localhost:8080/auth/login', RequestLogin)
   .then(response => {
     if (response.ok) {
       return response.json().then(data => {
@@ -97,7 +97,7 @@ function signup() {
     body: JsonSignupData
   };
 
-  fetch('http://localhost:8080/api/auth/signup', RequestSignup)
+  fetch('http://localhost:8080/auth/signup', RequestSignup)
   .then(response => {
     if (response.ok) {
       closePopups();

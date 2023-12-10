@@ -2,7 +2,7 @@ package main.security;
 
 import main.security.jwt.AuthEntryPointJwt;
 import main.security.jwt.AuthTokenFilter;
-import main.security.services.UserDetailsServiceImpl;
+import main.security.service.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SpringAuthentication {
   private final UserDetailsServiceImpl userDetailsService;
+  //private final UserDetailsService userDetailsService;
   private final AuthEntryPointJwt authEntryPointJwt;
 
   @Autowired
@@ -61,9 +62,8 @@ public class SpringAuthentication {
         .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login").permitAll()
-                .requestMatchers("/api/auth/signup").permitAll()
-                .requestMatchers("/api/product/forSale").permitAll()
+                .requestMatchers("/auth/*").permitAll()
+                .requestMatchers("/product/forSale").permitAll()
                 .requestMatchers("/main").permitAll()
                 .requestMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()

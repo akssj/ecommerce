@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -12,10 +12,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @RestController
-@RequestMapping("/api/static")
+@RequestMapping("/static")
 public class StaticResourceController {
 
-    @GetMapping(value = "{fileName}", produces = "text/javascript")
+    @GetMapping(value = "/{fileName}", produces = "text/javascript")
     public byte[] getScriptFile(@PathVariable String fileName) throws IOException {
         Resource resource = new ClassPathResource("static/" + fileName);
         return Files.readAllBytes(Path.of(resource.getURI()));

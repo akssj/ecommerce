@@ -2,6 +2,7 @@ package main.io.response;
 
 import java.io.Serializable;
 
+//TODO get rid of it and make it so that JWtresponse is used to update data and renew token
 public class UserStatusResponse implements Serializable {
     private Long id;
     private String username;

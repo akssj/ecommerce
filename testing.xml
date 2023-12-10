@@ -1,12 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="First Suite">
-    <test thread-count="5" name="MyFirstWebApp">
+
+    <test name="dataset">
+        <packages>
+            <package name="main.dataset" />
+        </packages>
+    </test>
+
+    <test name="Authentication">
         <classes>
-            <class name="main.dataset.InitialTestDataSetup"/>
-            <class name="main.controllers.AuthenticationControllerTest"/>
-            <class name="main.controllers.ProductControllerTest"/>
-            <class name="main.controllers.ProductHandlerControllerTest"/>
+            <class name="main.controller.AuthenticationControllerTest">
+                <methods>
+                    <exclude name="deleteUserTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
+
+    <test name="ProductControllerTest">
+        <classes>
+            <class name="main.controller.ProductControllerTest"/>
+        </classes>
+    </test>
+
+    <test name="ProductHandlerControllerTest">
+        <classes>
+            <class name="main.controller.ProductHandlerControllerTest"/>
+        </classes>
+    </test>
+
+    <test name="UserServiceTest">
+        <classes>
+            <class name="main.service.UserServiceTest"/>
+        </classes>
+    </test>
+
+    <test name="UserDeletion">
+        <classes>
+            <class name="main.controller.AuthenticationControllerTest">
+                <methods>
+                    <include name="deleteUserTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

@@ -15,7 +15,7 @@ public class TestDataDealer {
     private static final String TEST_ACCOUNT_TYPE_ELEMENT = "type";
     private static final String TEST_ACCOUNT_ID_ELEMENT = "id";
     private static final String TEST_ACCOUNT_USERNAME_ELEMENT = "username";
-    private static final String TEST_ACCOUNT_ROLES_ELEMENT = "roles";
+    private static final String TEST_ACCOUNT_ROLES_ELEMENT = "roles"; //TODO remake to match collection
     private static final String TEST_ACCOUNT_BALANCE_ELEMENT = "balance";
 
     private String token;
