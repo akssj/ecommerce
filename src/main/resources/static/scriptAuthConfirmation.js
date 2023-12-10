@@ -1,6 +1,7 @@
 
 /*=====================
   check if logged in
+  or whatever
 ======================*/
 
   async function performUserStatusCheck() {

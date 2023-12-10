@@ -10,7 +10,7 @@
 
     <test name="Authentication">
         <classes>
-            <class name="main.controllers.AuthenticationControllerTest">
+            <class name="main.controller.AuthenticationControllerTest">
                 <methods>
                     <exclude name="deleteUserTest"/>
                 </methods>
@@ -20,19 +20,25 @@
 
     <test name="ProductControllerTest">
         <classes>
-            <class name="main.controllers.ProductControllerTest"/>
+            <class name="main.controller.ProductControllerTest"/>
         </classes>
     </test>
 
     <test name="ProductHandlerControllerTest">
         <classes>
-            <class name="main.controllers.ProductHandlerControllerTest"/>
+            <class name="main.controller.ProductHandlerControllerTest"/>
+        </classes>
+    </test>
+
+    <test name="UserServiceTest">
+        <classes>
+            <class name="main.service.UserServiceTest"/>
         </classes>
     </test>
 
     <test name="UserDeletion">
         <classes>
-            <class name="main.controllers.AuthenticationControllerTest">
+            <class name="main.controller.AuthenticationControllerTest">
                 <methods>
                     <include name="deleteUserTest"/>
                 </methods>

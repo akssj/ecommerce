@@ -18,9 +18,9 @@ fetch('http://localhost:8080/product/forSale')
       Div.textContent = `
         ${item.id}.
         ${item.name}
-        Price: ${item.price}
-        Description: ${item.description}
         Creator: ${item.creator}
+        Description: ${item.description}
+        Price: ${item.price}
       `;
       
       const BuyButton = document.createElement('button');
@@ -50,6 +50,9 @@ fetch('http://localhost:8080/product/forSale')
 fill site with users                      
   bought products
 ======================*/
+
+//TODO make it fetch only if logged in
+
 function createRequest(){
 
     const token = localStorage.getItem('token');

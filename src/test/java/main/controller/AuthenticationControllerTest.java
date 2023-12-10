@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

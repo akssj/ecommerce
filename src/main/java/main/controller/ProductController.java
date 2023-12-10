@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import main.data.entity.ProductEntity;
 import main.service.ProductService;

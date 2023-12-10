@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

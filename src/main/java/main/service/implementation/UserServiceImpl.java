@@ -38,16 +38,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).isPresent();
     }
     @Override
-    public void createUser(UserEntity userEntity){
-        userRepository.save(userEntity);
+    public boolean createUser(UserEntity userEntity){
+        return userEntity == userRepository.save(userEntity);
     }
     @Override
-    public void updateUser(UserEntity userEntity){
-        userRepository.save(userEntity);
+    public boolean updateUser(UserEntity userEntity){
+        return userEntity == userRepository.save(userEntity);
     }
     @Override
-    public void deleteUser(UserEntity userEntity){
-        userRepository.delete(userEntity);
+    public boolean deleteUser(UserEntity userEntity){
+        try {
+            userRepository.delete(userEntity);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

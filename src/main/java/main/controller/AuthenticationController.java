@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import jakarta.validation.Valid;
 
@@ -7,7 +7,7 @@ import main.io.response.JwtResponse;
 import main.io.response.MessageResponse;
 import main.io.response.UserStatusResponse;
 import main.data.entity.UserEntity;
-import main.security.services.UserDetailsImpl;
+import main.security.service.UserDetailsImpl;
 import main.security.jwt.JwtUtils;
 import main.service.UserService;
 
@@ -60,12 +60,17 @@ public class AuthenticationController {
 
         if (userService.existsByUsername(username)) {
             return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken!"));
-        }else{
-            UserEntity userEntity = new UserEntity(username, passwordEncoder.encode(authenticationRequest.getPassword()));
-            userService.createUser(userEntity);
-
-            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
         }
+
+        UserEntity userEntity = new UserEntity(username, passwordEncoder.encode(authenticationRequest.getPassword()));
+        boolean createUser = userService.createUser(userEntity);
+
+        if (createUser){
+            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        }else{
+            return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
+        }
+
     }
 
     //TODO update current user data on demand with new token
@@ -79,6 +84,7 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
         }
     }
+
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
 
@@ -91,12 +97,11 @@ public class AuthenticationController {
 
         UserEntity userEntity = userService.findByUsername(username);
 
-        try{
-            userService.deleteUser(userEntity);
-            //TODO delete all listed products and such
+        boolean deleteUser = userService.deleteUser(userEntity);
+        if (deleteUser){
             return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!." + e));
+        }else{
+            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!."));
         }
     }
 
@@ -113,12 +118,11 @@ public class AuthenticationController {
         UserEntity userEntity = userService.findByUsername(username);
 
         //TODO updating user
-
-        try{
-            userService.updateUser(userEntity);
+        boolean updateUser = userService.updateUser(userEntity);
+        if (updateUser){
             return ResponseEntity.ok(new MessageResponse("User data updated!"));
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!." + e));
+        }else{
+            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!"));
         }
     }
 

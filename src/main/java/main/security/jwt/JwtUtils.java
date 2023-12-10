@@ -1,6 +1,6 @@
 package main.security.jwt;
 
-import main.security.services.UserDetailsImpl;
+import main.security.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

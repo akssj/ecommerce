@@ -1,4 +1,4 @@
-package main.controllers;
+package main.controller;
 
 import jakarta.validation.Valid;
 import main.io.request.AddProductRequest;

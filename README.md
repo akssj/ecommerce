@@ -10,7 +10,7 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 + User data saved in session(local storage at this point)
 + buy, sell, list for sale products - for everyone to see!(TODO authorization need roles and such)
 + Database (User and Products tables)
-+ Some tests(Unit api)
++ Some tests(Unit, integration api)
 + Current task: refactor backend + Update code to be less painful to look at
 + TODO proper Documentation
 + TODO Use of some external api
