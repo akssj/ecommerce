@@ -2,7 +2,7 @@ package main.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import main.dataset.TestDataDealer;
+import io.restassured.response.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.*;
@@ -13,10 +13,12 @@ import static org.hamcrest.Matchers.*;
 public class AuthenticationControllerTest {
 
     //TODO get make config files with all static variable values such as roles so changing roles does not require changing all variables in all tests
-    private static final String TEST_ACCOUNT_USERNAME = "test01";
-    private static final String TEST_ACCOUNT_PASSWORD = "test01";
-    private static final TestDataDealer testDataDealer = new TestDataDealer();
-    JSONObject testJsonRequest = new JSONObject();
+    private static final String TEST_ACCOUNT_USERNAME = "TempTestAccount";
+    private static final String TEST_ACCOUNT_PASSWORD = "TempTestAccount";
+    private String auth_token;
+    private String tokenType;
+    private Long id;
+    private final JSONObject testJsonRequest = new JSONObject();
 
     @BeforeClass
     public void beforeClass(){
@@ -53,7 +55,8 @@ public class AuthenticationControllerTest {
     }
     @Test(priority = 3, description = "Checks if login endpoint is working")
     public void loginUserTest() {
-        given()
+        Response response =
+        RestAssured.given()
             .contentType(ContentType.JSON)
             .body(testJsonRequest.toString())
         .when()
@@ -65,14 +68,20 @@ public class AuthenticationControllerTest {
             .body("id", notNullValue())
             .body("username", equalTo(TEST_ACCOUNT_USERNAME))
             .body("roles.authority", notNullValue())
-            .body("balance", notNullValue());
+            .body("balance", notNullValue())
+        .extract()
+        .response();
+
+        auth_token = response.path("token").toString();
+        tokenType = response.path("type").toString();
+        id = Long.parseLong(response.path("id").toString());
     }
     @Test(priority = 4, description = "Checks if userStatus endpoint is working")
     public void authenticateLoginStatusTest() {
         RestAssured.given()
             .contentType(ContentType.JSON)
-            .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
-                .pathParam("id", testDataDealer.getId())
+            .header("Authorization", tokenType + " " + auth_token)
+            .pathParam("id", id)
         .when()
             .get("http://localhost:8080/auth/{id}/userStatus")
         .then()
@@ -87,9 +96,9 @@ public class AuthenticationControllerTest {
     public void deleteUserTest() {
         RestAssured.given()
             .contentType(ContentType.JSON)
-            .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
+            .header("Authorization", tokenType + " " + auth_token)
             .body(testJsonRequest.toString())
-            .pathParam("id", testDataDealer.getId())
+            .pathParam("id", id)
         .when()
             .delete("http://localhost:8080/auth/{id}/delete")
         .then()

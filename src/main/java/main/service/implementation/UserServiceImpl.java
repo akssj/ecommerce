@@ -1,5 +1,6 @@
 package main.service.implementation;
 
+import jakarta.persistence.EntityNotFoundException;
 import main.data.entity.UserEntity;
 import main.data.repository.UserRepository;
 import main.service.UserService;
@@ -25,8 +26,8 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserEntity findByUsername(String username){
-        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(username);
-        return userEntityOptional.orElse(null);
+        return userRepository.findByUsername(username).orElseThrow(() ->
+                new EntityNotFoundException("User not found with username: " + username));
     }
     @Override
     public UserEntity findById(Long id){

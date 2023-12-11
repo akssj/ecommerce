@@ -125,5 +125,8 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!"));
         }
     }
-
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+        return ResponseEntity.ok(new MessageResponse("existsByUsername TEST: " + userService.existsByUsername("test01")));
+    }
 }

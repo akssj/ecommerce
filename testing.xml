@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="First Suite">
 
-    <test name="dataset">
+    <test name="dataSetUp">
         <packages>
             <package name="main.dataset" />
         </packages>
@@ -10,11 +10,7 @@
 
     <test name="Authentication">
         <classes>
-            <class name="main.controller.AuthenticationControllerTest">
-                <methods>
-                    <exclude name="deleteUserTest"/>
-                </methods>
-            </class>
+            <class name="main.controller.AuthenticationControllerTest"/>
         </classes>
     </test>
 
@@ -33,16 +29,6 @@
     <test name="UserServiceTest">
         <classes>
             <class name="main.service.UserServiceTest"/>
-        </classes>
-    </test>
-
-    <test name="UserDeletion">
-        <classes>
-            <class name="main.controller.AuthenticationControllerTest">
-                <methods>
-                    <include name="deleteUserTest"/>
-                </methods>
-            </class>
         </classes>
     </test>
 
