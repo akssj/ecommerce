@@ -1,5 +1,8 @@
 package main.dataset;
 
+import io.restassured.http.ContentType;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -11,10 +14,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class InitialTestDataSetup {
     private static final String CONFIG_FILE_DIRECTORY = "src/test/java/main/dataset/TestAccountConfig.xml";
@@ -24,11 +32,12 @@ public class InitialTestDataSetup {
     private static final String TEST_ACCOUNT_PASSWORD_ELEMENT = "Test_Account_Password";
     private static final String TEST_ACCOUNT_CREATED_DATA_NODE = "TestAccountCreatedData";
     private static final String LOGIN_ENDPOINT = "http://localhost:8080/auth/login";
+    private static final String REGISTER_ENDPOINT = "http://localhost:8080/auth/signup";
     private String testAccountUsername;
     private String testAccountPassword;
     private StringBuilder testAccountLoginResponse;
 
-    @BeforeClass
+    @Test(priority = 1)
     public void readTestAccountData() {
         try {
             File file = new File(CONFIG_FILE_DIRECTORY);
@@ -55,15 +64,27 @@ public class InitialTestDataSetup {
         }
     }
 
-    //TODO fix it and make it first "test" to be executed
-    @Test
+    @Test(priority = 2)
+    public void createTestAccount() throws JSONException {
+        JSONObject testJsonRequest = new JSONObject();
+        testJsonRequest.put("username", testAccountUsername);
+        testJsonRequest.put("password", testAccountPassword);
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(testJsonRequest.toString())
+        .when()
+            .post("http://localhost:8080/auth/signup");
+    }
+
+    @Test(priority = 3)
     public void performInitialTestDataSetup(){
         try {
-            URL obj = new URL(LOGIN_ENDPOINT);
+            URL url = new URL(LOGIN_ENDPOINT);
 
             String json = "{\"username\":\"" + testAccountUsername + "\"," + "\"password\":\"" + testAccountPassword + "\"}";
 
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
@@ -78,7 +99,7 @@ public class InitialTestDataSetup {
             String inputLine;
             StringBuilder response = new StringBuilder();
 
-            while ((inputLine = bufferedReader.readLine()) != null) {
+            while (( inputLine = bufferedReader.readLine()) != null) {
                 response.append(inputLine);
             }
             bufferedReader.close();
@@ -89,8 +110,8 @@ public class InitialTestDataSetup {
             e.printStackTrace();
         }
     }
-    @AfterClass
-    public void writeTestAccountData() {
+    @Test(priority = 4)
+    public void saveTestAccountData() {
         try {
             File file = new File(DATASET_FILE_DIRECTORY);
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);

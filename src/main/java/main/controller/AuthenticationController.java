@@ -118,6 +118,7 @@ public class AuthenticationController {
         UserEntity userEntity = userService.findByUsername(username);
 
         //TODO updating user
+
         boolean updateUser = userService.updateUser(userEntity);
         if (updateUser){
             return ResponseEntity.ok(new MessageResponse("User data updated!"));
@@ -125,5 +126,8 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!"));
         }
     }
-
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+        return ResponseEntity.ok(new MessageResponse("existsByUsername TEST: " + userService.existsByUsername("test01")));
+    }
 }

@@ -88,7 +88,7 @@ function buyItem(event){
     },
   };
 
-  fetch(`http://localhost:8080/product/handling/buy/${ItemId}`, RequestBuyItem)
+  fetch(`http://localhost:8080/product/handling/${ItemId}/buy`, RequestBuyItem)
   .then(response => {
     if (response.ok) {
       performUserStatusCheck();
@@ -126,7 +126,7 @@ function deleteItem(event){
     },
   };
 
-  fetch(`http://localhost:8080/product/handling/delete/${ItemId}`, RequestDeleteItem)
+  fetch(`http://localhost:8080/product/handling/${ItemId}/delete`, RequestDeleteItem)
   .then(response => {
     if (response.ok) {
     window.location.reload(); //TODO make so it makes more sense and respond with message
