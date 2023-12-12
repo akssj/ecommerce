@@ -1,5 +1,6 @@
 package main.service.implementation;
 
+import jakarta.persistence.EntityNotFoundException;
 import main.data.entity.ProductEntity;
 import main.data.repository.ProductRepository;
 import main.service.ProductService;
@@ -61,13 +62,15 @@ public class ProductServiceImpl implements ProductService {
         return filteredProducts;
     }
     @Override
-    public Optional<ProductEntity> findById(Long id) {return productRepository.findById(id);}
+    public ProductEntity findById(Long id) {
+        return productRepository.findById(id).orElseThrow(() ->
+            new EntityNotFoundException("Product not found with id: " + id));}
     @Override
     public List<ProductEntity> findByName(String name) {
         return productRepository.findByName(name);
     }
     @Override
     public boolean existsById(Long id) {
-        return productRepository.findById(id).isPresent();
+        return productRepository.existsById(id);
     }
 }

@@ -118,6 +118,7 @@ public class AuthenticationController {
         UserEntity userEntity = userService.findByUsername(username);
 
         //TODO updating user
+
         boolean updateUser = userService.updateUser(userEntity);
         if (updateUser){
             return ResponseEntity.ok(new MessageResponse("User data updated!"));

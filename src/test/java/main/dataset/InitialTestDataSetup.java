@@ -37,7 +37,7 @@ public class InitialTestDataSetup {
     private String testAccountPassword;
     private StringBuilder testAccountLoginResponse;
 
-    @BeforeClass
+    @Test(priority = 1)
     public void readTestAccountData() {
         try {
             File file = new File(CONFIG_FILE_DIRECTORY);
@@ -64,7 +64,7 @@ public class InitialTestDataSetup {
         }
     }
 
-    @BeforeClass(dependsOnMethods = { "readTestAccountData" })
+    @Test(priority = 2)
     public void createTestAccount() throws JSONException {
         JSONObject testJsonRequest = new JSONObject();
         testJsonRequest.put("username", testAccountUsername);
@@ -77,7 +77,7 @@ public class InitialTestDataSetup {
             .post("http://localhost:8080/auth/signup");
     }
 
-    @Test
+    @Test(priority = 3)
     public void performInitialTestDataSetup(){
         try {
             URL url = new URL(LOGIN_ENDPOINT);
@@ -110,8 +110,8 @@ public class InitialTestDataSetup {
             e.printStackTrace();
         }
     }
-    @AfterClass
-    public void writeTestAccountData() {
+    @Test(priority = 4)
+    public void saveTestAccountData() {
         try {
             File file = new File(DATASET_FILE_DIRECTORY);
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);

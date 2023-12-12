@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -31,27 +30,33 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserEntity findById(Long id){
-        Optional<UserEntity> userEntityOptional = userRepository.findById(id);
-        return userEntityOptional.orElse(null);
+        return userRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("User not found with id: " + id));
     }
     @Override
-    public boolean existsByUsername(String username){
-        return userRepository.findByUsername(username).isPresent();
-    }
+    public boolean existsByUsername(String username){return userRepository.existsByUsername(username);}
     @Override
     public boolean createUser(UserEntity userEntity){
-        return userEntity == userRepository.save(userEntity);
+        if (userRepository.existsByUsername(userEntity.getUsername())){
+            return false;
+        }else {
+            return userEntity == userRepository.save(userEntity);
+        }
     }
     @Override
     public boolean updateUser(UserEntity userEntity){
-        return userEntity == userRepository.save(userEntity);
+        if (userRepository.existsById(userEntity.getId())){
+            return userEntity == userRepository.save(userEntity);
+        }else {
+            return false;
+        }
     }
     @Override
     public boolean deleteUser(UserEntity userEntity){
-        try {
+        if (userRepository.existsById(userEntity.getId())) {
             userRepository.delete(userEntity);
             return true;
-        } catch (Exception e) {
+        }else {
             return false;
         }
     }

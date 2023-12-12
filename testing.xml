@@ -2,34 +2,24 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="First Suite">
 
-    <test name="dataSetUp">
+    <test name="DataSetUp">
         <packages>
             <package name="main.dataset" />
         </packages>
     </test>
 
-    <test name="Authentication">
-        <classes>
-            <class name="main.controller.AuthenticationControllerTest"/>
-        </classes>
+    <test name="UnitTests">
+        <packages>
+            <package name="main.service" />
+        </packages>
     </test>
 
-    <test name="ProductControllerTest">
-        <classes>
-            <class name="main.controller.ProductControllerTest"/>
-        </classes>
+    <test name="IntegrationTests">
+        <packages>
+            <package name="main.controller" />
+        </packages>
     </test>
 
-    <test name="ProductHandlerControllerTest">
-        <classes>
-            <class name="main.controller.ProductHandlerControllerTest"/>
-        </classes>
-    </test>
 
-    <test name="UserServiceTest">
-        <classes>
-            <class name="main.service.UserServiceTest"/>
-        </classes>
-    </test>
 
 </suite>

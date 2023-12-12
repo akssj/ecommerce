@@ -1,5 +1,6 @@
 package main.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import main.io.request.AddProductRequest;
 import main.io.response.MessageResponse;
@@ -41,49 +42,41 @@ public class ProductHandlerController {
             jwtUtils.getUserNameFromJwtToken(token)
         );
 
-        productHandlingService.saveProduct(newProduct);
-        //TODO verify if save is a success
+        ProductEntity createdProduct = productHandlingService.saveProduct(newProduct);
 
-        return ResponseEntity.ok(new MessageResponse("Item added."));
+        if (productService.existsById(createdProduct.getId())){
+            return ResponseEntity.ok(new MessageResponse("Item added."));
+        }else {
+            return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
+        }
+
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token){
 
-        Optional<ProductEntity> productEntity = productService.findById(id);
+        ProductEntity productEntity = productService.findById(id);
 
-        if (productEntity.isPresent()) {
-            ProductEntity product = productEntity.get();
+        if (!productEntity.getCreator().equals(jwtUtils.getUserNameFromJwtToken(token))) {
+            return ResponseEntity.badRequest().body(new MessageResponse("You do not own this item."));
+        }
 
-            if (product.getCreator().equals(jwtUtils.getUserNameFromJwtToken(token))) {
-                productHandlingService.deleteProduct(id);
-                //TODO verify if delete is a success
+        productHandlingService.deleteProduct(id);
 
-                return ResponseEntity.ok(new MessageResponse("Item deleted."));
-            }else {
-                return ResponseEntity.badRequest().body(new MessageResponse("You do not own this item."));
-            }
+        if (!productService.existsById(productEntity.getId())){
+            return ResponseEntity.ok(new MessageResponse("Item deleted."));
         }else {
-            return ResponseEntity.badRequest().body(new MessageResponse("Item does not exist."));
+            return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
         }
     }
 
     @PutMapping("/{id}/buy")
-    public ResponseEntity<?> buyProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token) {
-
-        //TODO fix that
+    public ResponseEntity<?> buyProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token){
 
         String buyerUsername = jwtUtils.getUserNameFromJwtToken(token);
-
-        if (!userService.existsByUsername(buyerUsername)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist"));
-        }
-        if (!productService.existsById(id)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Item does not exist!"));
-        }
-
+        System.out.println(buyerUsername);
         UserEntity userEntityBuyer = userService.findByUsername(buyerUsername);
-        ProductEntity productEntity = productService.findById(id).get();
+        ProductEntity productEntity = productService.findById(id);
         Integer productPrice = productEntity.getPrice();
 
         if (!productEntity.getBuyer().equals("")){
@@ -96,7 +89,7 @@ public class ProductHandlerController {
             return ResponseEntity.badRequest().body(new MessageResponse("You have insufficient funds!"));
         }
 
-        UserEntity userEntityProductOwner = userService.findByUsername(productEntity.getCreator());
+        UserEntity userEntitySeller = userService.findByUsername(productEntity.getCreator());
 
         try{
             productEntity.setBuyer(buyerUsername);
@@ -105,8 +98,8 @@ public class ProductHandlerController {
             userEntityBuyer.setBalance(userEntityBuyer.getBalance() - productPrice);
             userService.updateUser(userEntityBuyer);
 
-            userEntityProductOwner.setBalance(userEntityProductOwner.getBalance() + productPrice);
-            userService.updateUser(userEntityProductOwner);
+            userEntitySeller.setBalance(userEntitySeller.getBalance() + productPrice);
+            userService.updateUser(userEntitySeller);
 
             //TODO verify if operation is a success
 

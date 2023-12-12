@@ -10,7 +10,7 @@ public interface ProductService {
     List<ProductEntity> findForSaleProduct();
     List<ProductEntity> findBoughtProducts(String username);
     List<ProductEntity> findSoldProducts(String username);
-    Optional<ProductEntity> findById(Long id);
+    ProductEntity findById(Long id);
     List<ProductEntity> findByName(String name);
     boolean existsById(Long id);
 }

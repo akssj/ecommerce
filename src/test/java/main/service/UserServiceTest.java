@@ -36,11 +36,13 @@ public class UserServiceTest {
     }
 
     @BeforeClass
-    void setUp() {MockitoAnnotations.openMocks(this);}
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        setUpMockUsers();
+    }
 
     @Test(priority = 1)
     void findAllUsersTest() {
-        setUpMockUsers();
         when(userRepository.findAll()).thenReturn(mockUsers);
 
         List<UserEntity> result = userServiceImpl.findAllUsers();
@@ -62,7 +64,6 @@ public class UserServiceTest {
     }
     @Test(priority = 2)
     void findByUsernameTest() {
-        setUpMockUsers();
         when(userRepository.findByUsername("TempTestUser03")).thenReturn(Optional.of(mockUsers.get(2)));
 
         UserEntity expectedUser = mockUsers.get(2);
@@ -81,7 +82,6 @@ public class UserServiceTest {
 
     @Test(priority = 3)
     void findByIdTest() {
-        setUpMockUsers();
         when(userRepository.findById(3L)).thenReturn(Optional.of(mockUsers.get(3)));
 
         UserEntity expectedUser = mockUsers.get(3);
@@ -99,7 +99,6 @@ public class UserServiceTest {
     }
     @Test(priority = 4)
     void existsByUsernameTest() {
-        setUpMockUsers();
         when(userRepository.existsByUsername("TempTestUser01")).thenReturn(true);
 
         boolean userExists = userServiceImpl.existsByUsername("TempTestUser01");
@@ -112,13 +111,47 @@ public class UserServiceTest {
     @Test(priority = 5)
     void createUserTest() {
 
+        UserEntity userToCreate = new UserEntity("userToCreate", "userToCreate");
+
+        when(userRepository.save(userToCreate)).thenReturn(userToCreate);
+
+        boolean userCreated = userServiceImpl.createUser(userToCreate);
+
+        assertTrue(userCreated);
+
+        verify(userRepository, times(1)).save(userToCreate);
     }
+
     @Test(priority = 6)
     void updateUserTest() {
+        UserEntity userToUpdate = new UserEntity("userToUpdate", "userToUpdate");
+        userToUpdate.setId(0L);
 
+        when(userRepository.existsById(userToUpdate.getId())).thenReturn(true);
+        when(userRepository.save(userToUpdate)).thenReturn(userToUpdate);
+
+        boolean userUpdated = userServiceImpl.updateUser(userToUpdate);
+
+        assertTrue(userUpdated);
+
+        verify(userRepository, times(1)).existsById(userToUpdate.getId());
+        verify(userRepository, times(1)).save(userToUpdate);
     }
+
     @Test(priority = 7)
     void deleteUserTest() {
 
+        UserEntity userToDelete = new UserEntity("userToDelete", "userToDelete");
+        userToDelete.setId(1L);
+
+        when(userRepository.existsById(userToDelete.getId())).thenReturn(true);
+        doNothing().when(userRepository).delete(userToDelete);
+
+        boolean userDeleted = userServiceImpl.deleteUser(userToDelete);
+
+        assertTrue(userDeleted);
+        verify(userRepository, times(1)).existsById(userToDelete.getId());
+        verify(userRepository, times(1)).delete(userToDelete);
     }
+
 }

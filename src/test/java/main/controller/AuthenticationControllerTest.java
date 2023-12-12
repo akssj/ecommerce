@@ -31,7 +31,7 @@ public class AuthenticationControllerTest {
         }
     }
 
-    @Test(priority = 1, description = "Checks if Signup endpoint is working")
+    @Test(priority = 1)
     public void registerUserTest() {
         given()
             .contentType(ContentType.JSON)
@@ -42,7 +42,7 @@ public class AuthenticationControllerTest {
             .statusCode(200)
             .body("message", equalTo("User registered successfully!"));
     }
-    @Test(priority = 2, description = "Checks if Signup endpoint is working if data is already in database")
+    @Test(priority = 2)
     public void registerExistingUserTest() {
         given()
             .contentType(ContentType.JSON)
@@ -53,7 +53,7 @@ public class AuthenticationControllerTest {
             .statusCode(400)
             .body("message", equalTo("Username is already taken!"));
     }
-    @Test(priority = 3, description = "Checks if login endpoint is working")
+    @Test(priority = 3)
     public void loginUserTest() {
         Response response =
         RestAssured.given()
@@ -76,7 +76,7 @@ public class AuthenticationControllerTest {
         tokenType = response.path("type").toString();
         id = Long.parseLong(response.path("id").toString());
     }
-    @Test(priority = 4, description = "Checks if userStatus endpoint is working")
+    @Test(priority = 4)
     public void authenticateLoginStatusTest() {
         RestAssured.given()
             .contentType(ContentType.JSON)
@@ -92,7 +92,7 @@ public class AuthenticationControllerTest {
             .body("balance", notNullValue());
     }
 
-    @Test(priority = 5, description = "Checks if deleteUser endpoint is working")
+    @Test(priority = 5)
     public void deleteUserTest() {
         RestAssured.given()
             .contentType(ContentType.JSON)
