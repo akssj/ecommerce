@@ -1,4 +1,4 @@
-# MyFirstWebApp aka Alledrogo
+# MyFirstWebApp aka alledrogo
 ## Intro
 This is an attempt to make a scalable web app using rest api. 
 Technologies and code itself is not well-thought-out due to lack of knowledge about any of this. 
