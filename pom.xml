@@ -15,8 +15,8 @@
 	<artifactId>Alledrogo</artifactId>
 	<version>0.1</version>
 	<packaging>jar</packaging>
-	<name>Alledrogo</name>
-	<description>Alledrogo project for Spring Boot</description>
+	<name>alledrogo</name>
+	<description>alledrogo project for Spring Boot</description>
 
 	<properties>
 		<java.version>20</java.version>
