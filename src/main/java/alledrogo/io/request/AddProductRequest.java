@@ -3,6 +3,9 @@ package alledrogo.io.request;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Request class, provides object instead of raw data for api params
+ */
 public class AddProductRequest{
     @NotBlank
     private String name;

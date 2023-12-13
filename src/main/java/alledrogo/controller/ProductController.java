@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Api endpoint class, provides /product endpoint to search database.
+ */
 @RestController
 @RequestMapping("/product")
 public class ProductController {

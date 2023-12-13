@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+/**
+ * UserService Implementation class.
+ * Overrides methods from UserService introducing further logic.
+ */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {

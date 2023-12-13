@@ -4,6 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+/**
+ * Response class for api to return data in object form instead of raw data.
+ */
 public class JwtResponse {
   private String token;
   private String type = "Bearer";

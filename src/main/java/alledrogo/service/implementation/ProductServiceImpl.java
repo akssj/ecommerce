@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * ProductService Implementation class.
+ * Overrides methods from UserService introducing further logic.
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -24,6 +27,11 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductEntity> findAllProduct() {
         return productRepository.findAll();
     }
+
+    /**
+     * Returns not sold products
+     * @return list of products where String Buyer field equals ""
+     */
     @Override
     public List<ProductEntity> findForSaleProduct() {
         List<ProductEntity> allProducts = productRepository.findAll();
@@ -36,6 +44,12 @@ public class ProductServiceImpl implements ProductService {
         }
         return filteredProducts;
     }
+
+    /**
+     * Returns products bought by the user
+     * @param username string
+     * @return list of products where Buyer field equals "username"
+     */
     @Override
     public List<ProductEntity> findBoughtProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
@@ -48,6 +62,12 @@ public class ProductServiceImpl implements ProductService {
         }
         return filteredProducts;
     }
+
+    /**
+     * Returns products sold by the user
+     * @param username string
+     * @return list of products where creator field equals "username" and buyer field is not null
+     */
     @Override
     public List<ProductEntity> findSoldProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();

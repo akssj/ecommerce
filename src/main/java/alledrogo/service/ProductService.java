@@ -3,7 +3,9 @@ package alledrogo.service;
 import alledrogo.data.entity.ProductEntity;
 
 import java.util.List;
-
+/**
+ * ProductService interface
+ */
 public interface ProductService {
     List<ProductEntity> findAllProduct();
     List<ProductEntity> findForSaleProduct();

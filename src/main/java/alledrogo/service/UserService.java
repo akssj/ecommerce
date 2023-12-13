@@ -4,7 +4,9 @@ import alledrogo.data.entity.UserEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * UserService interface
+ */
 @Transactional
 public interface UserService {
     List<UserEntity> findAllUsers();

@@ -6,6 +6,10 @@ import alledrogo.data.entity.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * ProductHandlingService Implementation class.
+ * Overrides methods from ProductHandlingService.
+ */
 @Service
 public class ProductHandlingServiceImpl implements ProductHandlingService {
     private final ProductRepository productRepository;

@@ -2,6 +2,9 @@ package alledrogo.data.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * UserEntity class
+ */
 @Entity
 @Table(name = "t_users")
 public class UserEntity {

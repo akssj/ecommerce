@@ -2,6 +2,9 @@ package alledrogo.io.request;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Request class, provides object instead of raw data for api params
+ */
 public class AuthenticationRequest {
 	@NotBlank
 	private String username;

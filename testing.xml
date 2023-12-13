@@ -4,19 +4,19 @@
 
     <test name="DataSetUp">
         <packages>
-            <package name="alledrogo.dataset" />
+            <package name="alledrogo.tests.dataset" />
         </packages>
     </test>
 
     <test name="UnitTests">
         <packages>
-            <package name="alledrogo.service" />
+            <package name="alledrogo.tests.service" />
         </packages>
     </test>
 
     <test name="IntegrationTests">
         <packages>
-            <package name="alledrogo.controller" />
+            <package name="alledrogo.tests.controller" />
         </packages>
     </test>
 

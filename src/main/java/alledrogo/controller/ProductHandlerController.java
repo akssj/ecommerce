@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Api endpoint class, provides /product/handling endpoint to manipulate products in database.
+ */
 @RestController
 @RequestMapping("/product/handling")
 public class ProductHandlerController {
@@ -29,6 +32,12 @@ public class ProductHandlerController {
         this.jwtUtils = jwtUtils;
     }
 
+    /**
+     * Creates new ProductEntity object filled with addProductRequest data and puts it into the database
+     * @param addProductRequest NotNull obj. with data for ProductEntity
+     * @param token token of logged in user.
+     * @return ResponseEntity obj. with MessageResponse obj. containing message
+     */
     @PostMapping("/add")
     public ResponseEntity<?> saveProduct(@Valid @RequestBody AddProductRequest addProductRequest, @RequestHeader(name = "Authorization") String token) {
 
@@ -49,6 +58,12 @@ public class ProductHandlerController {
 
     }
 
+    /**
+     * Check if current user is owner of the item if so deletes ProductEntity object from the database.
+     * @param id LONG id of the object to delete
+     * @param token token of logged in user.
+     * @return ResponseEntity obj. with MessageResponse obj. containing message
+     */
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token){
 
@@ -67,6 +82,12 @@ public class ProductHandlerController {
         }
     }
 
+    /**
+     * Checks if user can buy item and if so sets "buys" item for the current user and transfers funds between accounts.
+     * @param id LONG id of the object to buy
+     * @param token token of logged in user.
+     * @return ResponseEntity obj. with MessageResponse obj. containing message
+     */
     @PutMapping("/{id}/buy")
     public ResponseEntity<?> buyProduct(@PathVariable Long id, @RequestHeader(name = "Authorization") String token){
 
