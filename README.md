@@ -11,19 +11,19 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 + buy, sell, list for sale products - for everyone to see!(TODO authorization need roles and such)
 + Database (User and Products tables)
 + Some tests(Unit, integration api)
-+ Current task: refactor backend + Update code to be less painful to look at
-+ TODO proper Documentation
++ Somewhat proper Documentation
++ Current task: FRONTEND :(
 + TODO Use of some external api
 + TODO User profile(data) page
 + TODO Looking up other users
 + TODO Admin role, page, etc.
 + TODO Track user behavior
-+ TODO FRONTEND (ie button to change language)
 + TODO Backend gui
 + TODO Fix bugs (ie errors after token expiration - user is not auto logged out)
 + TODO Error messages, codes
 + TODO Security
 + TODO .gitignore
++ TODO refactor backend + Update code to be less painful to look at
 
 ## Tech
 + architecture: mvc/rest
