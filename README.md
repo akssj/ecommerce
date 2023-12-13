@@ -4,6 +4,10 @@ This is an attempt to make a scalable web app using rest api.
 Technologies and code itself is not well-thought-out due to lack of knowledge about any of this. 
 Anyway im doing it to get some know-how about creating and maintaining project.
 
+###
+Project documentation:
+https://akssj.github.io/MyFirstWebApp/index.html
+
 ## Features
 + Single page web app with api to change page content (I might want to change that)
 + Login, Signup (authentication)
