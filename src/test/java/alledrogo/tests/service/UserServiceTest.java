@@ -85,7 +85,7 @@ public class UserServiceTest {
         UserEntity expectedUser = mockUsers.get(2);
         UserEntity actualUser = userServiceImpl.findByUsername("TempTestUser03");
 
-        assertEquals(mockUsers.get(2), actualUser);
+        assertEquals(expectedUser, actualUser);
 
         assertEquals(expectedUser.getId(), actualUser.getId());
         assertEquals(expectedUser.getUsername(), actualUser.getUsername());
@@ -108,7 +108,7 @@ public class UserServiceTest {
         UserEntity expectedUser = mockUsers.get(3);
         UserEntity actualUser = userServiceImpl.findById(3L);
 
-        assertEquals(mockUsers.get(3), actualUser);
+        assertEquals(expectedUser, actualUser);
 
         assertEquals(expectedUser.getId(), actualUser.getId());
         assertEquals(expectedUser.getUsername(), actualUser.getUsername());
@@ -152,6 +152,7 @@ public class UserServiceTest {
         assertTrue(userCreated);
 
         verify(userRepository, times(1)).save(userToCreate);
+        verify(userRepository, times(1)).existsByUsername("userToCreate");
     }
 
     /**
@@ -192,6 +193,7 @@ public class UserServiceTest {
         boolean userDeleted = userServiceImpl.deleteUser(userToDelete);
 
         assertTrue(userDeleted);
+
         verify(userRepository, times(1)).existsById(userToDelete.getId());
         verify(userRepository, times(1)).delete(userToDelete);
     }

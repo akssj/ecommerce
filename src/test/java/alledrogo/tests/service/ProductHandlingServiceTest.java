@@ -1,7 +1,7 @@
 package alledrogo.tests.service;
 
 /**
- * NotImplemented at this point
+ * Not implemented at this point
  */
 public class ProductHandlingServiceTest {
 

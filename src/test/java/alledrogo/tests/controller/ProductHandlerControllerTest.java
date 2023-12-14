@@ -1,7 +1,7 @@
 package alledrogo.tests.controller;
 
 /**
- * NotImplemented at this point
+ * Not implemented at this point
  */
 public class ProductHandlerControllerTest {
     //TODO just do it

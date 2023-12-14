@@ -85,8 +85,8 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElseThrow(() ->
             new EntityNotFoundException("Product not found with id: " + id));}
     @Override
-    public List<ProductEntity> findByName(String name) {
-        return productRepository.findByName(name);
+    public List<ProductEntity> findByName(String username) {
+        return productRepository.findByName(username);
     }
     @Override
     public boolean existsById(Long id) {
