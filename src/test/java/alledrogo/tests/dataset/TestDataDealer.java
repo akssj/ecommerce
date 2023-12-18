@@ -13,7 +13,7 @@ import java.io.File;
  * Read TestAccount data from "TestAccountDataset.xml" and delivers it to other test classes on demand.
  */
 public class TestDataDealer {
-    private static final String DATASET_FILE_DIRECTORY = "src/test/java/alledrogo/dataset/TestAccountDataset.xml";
+    private static final String DATASET_FILE_DIRECTORY = "src/test/java/alledrogo/tests/dataset/TestAccountDataset.xml";
     private static final String TEST_ACCOUNT_CREATED_DATA_NODE = "TestAccountCreatedData";
     private static final String TEST_ACCOUNT_TOKEN_ELEMENT = "token";
     private static final String TEST_ACCOUNT_TYPE_ELEMENT = "type";

@@ -119,7 +119,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify userServiceImpl.findSoldProducts(username) with mockUser.
+     * Verify productServiceImpl.findSoldProducts(username) with mockUser.
      * Check if required methods were called only once.
      * expected result: Receive list of mockProducts sold by the user.
      */
@@ -138,7 +138,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify userServiceImpl.findById(id) with mockUser.
+     * Verify productServiceImpl.findById(id) with mockUser.
      * Check if required methods were called only once.
      * expected result: Receive single mockProduct with associated id.
      */
@@ -156,7 +156,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify userServiceImpl.findByName(username) with mockUser.
+     * Verify productServiceImpl.findByName(username) with mockUser.
      * Check if required methods were called only once.
      * expected result: Receive list of mockProducts with provided name.
      */
@@ -174,7 +174,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify userServiceImpl.existsById(id) with mockUser.
+     * Verify productServiceImpl.existsById(id) with mockUser.
      * Check if required methods were called only once.
      * expected result: Receive boolean true if user exists.
      */

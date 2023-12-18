@@ -33,7 +33,7 @@ public class ProductHandlerController {
     }
 
     /**
-     * Creates new ProductEntity object filled with addProductRequest data and puts it into the database
+     * Creates new ProductEntity object filled with addProductRequest data and saves it into the database
      * @param addProductRequest NotNull obj. with data for ProductEntity
      * @param token token of logged in user.
      * @return ResponseEntity obj. with MessageResponse obj. containing message
@@ -51,7 +51,7 @@ public class ProductHandlerController {
         ProductEntity createdProduct = productHandlingService.saveProduct(newProduct);
 
         if (productService.existsById(createdProduct.getId())){
-            return ResponseEntity.ok(new MessageResponse("Item added."));
+            return ResponseEntity.ok(new MessageResponse("Item added.", createdProduct.getId() ));
         }else {
             return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
         }
@@ -59,7 +59,7 @@ public class ProductHandlerController {
     }
 
     /**
-     * Check if current user is owner of the item if so deletes ProductEntity object from the database.
+     * Check if current user is owner of the item, if so deletes ProductEntity object from the database.
      * @param id LONG id of the object to delete
      * @param token token of logged in user.
      * @return ResponseEntity obj. with MessageResponse obj. containing message
@@ -83,7 +83,7 @@ public class ProductHandlerController {
     }
 
     /**
-     * Checks if user can buy item and if so sets "buys" item for the current user and transfers funds between accounts.
+     * Checks if user can buy item and if so "buys" item for the current user and transfers funds between accounts.
      * @param id LONG id of the object to buy
      * @param token token of logged in user.
      * @return ResponseEntity obj. with MessageResponse obj. containing message

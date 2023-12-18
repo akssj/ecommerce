@@ -23,8 +23,8 @@ import static io.restassured.RestAssured.given;
  * Initial Test class read TestAccount data from "TestAccountConfig.xml" and save login response data into "TestAccountDataset.xml".
  */
 public class InitialTestDataSetup {
-    private static final String CONFIG_FILE_DIRECTORY = "src/test/java/alledrogo/dataset/TestAccountConfig.xml";
-    private static final String DATASET_FILE_DIRECTORY = "src/test/java/alledrogo/dataset/TestAccountDataset.xml";
+    private static final String CONFIG_FILE_DIRECTORY = "src/test/java/alledrogo/tests/dataset/TestAccountConfig.xml";
+    private static final String DATASET_FILE_DIRECTORY = "src/test/java/alledrogo/tests/dataset/TestAccountDataset.xml";
     private static final String TEST_ACCOUNT_SETUP_DATA_NODE = "TestAccountSetupData";
     private static final String TEST_ACCOUNT_USERNAME_ELEMENT = "Test_Account_Username";
     private static final String TEST_ACCOUNT_PASSWORD_ELEMENT = "Test_Account_Password";
