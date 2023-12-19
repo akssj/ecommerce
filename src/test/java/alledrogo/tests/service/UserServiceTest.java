@@ -20,8 +20,8 @@ import static org.testng.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests (Unit) for userServiceImpl.
- * Creates @Mock and @InjectMocks to verify data handling by userServiceImpl and userRepository.
+ * Tests (Unit) for UserServiceImpl.
+ * Creates @Mock and @InjectMocks to verify data handling by UserServiceImpl and UserRepository.
  * Goal is to verify that each of these methods are working as intended (verification scenarios).
  */
 public class UserServiceTest {

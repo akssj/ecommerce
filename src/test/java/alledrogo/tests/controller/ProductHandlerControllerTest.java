@@ -1,19 +1,14 @@
 package alledrogo.tests.controller;
 
-import alledrogo.data.entity.ProductEntity;
-import alledrogo.security.jwt.JwtUtils;
-import alledrogo.service.ProductService;
 import alledrogo.tests.dataset.TestDataDealer;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -39,6 +34,10 @@ public class ProductHandlerControllerTest {
         }
     }
 
+    /**
+     * sends correct GET request to /add endpoint.
+     * expected result: Respond from server is a success, user receives message from the server alongside created item id.
+     */
     @Test(priority = 1)
     public void saveProductTest() {
         Response response =
@@ -57,7 +56,11 @@ public class ProductHandlerControllerTest {
         id = Long.parseLong(response.path("id").toString());
     }
 
-    @Test(priority = 2)
+    /**
+     * sends correct DELETE request to /{id}/delete endpoint.
+     * expected result: Respond from server is a success, item is deleted.
+     */
+    @Test(priority = 3)
     public void deleteProductTest() {
         given()
             .contentType(ContentType.JSON)
@@ -69,8 +72,21 @@ public class ProductHandlerControllerTest {
             .body("message", equalTo("Item deleted."));
     }
 
-    @Test(priority = 3)
+    //TODO make another test user to buy this product
+    /**
+     * sends correct PUT request to /{id}/buy endpoint.
+     * expected result: Respond from server is a success, item is bought.
+     */
+    @Test(priority = 2)
     public void buyProductTest() {
-
+        given()
+            .contentType(ContentType.JSON)
+            .header("Authorization", testDataDealer.getType() + " " + testDataDealer.getToken())
+        .when()
+            .put("http://localhost:8080/product/handling/" + id + "/buy")
+        .then()
+            .statusCode(200)
+            .body("message", equalTo("Product bought!"));
     }
+
 }

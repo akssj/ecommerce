@@ -21,7 +21,7 @@ import static org.testng.Assert.*;
 
 /**
  * Tests (Unit) for ProductServiceImpl.
- * Creates @Mock and @InjectMocks to verify data handling by ProductServiceImpl and productRepository.
+ * Creates @Mock and @InjectMocks to verify data handling by ProductServiceImpl and ProductRepository.
  * Goal is to verify that each of these methods are working as intended (verification scenarios).
  */
 public class ProductServiceTest {
@@ -119,7 +119,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify productServiceImpl.findSoldProducts(username) with mockUser.
+     * Verify productServiceImpl.findSoldProducts(username) with mockProduct.
      * Check if required methods were called only once.
      * expected result: Receive list of mockProducts sold by the user.
      */
@@ -138,7 +138,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify productServiceImpl.findById(id) with mockUser.
+     * Verify productServiceImpl.findById(id) with mockProduct.
      * Check if required methods were called only once.
      * expected result: Receive single mockProduct with associated id.
      */
@@ -156,7 +156,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify productServiceImpl.findByName(username) with mockUser.
+     * Verify productServiceImpl.findByName(username) with mockProduct.
      * Check if required methods were called only once.
      * expected result: Receive list of mockProducts with provided name.
      */
@@ -174,7 +174,7 @@ public class ProductServiceTest {
     }
 
     /**
-     * Verify productServiceImpl.existsById(id) with mockUser.
+     * Verify productServiceImpl.existsById(id) with mockProduct.
      * Check if required methods were called only once.
      * expected result: Receive boolean true if user exists.
      */
