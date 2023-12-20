@@ -12,7 +12,10 @@
   <script src="/static/scriptAuth.js"></script>
   <script src="/static/scriptPopup.js"></script>
   <script src="/static/scriptAuthConfirmation.js"></script>
-  <script src="/static/scriptProductHandling.js"></script> 
+  <script src="/static/scriptProductHandling.js"></script>
+  <script src="/static/scriptCreateLoginPopup.js"></script>
+  <script src="/static/scriptCreateProductPopup.js"></script>
+  <script src="/static/scriptCreateSignupPopup.js"></script>
 
   <body>
 
@@ -23,8 +26,8 @@
       <div class="left-column">
 
         <div>
-          <a href="#" class="button" id="main-page-login-button">Zaloguj się</a>
-          <a href="#" class="button" id="main-page-signup-button">Zarejestruj się</a>
+          <a href="#" class="button" onclick="createLoginPopup()" id="main-page-login-button">Zaloguj się</a>
+          <a href="#" class="button" onclick="createSignupPopup()" id="main-page-signup-button">Zarejestruj się</a>
           <a href="#" class="button" onclick="signOut()">Wyloguj się</a>
         </div>
 
@@ -50,69 +53,16 @@
         </div>
 
         <div>
-          <a href="#" class="button" id="main-page-add-product-button">Dodaj przedmiot</a>
+          <a href="#" class="button" onclick="createProductPopup()"  id="main-page-add-product-button">Dodaj przedmiot</a>
         </div>
 
-        <!--bought products by user -->
+        <!--products bought by user -->
         <div>
           <a style="text-align: center;" id="boughtItemsTextField"></a>
           <ul id="bought-product-list"></ul>
         </div>
 
       </div>
-
-    </div>
-
-
-    <!-- TODO split popups to other .htmls -->
-
-    <!-- Login pupup -->
-    <div id="login-popup" class="popup">
-
-      <a href="#" class="popup-close-button" onclick="closePopups()">X</a>
-
-      <h2>Zaloguj się</h2>
-
-      <input type="text" placeholder="Username" id="login-username-input" value="test01">
-      <input type="password" placeholder="Password" id="login-password-input" value="test01">
-
-      <a href="#" class="button" onclick="login()" >Zaloguj się</a>
-
-      <a id="login-error-text-field"></a>
-
-    </div>
-
-    <!-- Signin pupup -->
-    <div id="signup-popup" class="popup">
-
-      <a href="#" class="popup-close-button" onclick="closePopups()">X</a>
-
-      <h2>Zarejestruj się</h2>
-
-      <input type="text" placeholder="Username" id="signup-username-input" value="test02">
-      <input type="password" placeholder="Password" id="signup-password-input" value="test02">
-      <input type="password" placeholder="Confirm password" id="confirm-signup-password-input" value="test02">
-
-      <a href="#" class="button" onclick="signup()">Zarejestruj się</a>
-
-      <a id="signup-error-text-field"></a>
-
-    </div>
-
-    <!-- Add new item pupup -->
-    <div id="add-item-popup" class="popup">
-
-      <a href="#" class="popup-close-button" onclick="closePopups()">X</a>
-
-      <h2>Dodaj przedmiot na sprzedaż</h2>
-
-      <input type="text" placeholder="Nazwa przedmiotu" id="item-name-input" value="itemTestName">
-      <input type="text" placeholder="Opis przedmiotu" id="item-description-input" value="itemTestDescription">
-      <input type="number" placeholder="Cena" id="item-price-input" value=100>
-
-      <a href="#" class="button" onclick="addItem()" >Dodaj przedmiot na sprzedaż</a>
-
-      <a id="add-item-error-text-field"></a>
 
     </div>
 
