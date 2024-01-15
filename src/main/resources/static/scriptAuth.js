@@ -38,7 +38,12 @@ function login() {
     if (response.ok) {
       return response.json().then(data => {
         for (const key in data) {
-          localStorage.setItem(key, data[key]); //TODO make it session
+          if (key === "roles") {
+            const roleAuthorities = data[key].map(role => role.authority);
+            localStorage.setItem(key, JSON.stringify(roleAuthorities));
+          } else {
+            localStorage.setItem(key, data[key]); // TODO make it session
+          }
         }
         closePopups();
         fillUserData();
