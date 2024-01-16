@@ -128,3 +128,14 @@ function signOut() { //TODO make it so it deletes session
   localStorage.clear();
   window.location.reload();
 }
+
+/*============
+  status check
+============*/
+
+function isUserLoggedIn() {
+    var token = localStorage.getItem('token');
+    var id = localStorage.getItem('id');
+    return token && id;
+}
+
