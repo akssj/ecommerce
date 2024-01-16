@@ -1,4 +1,7 @@
 # MyFirstWebApp aka alledrogo
+
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/014859f3-1ddf-45ab-a743-2ab4efbf391e)
+
 ## Intro
 This is an attempt to make a scalable web app using rest api. 
 Technologies and code itself is not well-thought-out due to lack of knowledge about any of this. 
