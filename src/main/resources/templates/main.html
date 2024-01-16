@@ -1,71 +1,138 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <title>alledrogo</title>
-    <link rel="stylesheet" type="text/css" href="/static/styles.css">
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-  </head>
+<head>
+  <title>alledrogo</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
 
-  <!-- scripts -->
-  <script src="/static/scriptProduct.js"></script>
-  <script src="/static/scriptAuth.js"></script>
-  <script src="/static/scriptPopup.js"></script>
-  <script src="/static/scriptAuthConfirmation.js"></script>
-  <script src="/static/scriptProductHandling.js"></script>
-  <script src="/static/scriptCreateLoginPopup.js"></script>
-  <script src="/static/scriptCreateProductPopup.js"></script>
-  <script src="/static/scriptCreateSignupPopup.js"></script>
+<body>
+  <!-- main body -->
+  <div class="Container">
 
-  <body>
+    <!-- fill for nav bar-->
+    <div class="row-2" style="height: 50px;"></div>
 
-    <!-- main body -->
-    <div class="container">
+    <!-- Main page nav bar-->
+    <div class="row-2 position-fixed fixed-top d-flex justify-content-end">
+      <!-- Login options-->
+      <div class="mb-3">
+        <a href="#" class="btn btn-primary btn-block" onclick="createLoginPopup()" id="main-page-login-button">Zaloguj się</a>
+      </div>
+    </div>
 
-      <!-- Main page left column-->
-      <div class="left-column">
+    <div class="row">
 
-        <div>
-          <a href="#" class="button" onclick="createLoginPopup()" id="main-page-login-button">Zaloguj się</a>
-          <a href="#" class="button" onclick="createSignupPopup()" id="main-page-signup-button">Zarejestruj się</a>
-          <a href="#" class="button" onclick="signOut()">Wyloguj się</a>
+      <!-- Fill for left column -->
+      <div class="col-2"></div>
+
+      <!-- Main page left column -->
+      <div class="col-2 position-fixed fixed-left">
+
+        <!-- Product category -->
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Kategoria 1</h5>
+            <ul class="list-unstyled category-list">
+              <li>Podkategoria 1.1</li>
+              <li>Podkategoria 1.2</li>
+              <li>Podkategoria 1.3</li>
+            </ul>
+          </div>
         </div>
 
       </div>
 
       <!-- Main page middle column -->
-      <div class="middle-column">
+      <div class="col">
 
-        <h1 style="text-align: center;">Przedmioty na sprzedaż</h1>
-        <ul id="product-list"></ul>
+        <h1 class="text-center">Przedmioty na sprzedaż</h1>
+        <ul id="product-list" class="list-group"></ul>
+
+      </div>
+
+      <!-- Fill for right column -->
+      <div class="col-2"></div>
+
+      <!-- Main page right column -->
+      <div class="col-2 position-fixed fixed-right">
+
+        <!-- User data -->
+        <div class="mb-3">
+          <div class="row">
+            <div class="col">
+              <a>ID:</a>
+            </div>
+            <div class="col-8">
+              <a class="btn btn-info btn-block" id="current_user_id"></a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <a>Username:</a>
+            </div>
+            <div class="col-8">
+              <a class="btn btn-info btn-block" id="current_user_username"></a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <a>Role:</a>
+            </div>
+            <div class="col-8">
+              <a class="btn btn-info btn-block" id="current_user_role"></a>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <a>Balance:</a>
+            </div>
+            <div class="col-8">
+              <a class="btn btn-info btn-block" id="current_user_balance"></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout option-->
+        <div class="mb-3">
+          <a href="#" class="btn btn-primary btn-block" id="logoutButton" style="display: none;" onclick="signOut()">Wyloguj się</a>
+        </div>
+
+        <!-- Adding item -->
+        <div class="mb-3">
+          <a href="#" class="btn btn-success btn-block" id="addItemButton" style="display: none;" onclick="createProductPopup()">Dodaj przedmiot</a>
+        </div>
+
+        <!-- Products bought by the user -->
+        <div class="mb-3">
+          <a class="text-center" id="boughtItemsTextField"></a>
+          <ul id="bought-product-list" class="list-group"></ul>
+        </div>
 
       </div>
 
-      <!--Main page right column -->
-      <div class="right-column">
-
-        <!--User data -->
-        <div>
-          <a>ID</a>       <a class="button" id="current_user_id">Not logged in</a>
-          <a>Username</a> <a class="button" id="current_user_username">Not logged in</a>
-          <a>Roles</a>    <a class="button" id="current_user_role">Not logged in</a>
-          <a>Balance</a>  <a class="button" id="current_user_balance">Not logged in</a>
-        </div>
-
-        <div>
-          <a href="#" class="button" onclick="createProductPopup()"  id="main-page-add-product-button">Dodaj przedmiot</a>
-        </div>
-
-        <!--products bought by user -->
-        <div>
-          <a style="text-align: center;" id="boughtItemsTextField"></a>
-          <ul id="bought-product-list"></ul>
-        </div>
-
-      </div>
 
     </div>
 
-  </body>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- Your existing scripts -->
+<script src="/static/scriptProduct.js"></script>
+<script src="/static/scriptAuth.js"></script>
+<script src="/static/scriptPopup.js"></script>
+<script src="/static/scriptAuthConfirmation.js"></script>
+<script src="/static/scriptProductHandling.js"></script>
+<script src="/static/scriptCreateLoginPopup.js"></script>
+<script src="/static/scriptCreateProductPopup.js"></script>
+<script src="/static/scriptCreateSignupPopup.js"></script>
+<script src="/static/scriptDisplayAfterLogin.js"></script>
+
+</body>
 
 </html>

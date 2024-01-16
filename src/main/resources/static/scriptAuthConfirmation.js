@@ -7,7 +7,7 @@
   async function performUserStatusCheck() {
 
     const token = localStorage.getItem('token');
-    Long id = localStorage.getItem('id');
+    const id = localStorage.getItem('id');
 
     const requestUserStatusCheck = {
       method: 'GET',

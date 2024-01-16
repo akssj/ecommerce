@@ -39,6 +39,16 @@ function createLoginPopup() {
     login();
   };
 
+  var signupButton = document.createElement('a');
+  signupButton.href = '#';
+  signupButton.className = 'button';
+  signupButton.innerHTML = 'Signup';
+  signupButton.onclick = function() {
+    createSignupPopup();
+    closePopups('login-popup', 'login-error-text-field');
+  };
+  signupButton.id = 'main-page-signup-button';
+
   var errorTextField = document.createElement('a');
   errorTextField.id = 'login-error-text-field';
 
@@ -47,6 +57,7 @@ function createLoginPopup() {
   loginPopup.appendChild(usernameInput);
   loginPopup.appendChild(passwordInput);
   loginPopup.appendChild(loginButton);
+  loginPopup.appendChild(signupButton);
   loginPopup.appendChild(errorTextField);
 
   document.body.appendChild(loginPopup);
