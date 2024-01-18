@@ -4,62 +4,47 @@ fill site with products
       on refresh
 ======================*/
 
-fetch('http://localhost:8080/product/forSale')
-  .then(res => {
-    return res.json();
-  })
-  .then(data => {
-    const ProductList = document.getElementById('product-list');
+  fetch('http://localhost:8080/product/forSale')
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      const ProductTable = document.getElementById('product-table');
 
-    data.forEach(item => {
-      const Div = document.createElement('div');
-      Div.classList.add('list-item', 'card', 'mb-3');
+      data.forEach(item => {
+        const row = ProductTable.insertRow();
 
-      const CardBody = document.createElement('div');
-      CardBody.classList.add('card-body');
+        const cellName = row.insertCell(0);
+        const cellCreator = row.insertCell(1);
+        const cellDescription = row.insertCell(2);
+        const cellPrice = row.insertCell(3);
+        const cellButtons = row.insertCell(4);
 
-      const Title = document.createElement('h5');
-      Title.classList.add('card-title');
-      Title.textContent = `${item.name}`;
+        cellName.textContent = item.name;
+        cellCreator.textContent = item.creator;
+        cellDescription.textContent = item.description;
+        cellPrice.textContent = item.price;
 
-      const Creator = document.createElement('p');
-      Creator.classList.add('card-text');
-      Creator.textContent = `Creator: ${item.creator}`;
+        const buyButton = document.createElement('button');
+        buyButton.textContent = 'Kup';
+        buyButton.classList.add('btn', 'btn-success', 'mr-2');
+        buyButton.dataset.itemId = item.id;
+        buyButton.addEventListener('click', buyItem);
 
-      const Description = document.createElement('p');
-      Description.classList.add('card-text');
-      Description.textContent = `Description: ${item.description}`;
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Usuń';
+        deleteButton.classList.add('btn', 'btn-danger');
+        deleteButton.dataset.itemId = item.id;
+        deleteButton.addEventListener('click', deleteItem);
 
-      const Price = document.createElement('p');
-      Price.classList.add('card-text');
-      Price.textContent = `Price: ${item.price}`;
-
-      const BuyButton = document.createElement('button');
-      BuyButton.textContent = 'Kup';
-      BuyButton.classList.add('btn', 'btn-success', 'mr-2');
-      BuyButton.dataset.itemId = item.id;
-      BuyButton.addEventListener('click', buyItem);
-
-      const DeleteButton = document.createElement('button');
-      DeleteButton.textContent = 'Usuń';
-      DeleteButton.classList.add('btn', 'btn-danger');
-      DeleteButton.dataset.itemId = item.id;
-      DeleteButton.addEventListener('click', deleteItem);
-
-      CardBody.appendChild(Title);
-      CardBody.appendChild(Creator);
-      CardBody.appendChild(Description);
-      CardBody.appendChild(Price);
-      CardBody.appendChild(BuyButton);
-      CardBody.appendChild(DeleteButton);
-
-      Div.appendChild(CardBody);
-      ProductList.appendChild(Div);
+        cellButtons.appendChild(buyButton);
+        cellButtons.appendChild(deleteButton);
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+
 
 
 /*=====================
@@ -89,7 +74,6 @@ function createRequest(){
     })
     .then(data => {
         const DataList = document.getElementById('bought-product-list');
-        document.getElementById('boughtItemsTextField').textContent = "Kupione przedmioty";
 
       data.forEach(item => {
         const Div = document.createElement('div');

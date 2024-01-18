@@ -1,124 +1,105 @@
-  
-/*==============
-  login request
-==============*/ 
+
+/*============
+login request
+============*/
+document.getElementById('registerFormContent').addEventListener('submit', function (e) {
+  e.preventDefault();
+  signup();
+});
 
 function login() {
-  const Username = document.getElementById('login-username-input').value;
-  const Password = document.getElementById('login-password-input').value;
+  const form = document.getElementById('login-form');
+  const usernameInput = document.getElementById('DropdownFormUsername');
+  const passwordInput = document.getElementById('DropdownFormPassword');
 
-  const LoginErrorTextField = document.getElementById('login-error-text-field');
-
-  try{
-    if (Username === "" || Username === "") {
-      LoginErrorTextField.innerText = "Fill empty filed!";
-      throw new Error("Fill empty filed!");
-    }
-  }catch(error){
-    return;
-  }
-
-  const LoginData = {
-    username: Username,
-    password: Password
+  const loginData = {
+    username: usernameInput.value,
+    password: passwordInput.value
   };
 
-  const JsonLoginData = JSON.stringify(LoginData);
+  const jsonLoginData = JSON.stringify(loginData);
 
-  const RequestLogin = {
+  const requestLogin = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JsonLoginData
+    body: jsonLoginData
   };
 
-  fetch('http://localhost:8080/auth/login', RequestLogin)
-  .then(response => {
-    if (response.ok) {
-      return response.json().then(data => {
-        for (const key in data) {
-          if (key === "roles") {
-            const roleAuthorities = data[key].map(role => role.authority);
-            localStorage.setItem(key, JSON.stringify(roleAuthorities));
-          } else {
-            localStorage.setItem(key, data[key]); // TODO make it session
+  fetch('http://localhost:8080/auth/login', requestLogin)
+    .then(response => {
+      if (response.ok) {
+        return response.json().then(data => {
+          for (const key in data) {
+            if (key === "roles") {
+              const roleAuthorities = data[key].map(role => role.authority);
+              localStorage.setItem(key, JSON.stringify(roleAuthorities));
+            } else {
+              localStorage.setItem(key, data[key]);
+            }
           }
-        }
-        closePopups();
-        fillUserData();
-        window.location.reload();
-      });
-    } else {
-      return response.json().then( data => {
-        const errorMessage = data.message;
-        LoginErrorTextField.innerText = errorMessage;
-        throw new Error(errorMessage);
-      });
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
-};
-
+          document.getElementById('loggedOffDropdown').classList.add('d-none');
+          document.getElementById('loggedInDropdown').classList.remove('d-none');
+        });
+      } else {
+        return response.json().then(data => {
+          const errorMessage = data.message;
+          alert(errorMessage);
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
 
 /*============
 signup request
 ============*/
+document.getElementById('registerFormContent').addEventListener('submit', function (e) {
+  e.preventDefault();
+  signup();
+});
 
 function signup() {
-  const Username = document.getElementById('signup-username-input').value;
-  const Password = document.getElementById('signup-password-input').value;
-  const ConfirmPassword = document.getElementById('confirm-signup-password-input').value;
+  const form = document.getElementById('registerFormContent');
+  const usernameInput = document.getElementById('DropdownFormUsernameRegister');
+  const passwordInput = document.getElementById('DropdownFormPasswordRegister');
+  const confirmPasswordInput = document.getElementById('DropdownFormPasswordRegisterConfirm');
 
-  const SignupErrorTextField = document.getElementById('signup-error-text-field');
-
-  try{
-    if (Username === "" || Password === "") {
-      SignupErrorTextField.innerText = "Fill empty fileds";
-      throw new Error("Fill empty fileds");
-    }
-    if (Password !== ConfirmPassword) {
-      SignupErrorTextField.innerText = "Passwords does not match";
-      throw new Error("Passwords does not match");
-    }
-  }catch(error){
-    return;
-  }
-
-  const SignupData = {
-    username: Username,
-    password: Password
+  const signupData = {
+    username: usernameInput.value,
+    password: passwordInput.value
   };
 
-  const JsonSignupData = JSON.stringify(SignupData);
+  const jsonSignupData = JSON.stringify(signupData);
 
-  const RequestSignup = {
+  const requestSignup = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JsonSignupData
+    body: jsonSignupData
   };
 
-  fetch('http://localhost:8080/auth/signup', RequestSignup)
-  .then(response => {
-    if (response.ok) {
-      closePopups();
-      return response.json();   //TODO make it so you are logged in after signup
-    }else{
-      return response.json().then( data => {
-        const errorMessage = data.message;
-        SignupErrorTextField.innerText = errorMessage;
-        throw new Error(errorMessage);
-      });
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
-};
+  fetch('http://localhost:8080/auth/signup', requestSignup)
+    .then(response => {
+      if (response.ok) {
+        return response.json(); // TODO: make it so you are logged in after signup
+      } else {
+        return response.json().then(data => {
+          const errorMessage = data.message;
+          alert(errorMessage);
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
 
 /*============
   sign out
@@ -138,4 +119,3 @@ function isUserLoggedIn() {
     var id = localStorage.getItem('id');
     return token && id;
 }
-

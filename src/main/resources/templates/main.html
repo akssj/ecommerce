@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
   <title>alledrogo</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
 </head>
@@ -12,126 +12,148 @@
   <!-- main body -->
   <div class="Container">
 
-    <!-- fill for nav bar-->
-    <div class="row-2" style="height: 50px;"></div>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
 
-    <!-- Main page nav bar-->
-    <div class="row-2 position-fixed fixed-top d-flex justify-content-end">
-      <!-- Login options-->
-      <div class="mb-3">
-        <a href="#" class="btn btn-primary btn-block" onclick="createLoginPopup()" id="main-page-login-button">Zaloguj się</a>
+        <!-- Brand -->
+        <a class="navbar-brand" href="#">Alledrogo</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <!-- Nav dropdowns -->
+          <div class="dropdown ms-auto" id="loggedOffDropdown">
+
+            <!-- Logged Off Dropdown -->
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" data-bs-auto-close="outside">
+              Account
+            </button>
+            <div class="dropdown-menu p-4 larger-dropdown-menu dropdown-menu-end" id="login-form">
+
+              <!-- Log in Dropdown -->
+              <div id="loginFormContent">
+                <div class="mb-3">
+                  <label for="DropdownFormUsername" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="DropdownFormUsername" placeholder="Your username" required>
+                  <div class="invalid-feedback">Please enter a Username</div>
+                </div>
+                <div class="mb-3">
+                  <label for="DropdownFormPassword" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="DropdownFormPassword" placeholder="Your password" required>
+                  <div class="invalid-feedback">Please enter a Password</div>
+                </div>
+                <div class="d-grid gap-2">
+                  <button type="button" class="btn btn-primary" onclick="login()">Sign in</button>
+                </div>
+                <div class="text-center">
+                  <p>Not a member? <a href="#" onclick="showRegisterForm()">Register</a></p>
+                </div>
+              </div>
+
+              <!-- Sign up Dropdown -->
+              <div id="registerFormContent" style="display: none;">
+                <div class="mb-3">
+                  <label for="DropdownFormUsernameRegister" class="form-label">Username</label>
+                  <input type="text" class="form-control" id="DropdownFormUsernameRegister" placeholder="Create username" required>
+                  <div class="invalid-feedback">Please enter a Username</div>
+                </div>
+                <div class="mb-3">
+                  <label for="DropdownFormPasswordRegister" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="DropdownFormPasswordRegister" placeholder="Create password" required>
+                  <div class="invalid-feedback">Please enter a Password</div>
+                </div>
+                <div class="mb-3">
+                  <label for="DropdownFormPasswordRegisterConfirm" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="DropdownFormPasswordRegisterConfirm" placeholder="Confirm password" required>
+                  <div class="invalid-feedback">Please reenter a Password</div>
+                </div>
+                <div class="d-grid gap-2">
+                  <button type="button" class="btn btn-primary" onclick="signup()">Sign up</button>
+                </div>
+                <div class="text-center">
+                  <p>member? <a href="#" onclick="showLoginForm()">Log in</a></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Logged In Dropdown -->
+            <div class="dropdown ms-auto d-none" id="loggedInDropdown">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" data-bs-auto-close="outside">
+                Account
+              </button>
+              <ul class="dropdown-menu p-4 larger-dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">My data</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">My Products</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Bought Products</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Log out</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </nav>
 
-    <div class="row">
+    <div class="row align-items-start">
 
       <!-- Fill for left column -->
       <div class="col-2"></div>
 
       <!-- Main page left column -->
       <div class="col-2 position-fixed fixed-left">
-
-        <!-- Product category -->
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Kategoria 1</h5>
-            <ul class="list-unstyled category-list">
-              <li>Podkategoria 1.1</li>
-              <li>Podkategoria 1.2</li>
-              <li>Podkategoria 1.3</li>
-            </ul>
-          </div>
+        <div class="d-grid gap-2 dropend">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropend
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Menu item</a></li>
+            <li><a class="dropdown-item" href="#">Menu item</a></li>
+            <li><a class="dropdown-item" href="#">Menu item</a></li>
+          </ul>
         </div>
-
+        <div class="d-grid gap-2 dropend">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropend
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Menu item</a></li>
+            <li><a class="dropdown-item" href="#">Menu item</a></li>
+            <li><a class="dropdown-item" href="#">Menu item</a></li>
+          </ul>
+        </div>
       </div>
 
       <!-- Main page middle column -->
       <div class="col">
-
-        <h1 class="text-center">Przedmioty na sprzedaż</h1>
-        <ul id="product-list" class="list-group"></ul>
-
+        <h2>Items for Sale</h2>
+        <table id="product-table" class="table">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Creator</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+            <th scope="col">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
-
-      <!-- Fill for right column -->
-      <div class="col-2"></div>
-
-      <!-- Main page right column -->
-      <div class="col-2 position-fixed fixed-right">
-
-        <!-- User data -->
-        <div class="mb-3">
-          <div class="row">
-            <div class="col">
-              <a>ID:</a>
-            </div>
-            <div class="col-8">
-              <a class="btn btn-info btn-block" id="current_user_id"></a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <a>Username:</a>
-            </div>
-            <div class="col-8">
-              <a class="btn btn-info btn-block" id="current_user_username"></a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <a>Role:</a>
-            </div>
-            <div class="col-8">
-              <a class="btn btn-info btn-block" id="current_user_role"></a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <a>Balance:</a>
-            </div>
-            <div class="col-8">
-              <a class="btn btn-info btn-block" id="current_user_balance"></a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Logout option-->
-        <div class="mb-3">
-          <a href="#" class="btn btn-primary btn-block" id="logoutButton" style="display: none;" onclick="signOut()">Wyloguj się</a>
-        </div>
-
-        <!-- Adding item -->
-        <div class="mb-3">
-          <a href="#" class="btn btn-success btn-block" id="addItemButton" style="display: none;" onclick="createProductPopup()">Dodaj przedmiot</a>
-        </div>
-
-        <!-- Products bought by the user -->
-        <div class="mb-3">
-          <a class="text-center" id="boughtItemsTextField"></a>
-          <ul id="bought-product-list" class="list-group"></ul>
-        </div>
-
-      </div>
-
-
     </div>
-
   </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-<!-- Your existing scripts -->
-<script src="/static/scriptProduct.js"></script>
-<script src="/static/scriptAuth.js"></script>
-<script src="/static/scriptPopup.js"></script>
-<script src="/static/scriptAuthConfirmation.js"></script>
-<script src="/static/scriptProductHandling.js"></script>
-<script src="/static/scriptCreateLoginPopup.js"></script>
-<script src="/static/scriptCreateProductPopup.js"></script>
-<script src="/static/scriptCreateSignupPopup.js"></script>
-<script src="/static/scriptDisplayAfterLogin.js"></script>
+  <script src="/static/scriptProduct.js"></script>
+  <script src="/static/scriptAuth.js"></script>
+  <script src="/static/scriptAuthConfirmation.js"></script>
+  <script src="/static/scriptProductHandling.js"></script>
+  <script src="/static/scriptDropdownHandling.js"></script>
+
 
 </body>
 
