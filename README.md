@@ -12,36 +12,33 @@ Project documentation:
 https://akssj.github.io/MyFirstWebApp/index.html
 
 ## Features
-+ Single page web app with api to change page content (I might want to change that)
-+ Login, Signup (authentication)
-+ User data saved in session(local storage at this point)
-+ buy, sell, list for sale products - for everyone to see!(TODO authorization need roles and such)
++ REST API webapp
++ Login (authentication)
++ JWT and User data saved in cookies
++ CRUD products, users (TODO authorization)
 + Database (User and Products tables)
-+ Some tests(Unit, integration api)
-+ Somewhat proper Documentation
++ Unit and integration api tests (Java + TestNG + REST Assured + Mockito)
++ Javadoc Documentation
 + Current task: FRONTEND :(
-+ TODO Use of some external api
-+ TODO User profile(data) page
-+ TODO Looking up other users
++ TODO external api
++ TODO User profile, product related pages
 + TODO Admin role, page, etc.
 + TODO Track user behavior
 + TODO Backend gui
 + TODO Fix bugs (ie errors after token expiration - user is not auto logged out)
 + TODO Error messages, codes
 + TODO Security
-+ TODO .gitignore
 + TODO refactor backend + Update code to be less painful to look at
 
 ## Tech
 + architecture: mvc/rest
 + Language: 
-  + Backend: Java(Spring boot, jwt)
-  + Frontend: html, css, .js
+  + Backend: Java(Spring boot, JWT)
+  + Frontend: html, css(Bootstrap), .js
 + Database: postgresql
-+ Test tech: TestNG, REST Assured
++ Test tech: TestNG, REST Assured, postman
 
 ## Api
-
 + MainPage:
 + /main - GET main page, provides main.html file
 + /static/* - GET provides .js, css files for the user
