@@ -28,11 +28,11 @@ public class ProductController {
         return productService.findForSaleProduct();
     }
     @GetMapping("/bought")
-    public  ResponseEntity<?> findBoughtProducts(@RequestHeader(name = "Authorization") String token) {
+    public  ResponseEntity<?> findBoughtProducts(@CookieValue(name = "token") String token) {
         return ResponseEntity.ok(productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token)));
     }
     @GetMapping("/sold")
-    public  ResponseEntity<?> findSoldProducts(@RequestHeader(name = "Authorization") String token) {
+    public  ResponseEntity<?> findSoldProducts(@CookieValue(name = "token") String token) {
         return ResponseEntity.ok(productService.findSoldProducts(jwtUtils.getUserNameFromJwtToken(token)));
     }
     @GetMapping("/all")

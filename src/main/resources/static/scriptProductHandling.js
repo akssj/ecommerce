@@ -64,39 +64,39 @@ function addItem() {
       Buy item 
 =====================*/
 
-function buyItem(event){
-  const ItemId = event.target.dataset.itemId;
+function buyItem(event) {
+    const itemId = event.target.dataset.itemId;
+    const token = getCookie('token');
 
-  const Token = localStorage.getItem('token');
-
-  try{
-    if (Token === null) {
-      throw new Error("You are not logged in");
+    try {
+        if (token === null) {
+            throw new Error("You are not logged in");
+        }
+        if (itemId === null) {
+            throw new Error("Item does not exist!");
+        }
+    } catch (error) {
+        console.error(error);
+        return;
     }
-    if (ItemId === null) {
-      throw new Error("Item does not exists!");
-    }
-  }catch(error){
-    return;
-  }
 
-  const RequestBuyItem = {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'Bearer '+ Token,
-      'Content-Type': 'application/json'
-    },
-  };
+    const requestBuyItem = {
+        method: 'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        },
+    };
 
-  fetch(`http://localhost:8080/product/handling/${ItemId}/buy`, RequestBuyItem)
-  .then(response => {
-    if (response.ok) {
-      performUserStatusCheck();
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    fetch(`http://localhost:8080/product/handling/${itemId}/buy`, requestBuyItem)
+        .then(response => {
+            if (response.ok) {
+                performUserStatusCheck();
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 /*=====================

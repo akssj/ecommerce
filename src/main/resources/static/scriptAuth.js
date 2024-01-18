@@ -2,9 +2,9 @@
 /*============
 login request
 ============*/
-document.getElementById('registerFormContent').addEventListener('submit', function (e) {
+document.getElementById('loginFormContent').addEventListener('submit', function (e) {
   e.preventDefault();
-  signup();
+  login();
 });
 
 function login() {
@@ -31,16 +31,8 @@ function login() {
     .then(response => {
       if (response.ok) {
         return response.json().then(data => {
-          for (const key in data) {
-            if (key === "roles") {
-              const roleAuthorities = data[key].map(role => role.authority);
-              localStorage.setItem(key, JSON.stringify(roleAuthorities));
-            } else {
-              localStorage.setItem(key, data[key]);
-            }
-          }
-          document.getElementById('loggedOffDropdown').classList.add('d-none');
-          document.getElementById('loggedInDropdown').classList.remove('d-none');
+        setCookie('loggedIn', 'true');
+        showAccountOptions();
         });
       } else {
         return response.json().then(data => {
@@ -87,7 +79,8 @@ function signup() {
   fetch('http://localhost:8080/auth/signup', requestSignup)
     .then(response => {
       if (response.ok) {
-        return response.json(); // TODO: make it so you are logged in after signup
+        setCookie('loggedIn', 'true');
+        return response.json();
       } else {
         return response.json().then(data => {
           const errorMessage = data.message;
@@ -104,18 +97,12 @@ function signup() {
 /*============
   sign out
 ============*/
-
-function signOut() { //TODO make it so it deletes session
+function signOut() {
   localStorage.clear();
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+    const [name, _] = cookie.split("=");
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure; SameSite=None`;
+  }
   window.location.reload();
-}
-
-/*============
-  status check
-============*/
-
-function isUserLoggedIn() {
-    var token = localStorage.getItem('token');
-    var id = localStorage.getItem('id');
-    return token && id;
 }

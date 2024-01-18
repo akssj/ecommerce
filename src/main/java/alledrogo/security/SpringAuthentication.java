@@ -38,7 +38,6 @@ public class SpringAuthentication {
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-       
       authProvider.setUserDetailsService(userDetailsService);
       authProvider.setPasswordEncoder(passwordEncoder());
    
@@ -66,11 +65,9 @@ public class SpringAuthentication {
                 .requestMatchers("/main").permitAll()
                 .requestMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()
-        );
-    
-    http.authenticationProvider(authenticationProvider());
-
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        )
+        .authenticationProvider(authenticationProvider())
+        .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     
     return http.build();
   }

@@ -4,45 +4,48 @@ fill site with products
       on refresh
 ======================*/
 
-  fetch('http://localhost:8080/product/forSale')
-    .then(res => {
-      return res.json();
-    })
+fetch('http://localhost:8080/product/forSale')
+    .then(res => res.json())
     .then(data => {
-      const ProductTable = document.getElementById('product-table');
+        const productTable = document.getElementById('product-table');
 
-      data.forEach(item => {
-        const row = ProductTable.insertRow();
+        data.forEach(item => {
+            const row = productTable.insertRow();
 
-        const cellName = row.insertCell(0);
-        const cellCreator = row.insertCell(1);
-        const cellDescription = row.insertCell(2);
-        const cellPrice = row.insertCell(3);
-        const cellButtons = row.insertCell(4);
+            const cellName = row.insertCell(0);
+            const cellCreator = row.insertCell(1);
+            const cellDescription = row.insertCell(2);
+            const cellPrice = row.insertCell(3);
+            const cellButtons = row.insertCell(4);
 
-        cellName.textContent = item.name;
-        cellCreator.textContent = item.creator;
-        cellDescription.textContent = item.description;
-        cellPrice.textContent = item.price;
+            cellName.textContent = item.name;
+            cellCreator.textContent = item.creator;
+            cellDescription.textContent = item.description;
+            cellPrice.textContent = item.price;
 
-        const buyButton = document.createElement('button');
-        buyButton.textContent = 'Kup';
-        buyButton.classList.add('btn', 'btn-success', 'mr-2');
-        buyButton.dataset.itemId = item.id;
-        buyButton.addEventListener('click', buyItem);
+            const buttonDiv = document.createElement('div');
+            buttonDiv.classList.add('btn-group');
 
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Usuń';
-        deleteButton.classList.add('btn', 'btn-danger');
-        deleteButton.dataset.itemId = item.id;
-        deleteButton.addEventListener('click', deleteItem);
+            const buyButton = document.createElement('button');
+            buyButton.textContent = 'Kup';
+            buyButton.classList.add('btn', 'btn-success');
+            buyButton.dataset.itemId = item.id;
+            buyButton.addEventListener('click', buyItem);
 
-        cellButtons.appendChild(buyButton);
-        cellButtons.appendChild(deleteButton);
-      });
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Usuń';
+            deleteButton.classList.add('btn', 'btn-danger');
+            deleteButton.dataset.itemId = item.id;
+            deleteButton.addEventListener('click', deleteItem);
+
+            buttonDiv.appendChild(buyButton);
+            buttonDiv.appendChild(deleteButton);
+
+            cellButtons.appendChild(buttonDiv);
+        });
     })
     .catch(error => {
-      console.error('Error:', error);
+        console.error('Error:', error);
     });
 
 

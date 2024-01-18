@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
           <!-- Nav dropdowns -->
-          <div class="dropdown ms-auto" id="loggedOffDropdown">
+          <div class="dropdown ms-auto">
 
             <!-- Logged Off Dropdown -->
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" data-bs-auto-close="outside">
@@ -50,7 +50,7 @@
               </div>
 
               <!-- Sign up Dropdown -->
-              <div id="registerFormContent" style="display: none;">
+              <div id="registerFormContent" class="d-none">
                 <div class="mb-3">
                   <label for="DropdownFormUsernameRegister" class="form-label">Username</label>
                   <input type="text" class="form-control" id="DropdownFormUsernameRegister" placeholder="Create username" required>
@@ -73,22 +73,17 @@
                   <p>member? <a href="#" onclick="showLoginForm()">Log in</a></p>
                 </div>
               </div>
-            </div>
 
-            <!-- Logged In Dropdown -->
-            <div class="dropdown ms-auto d-none" id="loggedInDropdown">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" data-bs-auto-close="outside">
-                Account
-              </button>
-              <ul class="dropdown-menu p-4 larger-dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">My data</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">My Products</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Bought Products</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Log out</a></li>
-              </ul>
+              <!-- Logged In Dropdown -->
+              <div id="loggedInContent" class="d-none">
+                <div><a class="dropdown-item" href="#">My data</a></div>
+                <div><hr class="dropdown-divider"></hr></div>
+                <div><a class="dropdown-item" href="#">My Products</a></div>
+                <div><hr class="dropdown-divider"></hr></div>
+                <div><a class="dropdown-item" href="#">Bought Products</a></div>
+                <div><hr class="dropdown-divider"></hr></div>
+                <div><a class="dropdown-item" href="#">Log out</a></div>
+              </div>
             </div>
           </div>
         </div>
@@ -104,7 +99,7 @@
       <div class="col-2 position-fixed fixed-left">
         <div class="d-grid gap-2 dropend">
           <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropend
+            Category 0
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Menu item</a></li>
@@ -114,7 +109,7 @@
         </div>
         <div class="d-grid gap-2 dropend">
           <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropend
+            Category 1
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Menu item</a></li>
@@ -148,12 +143,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-  <script src="/static/scriptProduct.js"></script>
   <script src="/static/scriptAuth.js"></script>
   <script src="/static/scriptAuthConfirmation.js"></script>
+  <script src="/static/scriptProduct.js"></script>
   <script src="/static/scriptProductHandling.js"></script>
-  <script src="/static/scriptDropdownHandling.js"></script>
-
+  <script src="/static/scriptUtility.js"></script>
 
 </body>
 

@@ -2,15 +2,14 @@ package alledrogo.controller;
 
 import alledrogo.data.entity.UserEntity;
 import alledrogo.io.request.AuthenticationRequest;
-import alledrogo.io.response.JwtResponse;
 import alledrogo.io.response.MessageResponse;
 import alledrogo.io.response.UserStatusResponse;
 import alledrogo.security.jwt.JwtUtils;
-import alledrogo.security.service.UserDetailsImpl;
 import alledrogo.service.UserService;
-import jakarta.validation.Valid;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Api endpoint class, provides /auth endpoint to provide basic authentication and manipulate user data.
@@ -43,16 +44,23 @@ public class AuthenticationController {
 
         String username = authenticationRequest.getUsername();
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username, authenticationRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, authenticationRequest.getPassword())
+        );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = new UserDetailsImpl(userService.findByUsername(username));
+        Instant expirationTime = Instant.now().plus(10, ChronoUnit.MINUTES);
+        String expirationTimeString = expirationTime.toString();
 
-        return ResponseEntity.ok(new JwtResponse(token, userDetails.getId(), username, userDetails.getAuthorities(), userDetails.getBalance()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expirationTimeString);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new MessageResponse("User logged in successfully!"));
     }
 
     @PostMapping("/signup")
@@ -68,17 +76,32 @@ public class AuthenticationController {
         boolean createUser = userService.createUser(userEntity);
 
         if (createUser){
-            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-        }else{
-            return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
-        }
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, authenticationRequest.getPassword())
+            );
 
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String token = jwtUtils.generateJwtToken(authentication);
+
+            Instant expirationTime = Instant.now().plus(10, ChronoUnit.MINUTES);
+            String expirationTimeString = expirationTime.toString();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expirationTimeString);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(new MessageResponse("User registered successfully!"));
+        }else{
+            return ResponseEntity.badRequest().body((new MessageResponse("Something went wrong!")));
+        }
     }
 
     //TODO update current user data on demand with new token
     //TODO make use of {id}
     @GetMapping("/{id}/userStatus")
-    public ResponseEntity<?> updateUserStatus(@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<?> updateUserStatus(@CookieValue(name = "token") String token) {
         try {
             UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
             return ResponseEntity.ok(new UserStatusResponse(userEntity.getId(), userEntity.getUsername(), userEntity.getRole(), userEntity.getBalance()));
@@ -127,9 +150,5 @@ public class AuthenticationController {
         }else{
             return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!"));
         }
-    }
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        return ResponseEntity.ok(new MessageResponse("existsByUsername TEST: " + userService.existsByUsername("test01")));
     }
 }
