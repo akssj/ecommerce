@@ -9,10 +9,26 @@ import org.springframework.web.servlet.ModelAndView;
  * Core application class
  */
 @RestController
-@RequestMapping("/main")
+@RequestMapping("/")
 public class AlledrogoController {
-    @GetMapping
+    @GetMapping("/main")
     public ModelAndView mainPage() {
         return new ModelAndView("main");
+    }
+    @GetMapping("/bought-products")
+    public ModelAndView boughtProducts() {
+        return new ModelAndView("bought-products");
+    }
+    @GetMapping("/my-products")
+    public ModelAndView myProducts() {
+        return new ModelAndView("my-products");
+    }
+    @GetMapping("/my-profile")
+    public ModelAndView myProfile() {
+        return new ModelAndView("my-profile");
+    }
+    @GetMapping("/category/{category}")
+    public ModelAndView filteredProducts() {
+        return new ModelAndView("category");
     }
 }

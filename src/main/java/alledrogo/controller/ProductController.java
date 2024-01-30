@@ -27,6 +27,10 @@ public class ProductController {
     public List<ProductEntity> findForSaleProducts() {
         return productService.findForSaleProduct();
     }
+    @GetMapping("/category/{category}")
+    public List<ProductEntity> findFilteredProducts( @PathVariable String category) {
+        return productService.findFilteredProducts(category);
+    }
     @GetMapping("/bought")
     public  ResponseEntity<?> findBoughtProducts(@CookieValue(name = "token") String token) {
         return ResponseEntity.ok(productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token)));
