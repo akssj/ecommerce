@@ -4,7 +4,22 @@ fill site with products
       on refresh
 ======================*/
 
-fetch('http://localhost:8080/product/forSale')
+function getApiUrl() {
+    const baseUrl = window.location.origin;
+
+    if (window.location.pathname.startsWith('/main')) {
+        return `${baseUrl}/product/forSale`;
+    }
+
+    if (window.location.pathname.startsWith('/category')) {
+        const category = window.location.pathname.split('/')[2];
+        return `${baseUrl}/product/category/${category}`;
+    }
+
+    return `${baseUrl}/product/forSale`;
+}
+
+fetch(getApiUrl())
     .then(res => res.json())
     .then(data => {
         const productTable = document.getElementById('product-table');
