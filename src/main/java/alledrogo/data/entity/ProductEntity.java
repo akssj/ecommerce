@@ -18,16 +18,19 @@ public class ProductEntity {
     private Integer price;
     @Column(name = "description")
     private String description;
+    @Column(name = "category")
+    private String category;
     @Column(name = "creator")
     private String creator;
     @Column(name = "buyer")
     private String buyer;
 
     public ProductEntity() {}
-    public ProductEntity(String name, Integer price, String description, String creator) {
+    public ProductEntity(String name, Integer price, String description, String category, String creator) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.category = category;
         this.creator = creator;
         this.buyer = "";
     }
@@ -40,12 +43,10 @@ public class ProductEntity {
     public void setPrice(Integer price) {this.price = price;}
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
-    public String getCreator() {
-        return creator;
-    }
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
+    public String getCategory() {return category;}
+    public void setCategory(String category) {this.category = category;}
+    public String getCreator() {return creator;}
+    public void setCreator(String creator) {this.creator = creator;}
     public String getBuyer() {return buyer;}
     public void setBuyer(String buyer) {this.buyer = buyer;}
 }

@@ -23,11 +23,6 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
-    @Override
-    public List<ProductEntity> findAllProduct() {
-        return productRepository.findAll();
-    }
-
     /**
      * Returns not sold products
      * @return list of products where String Buyer field equals ""
@@ -39,6 +34,24 @@ public class ProductServiceImpl implements ProductService {
 
         for (ProductEntity product : allProducts) {
             if ("".equals(product.getBuyer())) {
+                filteredProducts.add(product);
+            }
+        }
+        return filteredProducts;
+    }
+
+    /**
+     * Returns not sold products from single category
+     * @param category String name of category
+     * @return list of products where String Buyer field equals "" and category equals provided category
+     */
+    @Override
+    public List<ProductEntity> findFilteredProducts(String category) {
+        List<ProductEntity> allProducts = productRepository.findAll();
+        List<ProductEntity> filteredProducts = new ArrayList<>();
+
+        for (ProductEntity product : allProducts) {
+            if ("".equals(product.getBuyer()) && category.equals(product.getCategory())) {
                 filteredProducts.add(product);
             }
         }
@@ -80,6 +93,11 @@ public class ProductServiceImpl implements ProductService {
         }
         return filteredProducts;
     }
+    @Override
+    public List<ProductEntity> findAllProduct() {
+        return productRepository.findAll();
+    }
+
     @Override
     public ProductEntity findById(Long id) {
         return productRepository.findById(id).orElseThrow(() ->

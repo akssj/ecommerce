@@ -45,6 +45,7 @@ public class ProductHandlerController {
             addProductRequest.getName(),
             addProductRequest.getPrice(),
             addProductRequest.getDescription(),
+            addProductRequest.getCategory(),
             jwtUtils.getUserNameFromJwtToken(token)
         );
 

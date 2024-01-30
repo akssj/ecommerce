@@ -13,6 +13,8 @@ public class AddProductRequest{
     private Integer price;
     @NotBlank
     private String description;
+    @NotBlank
+    private String category;
 
 
     public String getName() {return name;}
@@ -21,5 +23,6 @@ public class AddProductRequest{
     public void setPrice(Integer price) {this.price = price;}
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
-
+    public String getCategory() {return category;}
+    public void setCategory(String category) {this.category = category;}
 }
