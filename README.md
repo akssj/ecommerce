@@ -38,24 +38,13 @@ https://akssj.github.io/MyFirstWebApp/index.html
 + Database: postgresql
 + Test tech: TestNG, REST Assured, postman
 
-## Api
-+ MainPage:
-+ /main - GET main page, provides main.html file
-+ /static/* - GET provides .js, css files for the user
-+ USER RELATED: /auth + :
-+ /login - POST self-explanatory
-+ /signup - POST self-explanatory
-+ /{id}/userStatus - GET provide user with current account data
-+ /{id}/delete - DELETE deletes current user account
-+ /{id}/update - PUT update current user account data
-+ PRODUCT RELATED: /product + :
-+ /forSale - GET provides list of products available to buy
-+ /bought - GET provides list of products bought by current user
-+ /sold - GET provides list of products sold by current user
-+ /all - GET provides list of all the products
-+ /handling/add - POST adds product for sale
-+ /handling/{id}/delete - DELETE delete product created by current user
-+ /handling/{id}/buy - PUT buy product created by other user
+## Run
+- Import project to IntelliJ IDEA.
+- Download and install PostgresSQL from https://www.postgresql.org/
+- Run project from IntelliJ IDEA.
+- Acess web app at http://localhost:8080/main
 
+- Alternatively, you may compile the application and run it.
+- To disable it find it in task manager and kill it.
 
 
