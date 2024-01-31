@@ -1,5 +1,6 @@
 package alledrogo.controller;
 
+import alledrogo.data.entity.CategoryEntity;
 import alledrogo.data.entity.UserEntity;
 import alledrogo.io.request.AddProductRequest;
 import alledrogo.io.response.MessageResponse;
@@ -13,6 +14,8 @@ import alledrogo.data.entity.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * Api endpoint class, provides /product/handling endpoint to manipulate products in database.
@@ -31,6 +34,11 @@ public class ProductHandlerController {
         this.productHandlingService = productHandlingService;
         this.userService = userService;
         this.jwtUtils = jwtUtils;
+    }
+
+    @GetMapping("/categories")
+    public Collection<CategoryEntity> getCategoryCollection() {
+        return ProductCategoryValidator.getCategories();
     }
 
     /**
