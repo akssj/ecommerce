@@ -7,6 +7,7 @@ import alledrogo.security.jwt.JwtUtils;
 import alledrogo.service.ProductHandlingService;
 import alledrogo.service.ProductService;
 import alledrogo.service.UserService;
+import alledrogo.utility.ProductCategoryValidator;
 import jakarta.validation.Valid;
 import alledrogo.data.entity.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,10 @@ public class ProductHandlerController {
      */
     @PostMapping("/add")
     public ResponseEntity<?> saveProduct(@Valid @RequestBody AddProductRequest addProductRequest, @CookieValue(name = "token") String token) {
+
+        if (!ProductCategoryValidator.isCategoryValid(addProductRequest.getCategory())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid category."));
+        }
 
         ProductEntity newProduct = new ProductEntity(
             addProductRequest.getName(),

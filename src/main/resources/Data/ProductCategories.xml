@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Alledrogo>
+    <Categories>
+        <MainCategory name="Electronics">
+            <SubCategory name="Televisions"/>
+            <SubCategory name="Smartphones"/>
+        </MainCategory>
+
+        <MainCategory name="HomeAndGarden">
+            <SubCategory name="Furniture"/>
+            <SubCategory name="GardenTools"/>
+        </MainCategory>
+
+        <MainCategory name="Fashion">
+            <SubCategory name="Women"/>
+            <SubCategory name="Men"/>
+        </MainCategory>
+    </Categories>
+</Alledrogo>
