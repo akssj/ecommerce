@@ -9,6 +9,7 @@ import java.util.List;
 public interface ProductService {
     List<ProductEntity> findForSaleProduct();
     List<ProductEntity> findFilteredProducts(String category);
+    List<ProductEntity> findMyProducts(String username);
     List<ProductEntity> findBoughtProducts(String username);
     List<ProductEntity> findSoldProducts(String username);
     List<ProductEntity> findAllProduct();

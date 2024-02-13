@@ -59,6 +59,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
+     * Returns products created by the user
+     * @param username string
+     * @return list of products where Creator field equals "username"
+     */
+    @Override
+    public List<ProductEntity> findMyProducts(String username) {
+        List<ProductEntity> allProducts = productRepository.findAll();
+        List<ProductEntity> filteredProducts = new ArrayList<>();
+
+        for (ProductEntity product : allProducts) {
+            if (username.equals(product.getCreator())) {
+                filteredProducts.add(product);
+            }
+        }
+        return filteredProducts;
+    }
+
+    /**
      * Returns products bought by the user
      * @param username string
      * @return list of products where Buyer field equals "username"

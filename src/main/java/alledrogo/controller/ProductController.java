@@ -31,7 +31,11 @@ public class ProductController {
     public List<ProductEntity> findFilteredProducts( @PathVariable String category) {
         return productService.findFilteredProducts(category);
     }
-    @GetMapping("/bought")
+    @GetMapping("/my-products")
+    public List<ProductEntity> findMyProducts(@CookieValue(name = "token") String token) {
+        return productService.findMyProducts(jwtUtils.getUserNameFromJwtToken(token));
+    }
+    @GetMapping("/bought-products")
     public  ResponseEntity<?> findBoughtProducts(@CookieValue(name = "token") String token) {
         return ResponseEntity.ok(productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token)));
     }
