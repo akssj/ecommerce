@@ -16,6 +16,14 @@ function getApiUrl() {
         return `${baseUrl}/product/category/${category}`;
     }
 
+    if (window.location.pathname.startsWith('/my-products')) {
+        return `${baseUrl}/product/my-products`;
+    }
+
+    if (window.location.pathname.startsWith('/bought-products')) {
+        return `${baseUrl}/product/bought-products`;
+    }
+
     return `${baseUrl}/product/forSale`;
 }
 
@@ -23,20 +31,20 @@ fetch(getApiUrl())
     .then(res => res.json())
     .then(data => {
         const productTable = document.getElementById('product-table');
+        const headerRow = productTable.querySelector('thead tr');
+        const columnNames = Array.from(headerRow.children).map(cell => cell.textContent);
 
         data.forEach(item => {
             const row = productTable.insertRow();
 
-            const cellName = row.insertCell(0);
-            const cellCreator = row.insertCell(1);
-            const cellDescription = row.insertCell(2);
-            const cellPrice = row.insertCell(3);
-            const cellButtons = row.insertCell(4);
+            columnNames.forEach((columnName, index) => {
+                if (item.hasOwnProperty(columnName.toLowerCase())) {
+                    const cell = row.insertCell(index);
+                    cell.textContent = item[columnName.toLowerCase()];
+                }
+            });
 
-            cellName.textContent = item.name;
-            cellCreator.textContent = item.creator;
-            cellDescription.textContent = item.description;
-            cellPrice.textContent = item.price;
+            const cellButtons = row.insertCell(-1);
 
             const buttonDiv = document.createElement('div');
             buttonDiv.classList.add('btn-group');
@@ -55,7 +63,6 @@ fetch(getApiUrl())
 
             buttonDiv.appendChild(buyButton);
             buttonDiv.appendChild(deleteButton);
-
             cellButtons.appendChild(buttonDiv);
         });
     })
@@ -63,49 +70,3 @@ fetch(getApiUrl())
         console.error('Error:', error);
     });
 
-
-
-/*=====================
-fill site with users                      
-  bought products
-======================*/
-
-//TODO make it fetch only if logged in
-
-function createRequest(){
-
-    const token = localStorage.getItem('token');
-
-    const RequestUserBoughtProductList = {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-        }
-    }
-    return RequestUserBoughtProductList;
-}
-
-  fetch('http://localhost:8080/product/bought', createRequest())
-    .then(res => {
-      return res.json();
-    })
-    .then(data => {
-        const DataList = document.getElementById('bought-product-list');
-
-      data.forEach(item => {
-        const Div = document.createElement('div');
-        Div.classList.add('list-item');
-
-        Div.textContent = `
-          ${item.id}.
-          ${item.name}
-          Description: ${item.description}
-          Creator: ${item.creator}
-        `;
-        DataList.appendChild(Div);
-      });
-    })
-    .catch(error => {
-      console.error('Error:', error);
-  });
