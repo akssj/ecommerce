@@ -8,21 +8,21 @@ import javax.validation.constraints.NotNull;
  */
 public class AddProductRequest{
     @NotBlank
-    private String name;
+    private String newProductName;
     @NotNull
-    private Integer price;
+    private Float newProductPrice;
     @NotBlank
-    private String description;
+    private String newProductDescription;
     @NotBlank
-    private String category;
+    private String newProductCategory;
 
 
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
-    public Integer getPrice() {return price;}
-    public void setPrice(Integer price) {this.price = price;}
-    public String getDescription() {return description;}
-    public void setDescription(String description) {this.description = description;}
-    public String getCategory() {return category;}
-    public void setCategory(String category) {this.category = category;}
+    public String getNewProductName() {return newProductName;}
+    public void setNewProductName(String newProductName) {this.newProductName = newProductName;}
+    public Float getNewProductPrice() {return newProductPrice;}
+    public void setNewProductPrice(Float newProductPrice) {this.newProductPrice = newProductPrice;}
+    public String getNewProductDescription() {return newProductDescription;}
+    public void setNewProductDescription(String newProductDescription) {this.newProductDescription = newProductDescription;}
+    public String getNewProductCategory() {return newProductCategory;}
+    public void setNewProductCategory(String newProductCategory) {this.newProductCategory = newProductCategory;}
 }

@@ -50,21 +50,21 @@ public class ProductHandlerController {
     @PostMapping("/add")
     public ResponseEntity<?> saveProduct(@Valid @RequestBody AddProductRequest addProductRequest, @CookieValue(name = "token") String token) {
 
-        if (!ProductCategoryValidator.isCategoryValid(addProductRequest.getCategory())) {
+        if (!ProductCategoryValidator.isCategoryValid(addProductRequest.getNewProductCategory())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid category."));
         }
 
         ProductEntity newProduct = new ProductEntity(
-            addProductRequest.getName(),
-            addProductRequest.getPrice(),
-            addProductRequest.getDescription(),
-            addProductRequest.getCategory(),
-            jwtUtils.getUserNameFromJwtToken(token)
+            addProductRequest.getNewProductName(),
+            addProductRequest.getNewProductPrice(),
+            addProductRequest.getNewProductDescription(),
+            addProductRequest.getNewProductCategory(),
+            userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token))
         );
 
-        ProductEntity createdProduct = productHandlingService.saveProduct(newProduct);
+        boolean createdProduct = productHandlingService.saveProduct(newProduct);
 
-        if (productService.existsById(createdProduct.getId())){
+        if (createdProduct){
             return ResponseEntity.ok(new MessageResponse("Item added."));
         }else {
             return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
@@ -83,13 +83,13 @@ public class ProductHandlerController {
 
         ProductEntity productEntity = productService.findById(id);
 
-        if (!productEntity.getCreator().equals(jwtUtils.getUserNameFromJwtToken(token))) {
+        if (!productEntity.getCreator().getUsername().equals(jwtUtils.getUserNameFromJwtToken(token))) {
             return ResponseEntity.badRequest().body(new MessageResponse("You do not own this item."));
         }
 
-        productHandlingService.deleteProduct(id);
+        boolean deleteProduct = productHandlingService.deleteProduct(id);
 
-        if (!productService.existsById(productEntity.getId())){
+        if (deleteProduct){
             return ResponseEntity.ok(new MessageResponse("Item deleted."));
         }else {
             return ResponseEntity.ok(new MessageResponse("Something went wrong!"));
@@ -107,35 +107,24 @@ public class ProductHandlerController {
 
         try {
             String buyerUsername = jwtUtils.getUserNameFromJwtToken(token);
-            System.out.println(buyerUsername);
-            UserEntity userEntityBuyer = userService.findByUsername(buyerUsername);
+            UserEntity userBuyer = userService.findByUsername(buyerUsername);
             ProductEntity productEntity = productService.findById(id);
-            Integer productPrice = productEntity.getPrice();
 
-            if (!productEntity.getBuyer().equals("")) {
+            if (productEntity.getBuyer() != null) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Item is no longer available for sale!"));
             }
-            if (productEntity.getCreator().equals(buyerUsername)) {
+            if (productEntity.getCreator().getUsername().equals(buyerUsername)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("You cannot buy your own items!"));
             }
-            if (!(userEntityBuyer.getBalance() >= productPrice)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("You have insufficient funds!"));
-            }
 
-            UserEntity userEntitySeller = userService.findByUsername(productEntity.getCreator());
+            //TODO paying for products
 
-            productEntity.setBuyer(buyerUsername);
+            productEntity.setBuyer(userBuyer);
             productHandlingService.buyProduct(productEntity);
-
-            userEntityBuyer.setBalance(userEntityBuyer.getBalance() - productPrice);
-            userService.updateUser(userEntityBuyer);
-
-            userEntitySeller.setBalance(userEntitySeller.getBalance() + productPrice);
-            userService.updateUser(userEntitySeller);
 
             return ResponseEntity.ok(new MessageResponse("Product bought!"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!." + e.getMessage()));
+            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!. " + e.getMessage()));
         }
     }
 }

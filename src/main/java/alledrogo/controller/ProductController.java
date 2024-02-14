@@ -27,24 +27,25 @@ public class ProductController {
     public List<ProductEntity> findForSaleProducts() {
         return productService.findForSaleProduct();
     }
-    @GetMapping("/category/{category}")
-    public List<ProductEntity> findFilteredProducts( @PathVariable String category) {
-        return productService.findFilteredProducts(category);
+    @GetMapping("/{category}")
+    public List<ProductEntity> findProductByCategory(@PathVariable String category) {
+        return productService.findProductByCategory(category);
+    }
+    @GetMapping("/{name}")
+    public List<ProductEntity> findProductByName(@PathVariable String name) {
+        return productService.findProductByName(name);
     }
     @GetMapping("/my-products")
     public List<ProductEntity> findMyProducts(@CookieValue(name = "token") String token) {
         return productService.findMyProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
     @GetMapping("/bought-products")
-    public  ResponseEntity<?> findBoughtProducts(@CookieValue(name = "token") String token) {
-        return ResponseEntity.ok(productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token)));
+    public List<ProductEntity> findBoughtProducts(@CookieValue(name = "token") String token) {
+        return productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
     @GetMapping("/sold")
-    public  ResponseEntity<?> findSoldProducts(@CookieValue(name = "token") String token) {
-        return ResponseEntity.ok(productService.findSoldProducts(jwtUtils.getUserNameFromJwtToken(token)));
+    public List<ProductEntity> findSoldProducts(@CookieValue(name = "token") String token) {
+        return productService.findSoldProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
-    @GetMapping("/all")
-    public List<ProductEntity> findAllProducts(){
-        return productService.findAllProduct();
-    }
+
 }
