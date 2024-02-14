@@ -1,6 +1,13 @@
 # MyFirstWebApp aka alledrogo
 
-![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/9864ce7c-8620-4513-9524-bd8561fc4d69)
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/cab54146-62f1-4f79-8164-6f099061d113)
+
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/ca75208a-14f4-40fb-a756-96652d338729)
+
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/75c4f10d-1e58-4233-bdbb-ea7d8ccbcd67)
+
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/2abb3ccf-f81c-4c60-b497-1543946c31e2)
+
 
 ## Intro
 This is an attempt to make a scalable web app using rest api. 
@@ -12,7 +19,7 @@ Project documentation:
 https://akssj.github.io/MyFirstWebApp/index.html
 
 ## Features
-+ REST API webapp
++ REST MVC webapp
 + Login (authentication)
 + JWT and User data saved in cookies
 + CRUD products, users (TODO authorization)
@@ -20,7 +27,7 @@ https://akssj.github.io/MyFirstWebApp/index.html
 + Unit and integration api tests (Java + TestNG + REST Assured + Mockito)
 + Javadoc Documentation
 + Current task: FRONTEND :(
-+ TODO external api
++ TODO use of some external api
 + TODO User profile, product related pages
 + TODO Admin role, page, etc.
 + TODO Track user behavior
