@@ -22,15 +22,13 @@ public class UserDetailsImpl implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Collection<GrantedAuthority> authorities = new HashSet<>();
-    authorities.add(new SimpleGrantedAuthority(userEntity.getRole()));
+    authorities.add(new SimpleGrantedAuthority(userEntity.getRole().name()));
     return authorities;
   }
   public Long getId(){
     return userEntity.getId();
   }
-  public Integer getBalance(){
-    return userEntity.getBalance();
-  }
+
   @Override
   public String getPassword() {
     return userEntity.getPassword();
