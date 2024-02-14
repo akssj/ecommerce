@@ -3,7 +3,6 @@ package alledrogo.controller;
 import alledrogo.data.entity.UserEntity;
 import alledrogo.io.request.AuthenticationRequest;
 import alledrogo.io.response.MessageResponse;
-import alledrogo.io.response.UserStatusResponse;
 import alledrogo.security.jwt.JwtUtils;
 import alledrogo.service.UserService;
 
@@ -17,8 +16,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Api endpoint class, provides /auth endpoint to provide basic authentication and manipulate user data.
@@ -52,16 +53,32 @@ public class AuthenticationController {
 
         String token = jwtUtils.generateJwtToken(authentication);
 
-        Instant expirationTime = Instant.now().plus(10, ChronoUnit.MINUTES);
-        String expirationTimeString = expirationTime.toString();
-
         HttpHeaders headers = new HttpHeaders();
+
+        String expirationTimeString = getExpirationTimeString();
+
         headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expirationTimeString);
 
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(new MessageResponse("User logged in successfully!"));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser() {
+        SecurityContextHolder.clearContext();
+
+        HttpHeaders headers = new HttpHeaders();
+
+        String expirationTimeString = expireTokens();
+
+        headers.add("Set-Cookie", "token=" + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expirationTimeString);
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new MessageResponse("User logged out successfully!"));
+    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
@@ -84,10 +101,10 @@ public class AuthenticationController {
 
             String token = jwtUtils.generateJwtToken(authentication);
 
-            Instant expirationTime = Instant.now().plus(10, ChronoUnit.MINUTES);
-            String expirationTimeString = expirationTime.toString();
-
             HttpHeaders headers = new HttpHeaders();
+
+            String expirationTimeString = getExpirationTimeString();
+
             headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expirationTimeString);
 
             return ResponseEntity.ok()
@@ -98,14 +115,24 @@ public class AuthenticationController {
         }
     }
 
-    //TODO update current user data on demand with new token
-    //TODO make use of {id}
-    @GetMapping("/{id}/userStatus")
-    public ResponseEntity<?> updateUserStatus(@CookieValue(name = "token") String token) {
+    @GetMapping("/userStatus")
+    public ResponseEntity<?> userStatus(@CookieValue(name = "token") String token) {
         try {
             UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
-            return ResponseEntity.ok(new UserStatusResponse(userEntity.getId(), userEntity.getUsername(), userEntity.getRole(), userEntity.getBalance()));
-        }catch(Exception e){
+
+            HttpHeaders headers = new HttpHeaders();
+
+            String expirationTimeString = getExpirationTimeString();
+
+            headers.add("Set-Cookie", "userId=" + userEntity.getId() + "; Path=/; Secure; SameSite=None; Expires=" + expirationTimeString);
+            headers.add("Set-Cookie", "username=" + userEntity.getUsername() + "; Path=/; Secure; SameSite=None; Expires=" + expirationTimeString);
+            headers.add("Set-Cookie", "role=" + userEntity.getRole() + "; Path=/; Secure; SameSite=None; Expires=" + expirationTimeString);
+            headers.add("Set-Cookie", "balance=" + userEntity.getBalance() + "; Path=/; Secure; SameSite=None; Expires=" + expirationTimeString);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(new MessageResponse("User data received successfully!"));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
         }
     }
@@ -151,4 +178,19 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!"));
         }
     }
+
+    private String getExpirationTimeString() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, 10);
+        Date expirationDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        return sdf.format(expirationDate);
+    }
+    private String expireTokens() {
+        Calendar calendar = Calendar.getInstance();
+        Date expirationDate = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+        return sdf.format(expirationDate);
+    }
 }
+
