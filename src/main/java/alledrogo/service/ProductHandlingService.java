@@ -1,6 +1,7 @@
 package alledrogo.service;
 
 import alledrogo.data.entity.ProductEntity;
+import alledrogo.data.entity.UserEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -8,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public interface ProductHandlingService {
-    ProductEntity saveProduct(ProductEntity productEntity);
+    boolean saveProduct(ProductEntity productEntity);
     ProductEntity updateProduct(ProductEntity productEntity);
     ProductEntity buyProduct(ProductEntity productEntity);
-    void deleteProduct(Long id);
+    boolean deleteProduct(Long id);
 }

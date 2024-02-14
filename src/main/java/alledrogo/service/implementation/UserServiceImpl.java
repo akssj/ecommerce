@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByUsername(String username){return userRepository.existsByUsername(username);}
     @Override
+    public boolean existsByEmail(String userEmail){return userRepository.existsByEmail(userEmail);}
+    @Override
     public boolean createUser(UserEntity userEntity){
         if (userRepository.existsByUsername(userEntity.getUsername())){
             return false;
@@ -56,13 +58,12 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    public boolean deleteUser(UserEntity userEntity){
+    public boolean deleteUser(UserEntity userEntity) {
         if (userRepository.existsById(userEntity.getId())) {
             userRepository.delete(userEntity);
             return true;
-        }else {
-            return false;
         }
+        return false;
     }
 
 }

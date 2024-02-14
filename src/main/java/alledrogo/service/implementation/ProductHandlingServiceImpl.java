@@ -20,7 +20,16 @@ public class ProductHandlingServiceImpl implements ProductHandlingService {
     }
 
     @Override
-    public ProductEntity saveProduct(ProductEntity productEntity) {return productRepository.save(productEntity);}
+    public boolean saveProduct(ProductEntity productEntity) {
+        try {
+            productRepository.save(productEntity);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     public ProductEntity updateProduct(ProductEntity productEntity) {
         return productRepository.save(productEntity);
@@ -30,7 +39,12 @@ public class ProductHandlingServiceImpl implements ProductHandlingService {
         return productRepository.save(productEntity);
     }
     @Override
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+    public boolean deleteProduct(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
+
 }

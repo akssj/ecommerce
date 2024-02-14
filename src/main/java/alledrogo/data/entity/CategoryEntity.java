@@ -1,12 +1,11 @@
 package alledrogo.data.entity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryEntity {
-    private String name;
-    private List<String> subCategories;
+    private final String name;
+    private final List<String> subCategories;
 
     public CategoryEntity(String name) {
         this.name = name;

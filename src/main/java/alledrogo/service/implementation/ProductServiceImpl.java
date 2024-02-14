@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if ("".equals(product.getBuyer())) {
+            if (product.getBuyer() == null) {
                 filteredProducts.add(product);
             }
         }
@@ -46,16 +46,26 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where String Buyer field equals "" and category equals provided category
      */
     @Override
-    public List<ProductEntity> findFilteredProducts(String category) {
+    public List<ProductEntity> findProductByCategory(String category) {
         List<ProductEntity> allProducts = productRepository.findAll();
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if ("".equals(product.getBuyer()) && category.equals(product.getCategory())) {
+            if (product.getBuyer() == null && category.equals(product.getCategory())) {
                 filteredProducts.add(product);
             }
         }
         return filteredProducts;
+    }
+
+    /**
+     * Returns not sold products with similar name
+     * @param name String name
+     * @return list of products where name is similar to provided string
+     */
+    @Override
+    public List<ProductEntity> findProductByName(String name) {
+        return productRepository.findProductByName(name);
     }
 
     /**
@@ -69,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if (username.equals(product.getCreator())) {
+            if (username.equals(product.getCreator().getUsername())) {
                 filteredProducts.add(product);
             }
         }
@@ -87,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if (username.equals(product.getBuyer())) {
+            if (username.equals(product.getCreator().getUsername())) {
                 filteredProducts.add(product);
             }
         }
@@ -105,12 +115,13 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if (username.equals(product.getCreator()) && !product.getBuyer().isEmpty()) {
+            if (username.equals(product.getCreator().getUsername()) && product.getCreator() != null) {
                 filteredProducts.add(product);
             }
         }
         return filteredProducts;
     }
+
     @Override
     public List<ProductEntity> findAllProduct() {
         return productRepository.findAll();
@@ -120,10 +131,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductEntity findById(Long id) {
         return productRepository.findById(id).orElseThrow(() ->
             new EntityNotFoundException("Product not found with id: " + id));}
-    @Override
-    public List<ProductEntity> findByName(String username) {
-        return productRepository.findByName(username);
-    }
+
     @Override
     public boolean existsById(Long id) {
         return productRepository.existsById(id);

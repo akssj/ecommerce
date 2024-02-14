@@ -14,6 +14,7 @@ public interface UserService {
     UserEntity findById(Long id);
 
     boolean existsByUsername(String username);
+    boolean existsByEmail(String userEmail);
     boolean createUser(UserEntity userEntity);
     boolean updateUser(UserEntity userEntity);
     boolean deleteUser(UserEntity userEntity);
