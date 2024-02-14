@@ -12,83 +12,8 @@
   <!-- main body -->
   <div class="Container">
 
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-
-        <!-- Brand -->
-        <a class="navbar-brand" href="/main">Alledrogo</a>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-          <!-- Nav dropdowns -->
-          <div class="dropdown ms-auto">
-
-            <!-- Logged Off Dropdown -->
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" data-bs-auto-close="outside">
-              Account
-            </button>
-            <div class="dropdown-menu p-4 larger-dropdown-menu dropdown-menu-end" id="login-form">
-
-              <!-- Log in Dropdown -->
-              <div id="loginFormContent">
-                <div class="mb-3">
-                  <label for="DropdownFormUsername" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="DropdownFormUsername" placeholder="Your username" required>
-                  <div class="invalid-feedback">Please enter a Username</div>
-                </div>
-                <div class="mb-3">
-                  <label for="DropdownFormPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="DropdownFormPassword" placeholder="Your password" required>
-                  <div class="invalid-feedback">Please enter a Password</div>
-                </div>
-                <div class="d-grid gap-2">
-                  <button type="button" class="btn btn-primary" onclick="login()">Sign in</button>
-                </div>
-                <div class="text-center">
-                  <p>Not a member? <a href="#" onclick="showRegisterForm()">Register</a></p>
-                </div>
-              </div>
-
-              <!-- Sign up Dropdown -->
-              <div id="registerFormContent" class="d-none">
-                <div class="mb-3">
-                  <label for="DropdownFormUsernameRegister" class="form-label">Username</label>
-                  <input type="text" class="form-control" id="DropdownFormUsernameRegister" placeholder="Create username" required>
-                  <div class="invalid-feedback">Please enter a Username</div>
-                </div>
-                <div class="mb-3">
-                  <label for="DropdownFormPasswordRegister" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="DropdownFormPasswordRegister" placeholder="Create password" required>
-                  <div class="invalid-feedback">Please enter a Password</div>
-                </div>
-                <div class="mb-3">
-                  <label for="DropdownFormPasswordRegisterConfirm" class="form-label">Confirm Password</label>
-                  <input type="password" class="form-control" id="DropdownFormPasswordRegisterConfirm" placeholder="Confirm password" required>
-                  <div class="invalid-feedback">Please reenter a Password</div>
-                </div>
-                <div class="d-grid gap-2">
-                  <button type="button" class="btn btn-primary" onclick="signup()">Sign up</button>
-                </div>
-                <div class="text-center">
-                  <p>member? <a href="#" onclick="showLoginForm()">Log in</a></p>
-                </div>
-              </div>
-
-              <!-- Logged In Dropdown -->
-              <div id="loggedInContent" class="d-none">
-                <div><a class="dropdown-item" href="/my-profile">My profile</a></div>
-                <div><hr class="dropdown-divider"></hr></div>
-                <div><a class="dropdown-item" href="/my-products">My Products</a></div>
-                <div><hr class="dropdown-divider"></hr></div>
-                <div><a class="dropdown-item" href="/bought-products">Bought Products</a></div>
-                <div><hr class="dropdown-divider"></hr></div>
-                <div><a class="dropdown-item" href="#" onclick="signOut()">Log out</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <!-- Placeholder for navbar -->
+    <div id="navbarPlaceholder"></div>
 
     <div class="row align-items-start">
 
@@ -117,10 +42,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
-  <script src="/static/scriptAuth.js"></script>
-  <script src="/static/scriptProduct.js"></script>
-  <script src="/static/scriptProductHandling.js"></script>
-  <script src="/static/scriptUtility.js"></script>
+  <script type="module" src="/static/module.js"></script>
 
 </body>
 
