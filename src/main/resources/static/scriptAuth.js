@@ -8,7 +8,6 @@ document.getElementById('loginFormContent').addEventListener('submit', function 
 });
 
 function login() {
-  const form = document.getElementById('login-form');
   const usernameInput = document.getElementById('DropdownFormUsername');
   const passwordInput = document.getElementById('DropdownFormPassword');
 
@@ -31,8 +30,9 @@ function login() {
     .then(response => {
       if (response.ok) {
         return response.json().then(data => {
-        setCookie('loggedIn', 'true');
         showAccountOptions();
+        setCookie('loggedIn', 'true');
+        getUserStatus();
         });
       } else {
         return response.json().then(data => {
@@ -56,10 +56,14 @@ document.getElementById('registerFormContent').addEventListener('submit', functi
 });
 
 function signup() {
-  const form = document.getElementById('registerFormContent');
   const usernameInput = document.getElementById('DropdownFormUsernameRegister');
   const passwordInput = document.getElementById('DropdownFormPasswordRegister');
   const confirmPasswordInput = document.getElementById('DropdownFormPasswordRegisterConfirm');
+
+  if (passwordInput.value !== confirmPasswordInput.value) {
+    alert("Password does not match!");
+    return;
+  }
 
   const signupData = {
     username: usernameInput.value,
@@ -79,6 +83,7 @@ function signup() {
   fetch('http://localhost:8080/auth/signup', requestSignup)
     .then(response => {
       if (response.ok) {
+        getUserStatus();
         setCookie('loggedIn', 'true');
         return response.json();
       } else {
@@ -94,15 +99,64 @@ function signup() {
     });
 }
 
+/*==================
+user status request
+==================*/
+function getUserStatus() {
+  fetch('http://localhost:8080/auth/userStatus', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json().then(data => {
+      });
+    } else {
+      return response.json().then(data => {
+        const errorMessage = data.message;
+        alert(errorMessage);
+        throw new Error(errorMessage);
+      });
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+}
+
 /*============
   sign out
 ============*/
 function signOut() {
   localStorage.clear();
+
   const cookies = document.cookie.split("; ");
   for (const cookie of cookies) {
     const [name, _] = cookie.split("=");
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure; SameSite=None`;
   }
-  window.location.reload();
+
+  fetch('http://localhost:8080/auth/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json().then(data => {
+       window.location.href = "http://localhost:8080/main";
+      });
+    } else {
+      return response.json().then(data => {
+        const errorMessage = data.message || 'Error logging out.';
+        throw new Error(errorMessage);
+      });
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
 }
