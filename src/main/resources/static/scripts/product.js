@@ -1,10 +1,10 @@
-
+import { getCookie } from './utility.js';
 /*=====================
 fill site with products
       on refresh
 ======================*/
 
-function getApiUrl() {
+export function getApiUrl() {
     const baseUrl = window.location.origin;
     let apiUrl;
 
@@ -30,7 +30,16 @@ function getApiUrl() {
     return apiUrl;
 }
 
-function fillProducts() {
+export function fillProducts() {
+
+    const productTable = document.getElementById('product-table');
+    if (!productTable) {return;}
+    
+    const headerRow = productTable.querySelector('thead tr');
+    const columnNames = Array.from(headerRow.children).map(cell => cell.textContent);
+    const hasActionsColumn = columnNames.includes('Actions');
+    const currentUser = getCookie('username');
+
     fetch(getApiUrl())
         .then(res => {
             if (!res.ok) {
@@ -39,12 +48,6 @@ function fillProducts() {
             return res.json();
         })
         .then(data => {
-            const productTable = document.getElementById('product-table');
-            const headerRow = productTable.querySelector('thead tr');
-            const columnNames = Array.from(headerRow.children).map(cell => cell.textContent);
-            const hasActionsColumn = columnNames.includes('Actions');
-            const currentUser = getCookie('username');
-
             data.forEach(item => {
                 const row = productTable.insertRow();
 
@@ -63,7 +66,7 @@ function fillProducts() {
 
                     if(item.creator !== currentUser){
                         const buyButton = document.createElement('button');
-                        buyButton.textContent = 'Kup';
+                        buyButton.textContent = 'Buy';
                         buyButton.classList.add('btn', 'btn-success');
                         buyButton.dataset.itemId = item.id;
                         buyButton.addEventListener('click', buyItem);
@@ -72,7 +75,7 @@ function fillProducts() {
 
                     if (item.creator == currentUser && item.buyer == '') {
                         const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'Usuń';
+                        deleteButton.textContent = 'Delete';
                         deleteButton.classList.add('btn', 'btn-danger');
                         deleteButton.dataset.itemId = item.id;
                         deleteButton.addEventListener('click', deleteItem);

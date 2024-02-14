@@ -3,7 +3,7 @@
       Add item 
 ======================*/
 
-function addItem() {
+export function addItem() {
   const ItemName = document.getElementById('item-name-input').value;
   const ItemDescription = document.getElementById('item-description-input').value;
   const ItemPrice = document.getElementById('item-price-input').value;
@@ -64,7 +64,7 @@ function addItem() {
       Buy item 
 =====================*/
 
-function buyItem(event) {
+export function buyItem(event) {
     const itemId = event.target.dataset.itemId;
     const token = getCookie('token');
 
@@ -91,7 +91,6 @@ function buyItem(event) {
     fetch(`http://localhost:8080/product/handling/${itemId}/buy`, requestBuyItem)
         .then(response => {
             if (response.ok) {
-                performUserStatusCheck();
             }
         })
         .catch(error => {
@@ -103,7 +102,7 @@ function buyItem(event) {
       Delete item 
 ======================*/
 
-function deleteItem(event){
+export function deleteItem(event){
   const ItemId = event.target.dataset.itemId;
 
   const Token = localStorage.getItem('token');

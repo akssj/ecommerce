@@ -1,13 +1,9 @@
+import { switchAccountDropDown, setCookie, getCookie } from './utility.js';
 
 /*============
 login request
 ============*/
-document.getElementById('loginFormContent').addEventListener('submit', function (e) {
-  e.preventDefault();
-  login();
-});
-
-function login() {
+export function login() {
   const usernameInput = document.getElementById('DropdownFormUsername');
   const passwordInput = document.getElementById('DropdownFormPassword');
 
@@ -30,7 +26,7 @@ function login() {
     .then(response => {
       if (response.ok) {
         return response.json().then(data => {
-        showAccountOptions();
+        switchAccountDropDown('showAccountOptions');
         setCookie('loggedIn', 'true');
         getUserStatus();
         });
@@ -50,14 +46,10 @@ function login() {
 /*============
 signup request
 ============*/
-document.getElementById('registerFormContent').addEventListener('submit', function (e) {
-  e.preventDefault();
-  signup();
-});
-
-function signup() {
+export function signup() {
   const usernameInput = document.getElementById('DropdownFormUsernameRegister');
   const passwordInput = document.getElementById('DropdownFormPasswordRegister');
+  const emailInput = document.getElementById('DropdownFormEmailRegister');
   const confirmPasswordInput = document.getElementById('DropdownFormPasswordRegisterConfirm');
 
   if (passwordInput.value !== confirmPasswordInput.value) {
@@ -65,9 +57,15 @@ function signup() {
     return;
   }
 
+  if (!usernameInput.value || !passwordInput.value || !emailInput.value || !confirmPasswordInput.value) {
+    alert("Please fill in all fields!");
+    return;
+  }
+
   const signupData = {
     username: usernameInput.value,
-    password: passwordInput.value
+    password: passwordInput.value,
+    email: emailInput.value
   };
 
   const jsonSignupData = JSON.stringify(signupData);
@@ -84,25 +82,26 @@ function signup() {
     .then(response => {
       if (response.ok) {
         getUserStatus();
+        switchAccountDropDown('showAccountOptions');
         setCookie('loggedIn', 'true');
         return response.json();
       } else {
         return response.json().then(data => {
-          const errorMessage = data.message;
-          alert(errorMessage);
+          const errorMessage = data.message || "An error occurred during signup.";
           throw new Error(errorMessage);
         });
       }
     })
     .catch(error => {
-      console.error(error);
+      console.error("Network error:", error);
+      alert("An error occurred during signup. Please try again later.");
     });
 }
 
 /*==================
 user status request
 ==================*/
-function getUserStatus() {
+export function getUserStatus() {
   fetch('http://localhost:8080/auth/userStatus', {
     method: 'GET',
     headers: {
@@ -129,7 +128,7 @@ function getUserStatus() {
 /*============
   sign out
 ============*/
-function signOut() {
+export function signOut() {
   localStorage.clear();
 
   const cookies = document.cookie.split("; ");
