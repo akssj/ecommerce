@@ -1,68 +1,59 @@
-package alledrogo.utility;
+package alledrogo.service.implementation;
 
 import alledrogo.data.entity.CategoryEntity;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import alledrogo.service.ProductCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+@Component
+public class ProductCategoryServiceImpl implements ProductCategoryService {
+    private final List<CategoryEntity> categories = new ArrayList<>();
 
-public class ProductCategoryValidator {
-    public static Collection<CategoryEntity> categories;
-
-    public ProductCategoryValidator() {
-        categories = readCategories();
+    @Autowired
+    public ProductCategoryServiceImpl() {
+        updateCategories();
     }
 
-    public static Collection<CategoryEntity> getCategories() {
+    @Override
+    public Collection<CategoryEntity> getCategories() {
         return categories;
     }
 
-    public static boolean isCategoryValid(String category) {
-        try {
-            String xmlFilePath = "src/main/resources/Data/ProductCategories.xml";
-            File xmlFile = new File(xmlFilePath);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
-
-            doc.getDocumentElement().normalize();
-
-            NodeList mainCategories = doc.getElementsByTagName("MainCategory");
-
-            for (int i = 0; i < mainCategories.getLength(); i++) {
-                Element mainCategory = (Element) mainCategories.item(i);
-                String mainCategoryName = mainCategory.getAttribute("name");
-
-                NodeList subCategories = mainCategory.getElementsByTagName("SubCategory");
-
-                for (int j = 0; j < subCategories.getLength(); j++) {
-                    Element subCategory = (Element) subCategories.item(j);
-                    String subCategoryName = subCategory.getAttribute("name");
-
-                    String fullCategoryName = mainCategoryName + "/" + subCategoryName;
-
-                    if (fullCategoryName.equals(category)) {
-                        return true;
-                    }
+    @Override
+    public boolean isCategoryValid(String category) {
+        for (CategoryEntity mainCategory : categories) {
+            for (String subCategory : mainCategory.getSubCategories()) {
+                String fullCategoryName = mainCategory.getName() + "/" + subCategory;
+                if (fullCategoryName.equals(category)) {
+                    return true;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
         return false;
     }
 
-    public static Collection<CategoryEntity> readCategories() {
+    @Override
+    public void updateCategories() {
         String filePath = "src/main/resources/Data/ProductCategories.xml";
+        List<CategoryEntity> newCategories = readCategoriesFromFile(filePath);
+        categories.clear();
+        categories.addAll(newCategories);
+    }
 
+    private List<CategoryEntity> readCategoriesFromFile(String filePath) {
         List<CategoryEntity> categories = new ArrayList<>();
 
         try {
@@ -93,7 +84,6 @@ public class ProductCategoryValidator {
                             mainCategory.addSubCategory(subCategoryName);
                         }
                     }
-
                     categories.add(mainCategory);
                 }
             }

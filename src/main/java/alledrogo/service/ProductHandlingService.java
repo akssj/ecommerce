@@ -1,7 +1,6 @@
 package alledrogo.service;
 
 import alledrogo.data.entity.ProductEntity;
-import alledrogo.data.entity.UserEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

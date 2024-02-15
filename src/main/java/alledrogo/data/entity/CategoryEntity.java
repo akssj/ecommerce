@@ -13,7 +13,9 @@ public class CategoryEntity {
     }
 
     public String getName() {return name;}
-
+    public List<String> getSubCategories() {
+        return subCategories;
+    }
     public void addSubCategory(String subCategory) {subCategories.add(subCategory);}
 
     @Override

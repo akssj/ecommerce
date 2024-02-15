@@ -2,20 +2,26 @@ package alledrogo.controller;
 
 import alledrogo.data.entity.CategoryEntity;
 import alledrogo.data.entity.UserEntity;
+import alledrogo.data.entity.ProductEntity;
+
 import alledrogo.io.request.AddProductRequest;
 import alledrogo.io.response.MessageResponse;
+
 import alledrogo.security.jwt.JwtUtils;
+
 import alledrogo.service.ProductHandlingService;
 import alledrogo.service.ProductService;
 import alledrogo.service.UserService;
-import alledrogo.utility.ProductCategoryValidator;
+import alledrogo.service.ProductCategoryService;
+
 import jakarta.validation.Valid;
-import alledrogo.data.entity.ProductEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Api endpoint class, provides /product/handling endpoint to manipulate products in database.
@@ -26,19 +32,21 @@ public class ProductHandlerController {
     private final ProductService productService;
     private final ProductHandlingService productHandlingService;
     private final UserService userService;
+    private final ProductCategoryService productCategoryService;
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public ProductHandlerController(ProductService productService, ProductHandlingService productHandlingService, UserService userService, JwtUtils jwtUtils) {
+    public ProductHandlerController(ProductService productService, ProductHandlingService productHandlingService, UserService userService, ProductCategoryService productCategoryService, JwtUtils jwtUtils) {
         this.productService = productService;
         this.productHandlingService = productHandlingService;
         this.userService = userService;
+        this.productCategoryService = productCategoryService;
         this.jwtUtils = jwtUtils;
     }
 
     @GetMapping("/categories")
     public Collection<CategoryEntity> getCategoryCollection() {
-        return ProductCategoryValidator.getCategories();
+        return productCategoryService.getCategories();
     }
 
     /**
@@ -50,7 +58,7 @@ public class ProductHandlerController {
     @PostMapping("/add")
     public ResponseEntity<?> saveProduct(@Valid @RequestBody AddProductRequest addProductRequest, @CookieValue(name = "token") String token) {
 
-        if (!ProductCategoryValidator.isCategoryValid(addProductRequest.getNewProductCategory())) {
+        if (!productCategoryService.isCategoryValid(addProductRequest.getNewProductCategory())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid category."));
         }
 
