@@ -1,4 +1,4 @@
-import { loadNavbar } from './scripts/pageCreator.js';
+import { loadNavbar, loadCategories } from './scripts/pageBuilder.js';
 
 import { login, signup, signOut } from './scripts/auth.js';
 
@@ -8,9 +8,11 @@ import { addItem, buyItem, deleteItem } from './scripts/productHandling.js';
 
 import { switchAccountDropDown, setCookie, getCookie } from './scripts/utility.js';
 
-loadNavbar();
-
 document.addEventListener('DOMContentLoaded', function () {
+
+    loadNavbar();
+
+    loadCategories()
 
     fillProducts();
 

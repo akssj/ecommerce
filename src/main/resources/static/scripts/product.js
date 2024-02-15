@@ -14,7 +14,7 @@ export function getApiUrl() {
             break;
         case window.location.pathname.startsWith('/category'):
             const category = window.location.pathname.split('/')[2];
-            apiUrl = `${baseUrl}/product/category/${category}`;
+            apiUrl = `${baseUrl}/product/${category}/category`;
             break;
         case window.location.pathname.startsWith('/my-products'):
             apiUrl = `${baseUrl}/product/my-products`;

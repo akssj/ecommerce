@@ -25,7 +25,7 @@ public class StaticResourceController {
     }
     @GetMapping(value = "/navbar.html", produces = "text/html")
     public byte[] getNavbarHtml() throws IOException {
-        Resource resource = new ClassPathResource("templates/navbar.html");
+        Resource resource = new ClassPathResource("templates/components/navbar.html");
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
     @GetMapping(value = "/styles.css", produces = "text/css")

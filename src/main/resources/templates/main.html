@@ -17,44 +17,21 @@
 
     <div class="row align-items-start">
 
-      <!-- Fill for left column -->
-      <div class="col-2"></div>
-
       <!-- Main page left column -->
-      <div class="col-2 position-fixed fixed-left">
-
-        <div class="d-grid gap-2 dropend">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Category 0
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/category/mlotowiertarki">mlotowiertarki</a></li>
-            <li><a class="dropdown-item" href="/category/Gry-Analogowe">Gry Analogowe</a></li>
-            <li><a class="dropdown-item" href="/category/ubrania">ubrania</a></li>
-          </ul>
-        </div>
-
-        <div class="d-grid gap-2 dropend">
-          <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            Category 1
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Menu item</a></li>
-            <li><a class="dropdown-item" href="#">Menu item</a></li>
-            <li><a class="dropdown-item" href="#">Menu item</a></li>
-          </ul>
-        </div>
+      <div class="col-2 fixed-left" id="categoryContainer">
 
       </div>
 
       <!-- Main page middle column -->
       <div class="col">
+
         <h2>Items for Sale</h2>
+
         <table id="product-table" class="table">
           <thead>
             <tr>
               <th scope="col">Name</th>
-              <th scope="col">Creator</th>
+              <th scope="col">Seller</th>
               <th scope="col">Description</th>
               <th scope="col">Price</th>
               <th scope="col">Actions</th>
@@ -63,8 +40,11 @@
           <tbody>
           </tbody>
         </table>
+
       </div>
+
     </div>
+
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

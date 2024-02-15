@@ -44,11 +44,6 @@ public class ProductHandlerController {
         this.jwtUtils = jwtUtils;
     }
 
-    @GetMapping("/categories")
-    public Collection<CategoryEntity> getCategoryCollection() {
-        return productCategoryService.getCategories();
-    }
-
     /**
      * Creates new ProductEntity object filled with addProductRequest data and saves it into the database
      * @param addProductRequest NotNull obj. with data for ProductEntity
