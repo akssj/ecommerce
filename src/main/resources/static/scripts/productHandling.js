@@ -1,64 +1,55 @@
-
 /*=====================
-      Add item 
+      Add item
 ======================*/
 
 export function addItem() {
-  const ItemName = document.getElementById('item-name-input').value;
-  const ItemDescription = document.getElementById('item-description-input').value;
-  const ItemPrice = document.getElementById('item-price-input').value;
+    const itemName = document.getElementById('item-name-input').value;
+    const itemDescription = document.getElementById('item-description-input').value;
+    const itemPrice = document.getElementById('item-price-input').value;
+    const token = localStorage.getItem('token');
+    const addItemErrorTextField = document.getElementById('add-item-error-text-field');
 
-  const Token = localStorage.getItem('token');
-
-  const AddItemErrorTextField = document.getElementById('add-item-error-text-field');
-
-  try{
-    if (Token === null) {
-      AddItemErrorTextField.innerText = "You are not logged in";
-      throw new Error("You are not logged in");
+    try {
+        if (!token) {
+            throw new Error("You are not logged in");
+        }
+        if (!itemName || !itemDescription || !itemPrice) {
+            throw new Error("Fill in all fields");
+        }
+    } catch (error) {
+        addItemErrorTextField.innerText = error.message;
+        console.error(error);
+        return;
     }
-    if (ItemName === "" || ItemDescription === "" || ItemPrice === "") {
-      AddItemErrorTextField.innerText = "Fill empty filed";
-      throw new Error("Fill empty filed");
-    }
-  }catch(error){
-    return;
-  }
-  
-  const AddItemData = {
-    name: ItemName,
-    price: ItemPrice,
-    description: ItemDescription
-  };
 
-  const JsonAddItemData = JSON.stringify(AddItemData);
+    const addItemData = {
+        name: itemName,
+        price: itemPrice,
+        description: itemDescription
+    };
 
-  const RequestAddItem = {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer '+ Token,
-      'Content-Type': 'application/json'
-    },
-    body: JsonAddItemData
-  };
-
-  fetch('http://localhost:8080/product/handling/add', RequestAddItem)
-  .then(response => {
-    if (response.ok) {
-      window.location.reload(); //TODO make so it makes more sense
-      return response.json();
-    } else {
-      return response.json().then( data => {
-        const errorMessage = data.message;
-        AddItemErrorTextField.innerText = errorMessage;
-        throw new Error(errorMessage);
-      });
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
- };
+    fetch('http://localhost:8080/product/handling/add', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(addItemData)
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload(); //TODO make so it makes more sense
+        } else {
+            return response.json().then(data => {
+                throw new Error(data.message || "An error occurred while adding the item");
+            });
+        }
+    })
+    .catch(error => {
+        addItemErrorTextField.innerText = error.message;
+        console.error(error);
+    });
+}
 
 /*=====================
       Buy item 
@@ -69,10 +60,10 @@ export function buyItem(event) {
     const token = getCookie('token');
 
     try {
-        if (token === null) {
+        if (!token) {
             throw new Error("You are not logged in");
         }
-        if (itemId === null) {
+        if (!itemId) {
             throw new Error("Item does not exist!");
         }
     } catch (error) {
@@ -80,58 +71,51 @@ export function buyItem(event) {
         return;
     }
 
-    const requestBuyItem = {
+    fetch(`http://localhost:8080/product/handling/${itemId}/buy`, {
         method: 'PUT',
         headers: {
             'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
-        },
-    };
-
-    fetch(`http://localhost:8080/product/handling/${itemId}/buy`, requestBuyItem)
-        .then(response => {
-            if (response.ok) {
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
 
 /*=====================
       Delete item 
 ======================*/
 
-export function deleteItem(event){
-  const ItemId = event.target.dataset.itemId;
+export function deleteItem(event) {
+    const itemId = event.target.dataset.itemId;
+    const token = localStorage.getItem('token');
 
-  const Token = localStorage.getItem('token');
+    try {
+        if (!token) {
+            throw new Error("You are not logged in");
+        }
+        if (!itemId) {
+            throw new Error("Item no longer exists");
+        }
+    } catch (error) {
+        console.error(error);
+        return;
+    }
 
-  try{
-    if (Token === null) {
-      throw new Error("You are not logged in");
-    }
-    if (ItemId === null) {
-      throw new Error("Item no longer exists");
-    }
-  }catch(error){
-    return;
-  }
-  const RequestDeleteItem = {
-    method: 'DELETE',
-    headers: {
-      'Authorization': 'Bearer '+ Token,
-      'Content-Type': 'application/json'
-    },
-  };
-
-  fetch(`http://localhost:8080/product/handling/${ItemId}/delete`, RequestDeleteItem)
-  .then(response => {
-    if (response.ok) {
-    window.location.reload(); //TODO make so it makes more sense and respond with message
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    fetch(`http://localhost:8080/product/handling/${itemId}/delete`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload(); //TODO make so it makes more sense and respond with message
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }

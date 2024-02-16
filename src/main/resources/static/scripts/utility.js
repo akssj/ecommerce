@@ -2,6 +2,7 @@ export function switchAccountDropDown(action) {
     const registerForm = document.querySelector('#registerForm');
     const loginForm = document.querySelector('#loginForm');
     const loggedInContent = document.querySelector('#loggedInContent');
+    const accountButton = document.querySelector('#accountButton');
 
     switch (action) {
         case 'showRegisterForm':
@@ -16,6 +17,7 @@ export function switchAccountDropDown(action) {
             registerForm.classList.add('d-none');
             loginForm.classList.add('d-none');
             loggedInContent.classList.remove('d-none');
+            accountButton.textContent = getCookie('username');
             break;
         default:
             console.error('Invalid action:', action);
@@ -23,27 +25,21 @@ export function switchAccountDropDown(action) {
     }
 }
 
-
-
-export function setCookie(name, value) {
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + 10 * 60 * 1000);
+export function setCookie(name, value, expirationMinutes = 10) {
+    const expirationDate = new Date(Date.now() + expirationMinutes * 60 * 1000);
     const cookieString = `${name}=${value}; expires=${expirationDate.toUTCString()}; path=/; secure; SameSite=None`;
     document.cookie = cookieString;
 }
 
-export function getCookie(cookie_name) {
-  let name = cookie_name + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let cookieArray = decodedCookie.split(';');
-  for(let i = 0; i <cookieArray.length; i++) {
-    let cookie = cookieArray[i];
-    while (cookie.charAt(0) == ' ') {
-      cookie = cookie.substring(1);
+export function getCookie(cookieName) {
+    const name = cookieName + "=";
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    for (let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i].trim();
+        if (cookie.indexOf(name) === 0) {
+            return cookie.substring(name.length);
+        }
     }
-    if (cookie.indexOf(name) == 0) {
-      return cookie.substring(name.length, cookie.length);
-    }
-  }
-  return "";
+    return "";
 }

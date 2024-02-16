@@ -10,7 +10,7 @@ public class ProductResponse implements Serializable {
     private String name;
     private Integer price;
     private String description;
-    private String creator_username;
+    private String seller_username;
 
     public ProductResponse(){}
 
@@ -46,7 +46,7 @@ public class ProductResponse implements Serializable {
         this.description = description;
     }
 
-    public String getCreator_username() {return creator_username;}
+    public String getSeller_username() {return seller_username;}
 
-    public void setCreator_username(String creator_username) {this.creator_username = creator_username;}
+    public void setSeller_username(String seller_username) {this.seller_username = seller_username;}
 }

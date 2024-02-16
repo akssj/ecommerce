@@ -1,6 +1,5 @@
 package alledrogo.controller;
 
-import alledrogo.data.entity.CategoryEntity;
 import alledrogo.data.entity.UserEntity;
 import alledrogo.data.entity.ProductEntity;
 
@@ -19,9 +18,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Api endpoint class, provides /product/handling endpoint to manipulate products in database.
@@ -86,7 +82,7 @@ public class ProductHandlerController {
 
         ProductEntity productEntity = productService.findById(id);
 
-        if (!productEntity.getCreator().getUsername().equals(jwtUtils.getUserNameFromJwtToken(token))) {
+        if (!productEntity.getSeller().getUsername().equals(jwtUtils.getUserNameFromJwtToken(token))) {
             return ResponseEntity.badRequest().body(new MessageResponse("You do not own this item."));
         }
 
@@ -116,7 +112,7 @@ public class ProductHandlerController {
             if (productEntity.getBuyer() != null) {
                 return ResponseEntity.badRequest().body(new MessageResponse("Item is no longer available for sale!"));
             }
-            if (productEntity.getCreator().getUsername().equals(buyerUsername)) {
+            if (productEntity.getSeller().getUsername().equals(buyerUsername)) {
                 return ResponseEntity.badRequest().body(new MessageResponse("You cannot buy your own items!"));
             }
 

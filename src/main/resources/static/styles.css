@@ -14,3 +14,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.square-btn {
+    border-radius: 0 !important;
+}

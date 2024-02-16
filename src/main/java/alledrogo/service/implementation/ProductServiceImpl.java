@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if (username.equals(product.getCreator().getUsername())) {
+            if (username.equals(product.getSeller().getUsername())) {
                 filteredProducts.add(product);
             }
         }
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if (username.equals(product.getCreator().getUsername())) {
+            if (username.equals(product.getSeller().getUsername())) {
                 filteredProducts.add(product);
             }
         }
@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> filteredProducts = new ArrayList<>();
 
         for (ProductEntity product : allProducts) {
-            if (username.equals(product.getCreator().getUsername()) && product.getCreator() != null) {
+            if (username.equals(product.getSeller().getUsername()) && product.getSeller() != null) {
                 filteredProducts.add(product);
             }
         }

@@ -5,6 +5,7 @@ import alledrogo.data.enums.UserRole;
 import alledrogo.data.enums.UserStatus;
 import alledrogo.io.request.AuthenticationRequest;
 import alledrogo.io.response.MessageResponse;
+import alledrogo.io.response.UserDataResponse;
 import alledrogo.security.jwt.JwtUtils;
 import alledrogo.service.UserService;
 
@@ -78,7 +79,6 @@ public class AuthenticationController {
                 .body(new MessageResponse("User logged out successfully!"));
     }
 
-
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
 
@@ -143,6 +143,24 @@ public class AuthenticationController {
         }
     }
 
+    @PostMapping("/userData")
+    public ResponseEntity<?> userData(@CookieValue(name = "token") String token) {
+        try {
+            UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
+
+            UserDataResponse userDataResponse = new UserDataResponse(userEntity.getUsername(), userEntity.getEmail());
+
+            HttpHeaders headers = new HttpHeaders();
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(userDataResponse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
+        }
+    }
+
+
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteUser(@Valid @RequestBody AuthenticationRequest authenticationRequest, @CookieValue(name = "token") String token) {
 
@@ -202,8 +220,10 @@ public class AuthenticationController {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
         return sdf.format(expirationDate);
     }
+
     private String expireTokens() {
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
         Date expirationDate = calendar.getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
         return sdf.format(expirationDate);

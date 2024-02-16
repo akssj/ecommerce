@@ -21,19 +21,19 @@ public class ProductEntity {
     @Column(name = "product_category")
     private String category;
     @ManyToOne
-    @JoinColumn(name = "creator")
-    private UserEntity creator;
+    @JoinColumn(name = "seller")
+    private UserEntity seller;
     @ManyToOne
     @JoinColumn(name = "buyer")
     private UserEntity buyer;
 
     public ProductEntity() {}
-    public ProductEntity(String name, Float price, String description, String category, UserEntity creator) {
+    public ProductEntity(String name, Float price, String description, String category, UserEntity seller) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
-        this.creator = creator;
+        this.seller = seller;
         this.buyer = null;
     }
 
@@ -47,8 +47,8 @@ public class ProductEntity {
     public void setDescription(String description) {this.description = description;}
     public String getCategory() {return category;}
     public void setCategory(String category) {this.category = category;}
-    public UserEntity getCreator() {return creator;}
-    public void setCreator(UserEntity creator) {this.creator = creator;}
+    public UserEntity getSeller() {return seller;}
+    public void setSeller(UserEntity seller) {this.seller = seller;}
     public UserEntity getBuyer() {return buyer;}
     public void setBuyer(UserEntity buyer) {this.buyer = buyer;}
 }

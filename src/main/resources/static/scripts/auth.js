@@ -22,24 +22,27 @@ export function login() {
     body: jsonLoginData
   };
 
-  fetch('http://localhost:8080/auth/login', requestLogin)
+return fetch('http://localhost:8080/auth/login', requestLogin)
     .then(response => {
-      if (response.ok) {
-        return response.json().then(data => {
-        switchAccountDropDown('showAccountOptions');
-        setCookie('loggedIn', 'true');
-        getUserStatus();
+        if (response.ok) {
+            return response.json();
+        } else {
+            return response.json().then(data => {
+                const errorMessage = data.message || "An error occurred during login.";
+                alert(errorMessage);
+                throw new Error(errorMessage);
+            });
+        }
+    })
+    .then(data => {
+        return getUserStatus().then(() => {
+            setCookie('loggedIn', 'true');
+            switchAccountDropDown('showAccountOptions');
         });
-      } else {
-        return response.json().then(data => {
-          const errorMessage = data.message;
-          alert(errorMessage);
-          throw new Error(errorMessage);
-        });
-      }
     })
     .catch(error => {
-      console.error(error);
+        console.error("Network error:", error);
+        alert("An error occurred during login. Please try again later.");
     });
 }
 
@@ -78,56 +81,59 @@ export function signup() {
     body: jsonSignupData
   };
 
-  fetch('http://localhost:8080/auth/signup', requestSignup)
+return fetch('http://localhost:8080/auth/signup', requestSignup)
     .then(response => {
-      if (response.ok) {
-        getUserStatus();
-        switchAccountDropDown('showAccountOptions');
-        setCookie('loggedIn', 'true');
-        return response.json();
-      } else {
-        return response.json().then(data => {
-          const errorMessage = data.message || "An error occurred during signup.";
-          throw new Error(errorMessage);
+        if (response.ok) {
+            return response.json();
+        } else {
+            return response.json().then(data => {
+                const errorMessage = data.message || "An error occurred during signup.";
+                throw new Error(errorMessage);
+            });
+        }
+    })
+    .then(data => {
+        return getUserStatus().then(() => {
+            setCookie('loggedIn', 'true');
+            switchAccountDropDown('showAccountOptions');
         });
-      }
     })
     .catch(error => {
-      console.error("Network error:", error);
-      alert("An error occurred during signup. Please try again later.");
+        console.error("Network error:", error);
+        alert("An error occurred during signup. Please try again later.");
     });
+
 }
 
 /*==================
 user status request
 ==================*/
 export function getUserStatus() {
-  fetch('http://localhost:8080/auth/userStatus', {
+  return fetch('http://localhost:8080/auth/userStatus', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => {
-    if (response.ok) {
-      return response.json().then(data => {
-      });
-    } else {
-      return response.json().then(data => {
-        const errorMessage = data.message;
-        alert(errorMessage);
-        throw new Error(errorMessage);
-      });
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then(data => {
+          const errorMessage = data.message;
+          alert(errorMessage);
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
-/*============
-  sign out
-============*/
+/*==================
+   SignOut request
+==================*/
 export function signOut() {
   localStorage.clear();
 
@@ -137,25 +143,26 @@ export function signOut() {
     document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure; SameSite=None`;
   }
 
-  fetch('http://localhost:8080/auth/logout', {
+  return fetch('http://localhost:8080/auth/logout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     }
   })
-  .then(response => {
-    if (response.ok) {
-      return response.json().then(data => {
-       window.location.href = "http://localhost:8080/main";
-      });
-    } else {
-      return response.json().then(data => {
-        const errorMessage = data.message || 'Error logging out.';
-        throw new Error(errorMessage);
-      });
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then(data => {
+          const errorMessage = data.message || 'Error logging out.';
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .then(data => {
+      window.location.href = "http://localhost:8080/main";
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }

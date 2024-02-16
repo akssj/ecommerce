@@ -1,52 +1,40 @@
-import { loadNavbar, loadCategories } from './scripts/pageBuilder.js';
-
+import { loadNavbar, loadCategories, loadUserData } from './scripts/pageBuilder.js';
 import { login, signup, signOut } from './scripts/auth.js';
-
 import { fillProducts } from './scripts/product.js';
-
 import { addItem, buyItem, deleteItem } from './scripts/productHandling.js';
-
 import { switchAccountDropDown, setCookie, getCookie } from './scripts/utility.js';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
 
-    loadNavbar();
+    await loadNavbar();
+    if (getCookie('loggedIn') === 'true') {
+        switchAccountDropDown('showAccountOptions');
+    }
 
     loadCategories()
-
     fillProducts();
+    loadUserData();
 
-    document.addEventListener('click', function (e) {
-        if (getCookie('loggedIn') === 'true') {
-            switchAccountDropDown('showAccountOptions');
-        }
-        switch (e.target.getAttribute('data-action')) {
+    document.addEventListener('click', async function (e) {
+        const action = e.target.getAttribute('data-action');
+        switch (action) {
             case 'login':
-                e.preventDefault();
-                login();
+                await login();
                 break;
             case 'register':
-                e.preventDefault();
-                signup();
+                await signup();
                 break;
             case 'logout':
-                e.preventDefault();
-                signOut();
+                await signOut();
                 break;
             case 'loginForm':
-                e.preventDefault();
                 switchAccountDropDown('showLoginForm');
                 break;
             case 'registerForm':
-                e.preventDefault();
                 switchAccountDropDown('showRegisterForm');
                 break;
             default:
                 break;
         }
     });
-
-
-
-
 });
