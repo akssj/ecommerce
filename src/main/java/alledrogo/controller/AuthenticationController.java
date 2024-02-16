@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -67,6 +68,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> logoutUser() {
         SecurityContextHolder.clearContext();
 
@@ -127,6 +129,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/userStatus")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> userStatus(@CookieValue(name = "token") String token) {
         try {
             UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
@@ -144,6 +147,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/userData")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> userData(@CookieValue(name = "token") String token) {
         try {
             UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
@@ -161,7 +165,8 @@ public class AuthenticationController {
     }
 
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> deleteUser(@Valid @RequestBody AuthenticationRequest authenticationRequest, @CookieValue(name = "token") String token) {
 
         String requestUsername = authenticationRequest.getUsername();
@@ -186,7 +191,8 @@ public class AuthenticationController {
         }
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/update")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@Valid @RequestBody AuthenticationRequest authenticationRequest,  @CookieValue(name = "token") String token) {
 
         String requestUsername = authenticationRequest.getUsername();

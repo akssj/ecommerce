@@ -6,6 +6,7 @@ import alledrogo.data.entity.ProductEntity;
 import alledrogo.service.ProductCategoryService;
 import alledrogo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -44,14 +45,17 @@ public class ProductController {
         return productService.findProductByName(name);
     }
     @GetMapping("/my-products")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public List<ProductEntity> findMyProducts(@CookieValue(name = "token") String token) {
         return productService.findMyProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
     @GetMapping("/bought-products")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public List<ProductEntity> findBoughtProducts(@CookieValue(name = "token") String token) {
         return productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
     @GetMapping("/sold")
+    @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public List<ProductEntity> findSoldProducts(@CookieValue(name = "token") String token) {
         return productService.findSoldProducts(jwtUtils.getUserNameFromJwtToken(token));
     }

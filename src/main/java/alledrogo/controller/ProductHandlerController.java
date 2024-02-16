@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/product/handling")
+@PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
 public class ProductHandlerController {
     private final ProductService productService;
     private final ProductHandlingService productHandlingService;

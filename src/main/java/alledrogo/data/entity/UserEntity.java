@@ -20,7 +20,7 @@ public class UserEntity {
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private UserRole userRole;
+    private UserRole role;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private UserStatus accountStatus;
@@ -28,10 +28,10 @@ public class UserEntity {
     private String email;
 
     public UserEntity() {}
-    public UserEntity(String username, String password, UserRole userRole, UserStatus accountStatus, String email) {
+    public UserEntity(String username, String password, UserRole role, UserStatus accountStatus, String email) {
         this.username = username;
         this.password = password;
-        this.userRole = userRole;
+        this.role = role;
         this.accountStatus = accountStatus;
         this.email = email;
     }
@@ -42,10 +42,8 @@ public class UserEntity {
     public void setUsername(String username) {this.username = username;}
     public String getPassword() {return password;}
     public void setPassword(String password) {this.password = password;}
-    public UserRole getUserRole() {return userRole;}
-    public void setUserRole(UserRole userRole) {this.userRole = userRole;}
-    public UserRole getRole() {return userRole;}
-    public void setRole(UserRole role) {this.userRole = role;}
+    public UserRole getRole() {return role;}
+    public void setRole(UserRole role) {this.role = role;}
     public UserStatus getAccountStatus() {return accountStatus;}
     public void setAccountStatus(UserStatus accountStatus) {this.accountStatus = accountStatus;}
     public String getEmail() {return email;}
