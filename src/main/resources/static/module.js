@@ -1,4 +1,4 @@
-import { loadNavbar, loadCategories, loadUserData } from './scripts/pageBuilder.js';
+import { loadNavbar, loadCategories, loadUserData, fetchAndCacheModalContent } from './scripts/pageBuilder.js';
 import { login, signup, signOut } from './scripts/auth.js';
 import { fillProducts } from './scripts/product.js';
 import { addItem, buyItem, deleteItem } from './scripts/productHandling.js';
@@ -11,9 +11,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         switchAccountDropDown('showAccountOptions');
     }
 
-    loadCategories()
-    fillProducts();
-    loadUserData();
+    await Promise.all([loadCategories(), fillProducts(), loadUserData()]);
+
+    await fetchAndCacheModalContent('/static/component/change_password_modal.html', 'changePasswordModalContent', 'changePasswordModal');
+    await fetchAndCacheModalContent('/static/component/delete_account_modal.html', 'deleteAccountModalContent', 'deleteAccountModal');
 
     document.addEventListener('click', async function (e) {
         const action = e.target.getAttribute('data-action');

@@ -4,8 +4,8 @@ import { switchAccountDropDown, setCookie, getCookie } from './utility.js';
 login request
 ============*/
 export function login() {
-  const usernameInput = document.getElementById('DropdownFormUsername');
-  const passwordInput = document.getElementById('DropdownFormPassword');
+  const usernameInput = document.getElementById('loginFormUsername');
+  const passwordInput = document.getElementById('loginFormPassword');
 
   const loginData = {
     username: usernameInput.value,
@@ -50,10 +50,10 @@ return fetch('http://localhost:8080/auth/login', requestLogin)
 signup request
 ============*/
 export function signup() {
-  const usernameInput = document.getElementById('DropdownFormUsernameRegister');
-  const passwordInput = document.getElementById('DropdownFormPasswordRegister');
-  const emailInput = document.getElementById('DropdownFormEmailRegister');
-  const confirmPasswordInput = document.getElementById('DropdownFormPasswordRegisterConfirm');
+  const usernameInput = document.getElementById('registerFormUsername');
+  const emailInput = document.getElementById('registerFormEmail');
+  const passwordInput = document.getElementById('registerFormPassword');
+  const confirmPasswordInput = document.getElementById('registerFormConfirmPassword');
 
   if (passwordInput.value !== confirmPasswordInput.value) {
     alert("Password does not match!");

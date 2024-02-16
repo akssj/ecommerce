@@ -23,11 +23,12 @@ public class StaticResourceController {
         Resource resource = new ClassPathResource("static/" + fileName);
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
-    @GetMapping(value = "/navbar.html", produces = "text/html")
-    public byte[] getNavbarHtml() throws IOException {
-        Resource resource = new ClassPathResource("templates/components/navbar.html");
+    @GetMapping(value = "/component/{fileName}", produces = "text/html")
+    public byte[] getNavbarHtml(@PathVariable String fileName) throws IOException {
+        Resource resource = new ClassPathResource("templates/components/" + fileName);
         return Files.readAllBytes(Path.of(resource.getURI()));
     }
+
     @GetMapping(value = "/styles.css", produces = "text/css")
     public byte[] getStyleFile() throws IOException {
         Resource resource = new ClassPathResource("static/styles.css");

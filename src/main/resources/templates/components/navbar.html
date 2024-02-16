@@ -2,31 +2,28 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
 
-        <!-- Brand -->
         <a class="navbar-brand" href="/main">Alledrogo</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            <!-- Nav dropdowns -->
             <div class="dropdown ms-auto">
 
-                <!-- Logged Off Dropdown -->
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true" data-bs-auto-close="outside" id="accountButton">
                     Account
                 </button>
 
                 <div class="dropdown-menu p-4 larger-dropdown-menu dropdown-menu-end" id="login-form">
 
-                    <!-- Log in Dropdown -->
+                    <!-- Login dropdown -->
                     <div id="loginForm">
                         <div class="mb-3">
-                            <label for="DropdownFormUsername" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="DropdownFormUsername" placeholder="Your username" required>
+                            <label for="loginFormUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="loginFormUsername" placeholder="Your username" required>
                             <div class="invalid-feedback">Please enter a Username</div>
                         </div>
                         <div class="mb-3">
-                            <label for="DropdownFormPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="DropdownFormPassword" placeholder="Your password" required>
+                            <label for="loginFormPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginFormPassword" placeholder="Your password" required>
                             <div class="invalid-feedback">Please enter a Password</div>
                         </div>
                         <div class="d-grid gap-2">
@@ -37,26 +34,26 @@
                         </div>
                     </div>
 
-                    <!-- Sign up Dropdown -->
+                    <!-- Signup dropdown -->
                     <div id="registerForm" class="d-none">
                         <div class="mb-3">
-                            <label for="DropdownFormUsernameRegister" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="DropdownFormUsernameRegister" placeholder="Create username" required>
+                            <label for="registerFormUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="registerFormUsername" placeholder="Create username" required>
                             <div class="invalid-feedback">Please enter a Username</div>
                         </div>
                         <div class="mb-3">
-                            <label for="DropdownFormEmailRegister" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="DropdownFormEmailRegister" placeholder="Enter your email" required>
+                            <label for="registerFormEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerFormEmail" placeholder="Enter your email" required>
                             <div class="invalid-feedback">Please enter a valid Email</div>
                         </div>
                         <div class="mb-3">
-                            <label for="DropdownFormPasswordRegister" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="DropdownFormPasswordRegister" placeholder="Create password" required>
+                            <label for="registerFormPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerFormPassword" placeholder="Create password" required>
                             <div class="invalid-feedback">Please enter a Password</div>
                         </div>
                         <div class="mb-3">
-                            <label for="DropdownFormPasswordRegisterConfirm" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="DropdownFormPasswordRegisterConfirm" placeholder="Confirm password" required>
+                            <label for="registerFormConfirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="registerFormConfirmPassword" placeholder="Confirm password" required>
                             <div class="invalid-feedback">Please reenter a Password</div>
                         </div>
                         <div class="d-grid gap-2">
@@ -67,9 +64,8 @@
                         </div>
                     </div>
 
-
-                    <!-- Logged In Dropdown -->
-                    <div id="loggedInContent" class="d-none">
+                    <!-- Account dropdown -->
+                    <div id="accountDropdown" class="d-none">
                         <div><a class="dropdown-item" href="/my-profile">My profile</a></div>
                         <div><hr class="dropdown-divider"></hr></div>
                         <div><a class="dropdown-item" href="/my-products">My Products</a></div>
@@ -78,9 +74,13 @@
                         <div><hr class="dropdown-divider"></hr></div>
                         <div><a class="dropdown-item" href="#" data-action="logout">Log out</a></div>
                     </div>
+
                 </div>
+
             </div>
 
         </div>
+
     </div>
+    
 </nav>

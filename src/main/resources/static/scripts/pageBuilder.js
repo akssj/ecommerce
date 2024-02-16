@@ -13,7 +13,7 @@ export function loadNavbar() {
                 }
             }
         };
-        xhr.open('GET', '/static/navbar.html', true);
+        xhr.open('GET', '/static/component/navbar.html', true);
         xhr.send();
     });
 }
@@ -63,8 +63,6 @@ export function loadCategories() {
         });
 }
 
-
-
 export function loadUserData() {
     const userDataContainer = document.getElementById('userDataContainer');
     if (!userDataContainer) {
@@ -92,5 +90,33 @@ export function loadUserData() {
         console.error('Error:', error);
     });
 }
+
+export function fetchAndCacheModalContent(modalUrl, storageKey, modalId) {
+    if (window.location.href === 'http://localhost:8080/my-profile') {
+        const modalContent = localStorage.getItem(storageKey);
+        if (modalContent) {
+            document.getElementById(modalId).querySelector('.modal-content').innerHTML = modalContent;
+            return;
+        }
+
+        fetch(modalUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch modal content');
+                }
+                return response.text();
+            })
+            .then(modalHtml => {
+                document.getElementById(modalId).querySelector('.modal-content').innerHTML = modalHtml;
+                localStorage.setItem(storageKey, modalHtml);
+            })
+            .catch(error => {
+                console.error('Error fetching modal content:', error);
+            });
+    }
+}
+
+
+
 
 

@@ -1,7 +1,7 @@
 export function switchAccountDropDown(action) {
     const registerForm = document.querySelector('#registerForm');
     const loginForm = document.querySelector('#loginForm');
-    const loggedInContent = document.querySelector('#loggedInContent');
+    const loggedInContent = document.querySelector('#accountDropdown');
     const accountButton = document.querySelector('#accountButton');
 
     switch (action) {

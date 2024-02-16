@@ -6,7 +6,6 @@ export function addItem() {
     const itemName = document.getElementById('item-name-input').value;
     const itemDescription = document.getElementById('item-description-input').value;
     const itemPrice = document.getElementById('item-price-input').value;
-    const token = localStorage.getItem('token');
     const addItemErrorTextField = document.getElementById('add-item-error-text-field');
 
     try {
@@ -31,7 +30,6 @@ export function addItem() {
     fetch('http://localhost:8080/product/handling/add', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(addItemData)
@@ -74,7 +72,6 @@ export function buyItem(event) {
     fetch(`http://localhost:8080/product/handling/${itemId}/buy`, {
         method: 'PUT',
         headers: {
-            'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
         }
     })
@@ -106,7 +103,6 @@ export function deleteItem(event) {
     fetch(`http://localhost:8080/product/handling/${itemId}/delete`, {
         method: 'DELETE',
         headers: {
-            'Authorization': 'Bearer ' + token,
             'Content-Type': 'application/json'
         }
     })
