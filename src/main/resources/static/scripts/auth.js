@@ -166,3 +166,104 @@ export function signOut() {
       console.error(error);
     });
 }
+
+/*==================
+   Delete request
+==================*/
+export function deleteAccount() {
+  const usernameInput = document.getElementById('deleteAccountUsername');
+  const passwordInput = document.getElementById('deleteAccountPassword');
+
+  const deleteData = {
+    username: usernameInput.value,
+    password: passwordInput.value
+  };
+
+  const jsonDeleteData = JSON.stringify(deleteData);
+
+  const requestDelete = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: jsonDeleteData
+  };
+
+  fetch('http://localhost:8080/auth/delete', requestDelete)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then(data => {
+          const errorMessage = data.message || "An error occurred while deleting the account.";
+          alert(errorMessage);
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .then(data => {
+      if (data.message === "User account has been deleted!") {
+        signOut();
+      } else {
+        alert("Failed to delete user account!");
+      }
+    })
+    .catch(error => {
+      console.error("Network error:", error);
+      alert("An error occurred while deleting the account. Please try again later.");
+    });
+}
+
+/*=========================
+   Update password request
+===========================*/
+export function changePassword() {
+    const currentPasswordInput = document.getElementById('currentPassword');
+    const newPasswordInput = document.getElementById('newPassword');
+    const confirmNewPasswordInput = document.getElementById('confirmNewPassword');
+
+    const currentPassword = currentPasswordInput.value;
+    const newPassword = newPasswordInput.value;
+    const confirmNewPassword = confirmNewPasswordInput.value;
+
+    if (newPassword !== confirmNewPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    const changePasswordData = {
+        password: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: confirmNewPassword
+    };
+
+    const jsonChangePasswordData = JSON.stringify(changePasswordData);
+
+    const requestChangePassword = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: jsonChangePasswordData
+    };
+
+    fetch('http://localhost:8080/auth/changePassword', requestChangePassword)
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    const errorMessage = data.message || "An error occurred while changing the password.";
+                    alert(errorMessage);
+                    throw new Error(errorMessage);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error("Network error:", error);
+            alert("An error occurred while changing the password. Please try again later.");
+        });
+}
+

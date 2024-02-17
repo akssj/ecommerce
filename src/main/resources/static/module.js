@@ -1,5 +1,5 @@
 import { loadNavbar, loadCategories, loadUserData, fetchAndCacheModalContent } from './scripts/pageBuilder.js';
-import { login, signup, signOut } from './scripts/auth.js';
+import { login, signup, signOut, deleteAccount, changePassword } from './scripts/auth.js';
 import { fillProducts } from './scripts/product.js';
 import { addItem, buyItem, deleteItem } from './scripts/productHandling.js';
 import { switchAccountDropDown, setCookie, getCookie } from './scripts/utility.js';
@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', async function () {
                 break;
             case 'registerForm':
                 switchAccountDropDown('showRegisterForm');
+                break;
+            case 'deleteAccount':
+                await deleteAccount();
+                break;
+            case 'changePassword':
+                await changePassword();
                 break;
             default:
                 break;

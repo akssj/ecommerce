@@ -91,6 +91,10 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(new MessageResponse("All fields are required"));
         }
 
+        if (!authenticationRequest.getPassword().equals(authenticationRequest.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Passwords do not match"));
+        }
+
         if (userService.existsByUsername(username)) {
             return ResponseEntity.badRequest().body(new MessageResponse("An account with the given Username already exists"));
         }
@@ -154,68 +158,70 @@ public class AuthenticationController {
 
             UserDataResponse userDataResponse = new UserDataResponse(userEntity.getUsername(), userEntity.getEmail());
 
-            HttpHeaders headers = new HttpHeaders();
-
             return ResponseEntity.ok()
-                    .headers(headers)
                     .body(userDataResponse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
         }
     }
 
-
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteUser(@Valid @RequestBody AuthenticationRequest authenticationRequest, @CookieValue(name = "token") String token) {
+    public ResponseEntity<?> deleteUser(@RequestBody AuthenticationRequest authenticationRequest, @CookieValue(name = "token") String token) {
 
-        String requestUsername = authenticationRequest.getUsername();
-        String tokenUsername = jwtUtils.getUserNameFromJwtToken(token);
+        String usernameFromToken = jwtUtils.getUserNameFromJwtToken(token);
+        String usernameFromRequest = authenticationRequest.getUsername();
 
-        if (!requestUsername.equals(tokenUsername)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!."));
+        if (!usernameFromToken.equals(usernameFromRequest)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Provided data does not match!"));
         }
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        UserEntity userEntity = userService.findByUsername(usernameFromToken);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        UserEntity userEntity = userService.findByUsername(requestUsername);
-
-        boolean deleteUser = userService.deleteUser(userEntity);
-        if (deleteUser){
-            return ResponseEntity.ok(new MessageResponse("User deleted successfully!"));
-        }else{
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!."));
+        if (userEntity == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
         }
+
+        userEntity.setAccountStatus(UserStatus.STATUS_DELETED);
+        userService.updateUser(userEntity);
+
+        if (userEntity.getAccountStatus() != UserStatus.STATUS_DELETED) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to delete user account!"));
+        }
+        return ResponseEntity.ok(new MessageResponse("User account has been deleted!"));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/changePassword")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> updateUser(@Valid @RequestBody AuthenticationRequest authenticationRequest,  @CookieValue(name = "token") String token) {
 
-        String requestUsername = authenticationRequest.getUsername();
         String tokenUsername = jwtUtils.getUserNameFromJwtToken(token);
 
-        if (!requestUsername.equals(tokenUsername)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!."));
+        UserEntity userEntity = userService.findByUsername(tokenUsername);
+
+        if (userEntity == null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
         }
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(requestUsername, authenticationRequest.getPassword()));
+        if (!passwordEncoder.matches(authenticationRequest.getPassword(), userEntity.getPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Incorrect current password!"));
+        }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (!authenticationRequest.getNewPassword().equals(authenticationRequest.getConfirmPassword())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("New password and confirmation do not match!"));
+        }
 
-        UserEntity userEntity = userService.findByUsername(requestUsername);
+        String currentEncryptedPassword = userEntity.getPassword();
 
-        //TODO updating user
+        userEntity.setPassword(passwordEncoder.encode(authenticationRequest.getNewPassword()));
+        userService.updateUser(userEntity);
 
-        boolean updateUser = userService.updateUser(userEntity);
-        if (updateUser){
-            return ResponseEntity.ok(new MessageResponse("User data updated!"));
-        }else{
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!"));
+        UserEntity updatedUserEntity = userService.findByUsername(tokenUsername);
+
+        if (!currentEncryptedPassword.equals(updatedUserEntity.getPassword())) {
+            return ResponseEntity.ok(new MessageResponse("User password has been updated!"));
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Failed to update user password!"));
         }
     }
 
