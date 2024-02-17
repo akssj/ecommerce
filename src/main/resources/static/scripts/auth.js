@@ -29,7 +29,6 @@ return fetch('http://localhost:8080/auth/login', requestLogin)
         } else {
             return response.json().then(data => {
                 const errorMessage = data.message || "An error occurred during login.";
-                alert(errorMessage);
                 throw new Error(errorMessage);
             });
         }
@@ -42,7 +41,7 @@ return fetch('http://localhost:8080/auth/login', requestLogin)
     })
     .catch(error => {
         console.error("Network error:", error);
-        alert("An error occurred during login. Please try again later.");
+        alert(error);
     });
 }
 
@@ -68,6 +67,7 @@ export function signup() {
   const signupData = {
     username: usernameInput.value,
     password: passwordInput.value,
+    confirmPassword: confirmPasswordInput.value,
     email: emailInput.value
   };
 
@@ -100,7 +100,7 @@ return fetch('http://localhost:8080/auth/signup', requestSignup)
     })
     .catch(error => {
         console.error("Network error:", error);
-        alert("An error occurred during signup. Please try again later.");
+        alert(error);
     });
 
 }
@@ -192,6 +192,12 @@ export function deleteAccount() {
   fetch('http://localhost:8080/auth/delete', requestDelete)
     .then(response => {
       if (response.ok) {
+        localStorage.clear();
+        const cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+        const [name, _] = cookie.split("=");
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure; SameSite=None`;
+        }
         return response.json();
       } else {
         return response.json().then(data => {
@@ -202,15 +208,11 @@ export function deleteAccount() {
       }
     })
     .then(data => {
-      if (data.message === "User account has been deleted!") {
-        signOut();
-      } else {
-        alert("Failed to delete user account!");
-      }
+        window.location.href = "http://localhost:8080/main";
     })
     .catch(error => {
       console.error("Network error:", error);
-      alert("An error occurred while deleting the account. Please try again later.");
+      alert(error);
     });
 }
 
@@ -263,7 +265,7 @@ export function changePassword() {
         })
         .catch(error => {
             console.error("Network error:", error);
-            alert("An error occurred while changing the password. Please try again later.");
+            alert(error);
         });
 }
 

@@ -49,9 +49,10 @@ public class AuthenticationController {
     public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
 
         String username = authenticationRequest.getUsername();
+        String password = authenticationRequest.getPassword();
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, authenticationRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(username, password)
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -59,7 +60,6 @@ public class AuthenticationController {
         String token = jwtUtils.generateJwtToken(authentication);
 
         HttpHeaders headers = new HttpHeaders();
-
         headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + getExpirationTimeString());
 
         return ResponseEntity.ok()
@@ -188,7 +188,14 @@ public class AuthenticationController {
         if (userEntity.getAccountStatus() != UserStatus.STATUS_DELETED) {
             return ResponseEntity.badRequest().body(new MessageResponse("Failed to delete user account!"));
         }
-        return ResponseEntity.ok(new MessageResponse("User account has been deleted!"));
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add("Set-Cookie", "token=" + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expireTokens());
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new MessageResponse("User account has been deleted!"));
     }
 
     @PutMapping("/changePassword")
