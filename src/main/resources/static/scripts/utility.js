@@ -25,6 +25,16 @@ export function switchAccountDropDown(action) {
     }
 }
 
+export function hideModal(modalId) {
+   const modal = document.getElementById(modalId);
+   if (modal) {
+       const modalInstance = bootstrap.Modal.getInstance(modal);
+       if (modalInstance) {
+           modalInstance.hide();
+       }
+   }
+}
+
 export function setCookie(name, value, expirationMinutes = 10) {
     const expirationDate = new Date(Date.now() + expirationMinutes * 60 * 1000);
     const cookieString = `${name}=${value}; expires=${expirationDate.toUTCString()}; path=/; secure; SameSite=None`;

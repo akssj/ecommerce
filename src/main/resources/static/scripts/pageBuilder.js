@@ -19,8 +19,8 @@ export function loadNavbar() {
 }
 
 export function loadCategories() {
-    const dropdownContainer = document.getElementById("categoryContainer");
-    if (!dropdownContainer) return;
+    const categoryContainer = document.getElementById("categoryContainer");
+    const addItemModal = document.getElementById("addItemModal");
 
     fetch("http://localhost:8080/product/categories")
         .then(response => {
@@ -30,37 +30,88 @@ export function loadCategories() {
             return response.json();
         })
         .then(categories => {
-            categories.forEach(category => {
-                const div = document.createElement("div");
-                div.classList.add("d-grid", "gap-2", "dropend");
-
-                const button = document.createElement("button");
-                button.type = "button";
-                button.classList.add("btn", "btn-primary", "dropdown-toggle-text", "bg-transparent", "text-dark", "border-black", "square-btn");
-                button.setAttribute("data-bs-toggle", "dropdown");
-                button.innerText = category.name;
-
-                const ul = document.createElement("ul");
-                ul.classList.add("dropdown-menu");
-
-                category.subCategories.forEach(subCategory => {
-                    const li = document.createElement("li");
-                    const a = document.createElement("a");
-                    a.classList.add("dropdown-item");
-                    a.href = `/category/${subCategory}`;
-                    a.innerText = subCategory;
-                    li.appendChild(a);
-                    ul.appendChild(li);
-                });
-
-                div.appendChild(button);
-                div.appendChild(ul);
-                dropdownContainer.appendChild(div);
-            });
+            switch (true) {
+                case !!categoryContainer:
+                    updateCategoryContainer(categories);
+                    break;
+                case !!addItemModal:
+                    updateAddItemModal(categories);
+                    break;
+                default:
+                    break;
+            }
         })
         .catch(error => {
-            console.error(error);
+            console.error("Error loading categories:", error);
         });
+}
+
+function updateCategoryContainer(categories) {
+    const categoryElements = categories.map(category => {
+        const subCategoryElements = category.subCategories.map(subCategory => {
+            return `<li><a class="dropdown-item" href="/category/${subCategory}">${subCategory}</a></li>`;
+        }).join('');
+
+        return `
+            <div class="d-grid gap-2 dropend">
+                <button type="button" class="btn btn-primary dropdown-toggle-text bg-transparent text-dark border-black square-btn" data-bs-toggle="dropdown">
+                    ${category.name}
+                </button>
+                <ul class="dropdown-menu">
+                    ${subCategoryElements}
+                </ul>
+            </div>
+        `;
+    }).join('');
+
+    categoryContainer.innerHTML = categoryElements;
+}
+
+function updateAddItemModal(categories) {
+    const categorySelect = addItemModal.querySelector('#itemCategory');
+    categorySelect.innerHTML = '';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.innerText = 'Select a category';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    categorySelect.appendChild(defaultOption);
+
+    categories.forEach(category => {
+        const categoryOption = document.createElement('option');
+        categoryOption.value = category.name;
+        categoryOption.innerText = category.name;
+        categorySelect.appendChild(categoryOption);
+    });
+
+    categorySelect.addEventListener('change', () => {
+        const selectedCategory = categorySelect.value;
+        const selectedCategoryObject = categories.find(category => category.name === selectedCategory);
+
+        if (selectedCategoryObject) {
+            updateSubCategorySelect(selectedCategoryObject.subCategories);
+        }
+    });
+}
+
+function updateSubCategorySelect(subCategories) {
+    const subCategorySelect = addItemModal.querySelector('#itemSubCategory');
+    subCategorySelect.innerHTML = '';
+
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.innerText = 'Select a subcategory';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    subCategorySelect.appendChild(defaultOption);
+
+    subCategories.forEach(subCategory => {
+        const subCategoryOption = document.createElement('option');
+        subCategoryOption.value = subCategory;
+        subCategoryOption.innerText = subCategory;
+        subCategorySelect.appendChild(subCategoryOption);
+    });
 }
 
 export function loadUserData() {
@@ -91,30 +142,7 @@ export function loadUserData() {
     });
 }
 
-export function fetchAndCacheModalContent(modalUrl, storageKey, modalId) {
-    if (window.location.href === 'http://localhost:8080/my-profile') {
-        const modalContent = localStorage.getItem(storageKey);
-        if (modalContent) {
-            document.getElementById(modalId).querySelector('.modal-content').innerHTML = modalContent;
-            return;
-        }
 
-        fetch(modalUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch modal content');
-                }
-                return response.text();
-            })
-            .then(modalHtml => {
-                document.getElementById(modalId).querySelector('.modal-content').innerHTML = modalHtml;
-                localStorage.setItem(storageKey, modalHtml);
-            })
-            .catch(error => {
-                console.error('Error fetching modal content:', error);
-            });
-    }
-}
 
 
 

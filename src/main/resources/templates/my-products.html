@@ -23,8 +23,8 @@
     <table id="product-table" class="table">
       <thead>
       <tr>
+        <th scope="col">Category</th>
         <th scope="col">Name</th>
-        <th scope="col">Seller</th>
         <th scope="col">Buyer</th>
         <th scope="col">Description</th>
         <th scope="col">Price</th>
@@ -32,11 +32,66 @@
       </tr>
       </thead>
       <tbody>
+        <tr id="empty-row">
+          <td colspan="6" class="text-center">
+            <button id="addItemBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">Add Item</button>
+          </td>
+        </tr>
       </tbody>
     </table>
 
   </div>
 
+</div>
+
+<div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addItemModalLabel">Adding Item</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="addItemForm">
+            <div class="mb-3">
+              <label for="itemCategory" class="form-label">Category</label>
+              <select class="form-select" id="itemCategory" required>
+                <option value="" selected disabled>Select a category</option>
+              </select>
+              <div class="invalid-feedback">Please select an item category</div>
+            </div>
+            <div class="mb-3">
+              <label for="itemSubCategory" class="form-label">Subcategory</label>
+              <select class="form-select" id="itemSubCategory" required>
+                <option value="" selected disabled>Select a subcategory</option>
+              </select>
+              <div class="invalid-feedback">Please select an item subcategory</div>
+            </div>
+            <div class="mb-3">
+              <label for="itemName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="itemName" placeholder="Enter name" required>
+              <div class="invalid-feedback">Please enter item name</div>
+            </div>
+            <div class="mb-3">
+              <label for="itemDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="itemDescription" placeholder="Enter description" required></textarea>
+              <div class="invalid-feedback">Please enter item description</div>
+            </div>
+            <div class="mb-3">
+              <label for="itemPrice" class="form-label">Price</label>
+              <input type="number" class="form-control" id="itemPrice" placeholder="Enter price" required>
+              <div class="invalid-feedback">Please enter item price</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-action="addItem">Add Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

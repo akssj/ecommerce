@@ -40,6 +40,35 @@
 <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="changePasswordForm">
+            <div class="mb-3">
+              <label for="currentPassword" class="form-label">Current Password</label>
+              <input type="password" class="form-control" id="currentPassword" placeholder="Your current password" required>
+              <div class="invalid-feedback">Please enter your current password</div>
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input type="password" class="form-control" id="newPassword" placeholder="Your new password" required>
+              <div class="invalid-feedback">Please enter a new password</div>
+            </div>
+            <div class="mb-3">
+              <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+              <input type="password" class="form-control" id="confirmNewPassword" placeholder="Repeat your new password" required>
+              <div class="invalid-feedback">Please confirm your new password</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-action="changePassword">Confirm</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -47,10 +76,33 @@
 <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="deleteAccountForm">
+            <div class="mb-3">
+              <label for="deleteAccountUsername" class="form-label">Username</label>
+              <input type="text" class="form-control" id="deleteAccountUsername" placeholder="Your username" required>
+              <div class="invalid-feedback">Please enter your username</div>
+            </div>
+            <div class="mb-3">
+              <label for="deleteAccountPassword" class="form-label">Password</label>
+              <input type="password" class="form-control" id="deleteAccountPassword" placeholder="Your password" required>
+              <div class="invalid-feedback">Please enter your password</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-action="deleteAccount">Delete Account</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>

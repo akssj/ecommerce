@@ -1,4 +1,4 @@
-import { switchAccountDropDown, setCookie, getCookie } from './utility.js';
+import { switchAccountDropDown, hideModal, setCookie, getCookie } from './utility.js';
 
 /*============
 login request
@@ -261,6 +261,7 @@ export function changePassword() {
             return response.json();
         })
         .then(data => {
+            hideModal('changePasswordModal');
             alert(data.message);
         })
         .catch(error => {
