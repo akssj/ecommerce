@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Api endpoint class, provides /auth endpoint to provide basic authentication and manipulate user data.
+ * Api endpoint class, provides /auth endpoint to authentication and CRUD user data.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

@@ -1,6 +1,6 @@
 package alledrogo.security.jwt;
 
-import alledrogo.security.service.UserDetailsServiceImpl;
+import alledrogo.security.service.UserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,13 +23,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   private JwtUtils jwtUtils;
 
   @Autowired
-  private UserDetailsServiceImpl userDetailsService;
+  private UserDetailsService userDetailsService;
 
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     try {
+      String requestUri = request.getRequestURI();
+      if (requestUri.startsWith("/static/") || requestUri.startsWith("/images/")) {
+        response.setHeader("Cache-Control", "max-age=3600");
+      }
       String token = parseJwt(request);
       if (token != null && jwtUtils.validateJwtToken(token)) {
         String username = jwtUtils.getUserNameFromJwtToken(token);

@@ -2,7 +2,7 @@ package alledrogo.security;
 
 import alledrogo.security.jwt.AuthEntryPointJwt;
 import alledrogo.security.jwt.AuthTokenFilter;
-import alledrogo.security.service.UserDetailsServiceImpl;
+import alledrogo.security.service.UserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,11 +24,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SpringAuthentication {
-  private final UserDetailsServiceImpl userDetailsService;
+  private final UserDetailsService userDetailsService;
   private final AuthEntryPointJwt authEntryPointJwt;
 
   @Autowired
-  public SpringAuthentication(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt authEntryPointJwt) {
+  public SpringAuthentication(UserDetailsService userDetailsService, AuthEntryPointJwt authEntryPointJwt) {
     this.userDetailsService = userDetailsService;
     this.authEntryPointJwt = authEntryPointJwt;
   }

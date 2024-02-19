@@ -21,7 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Api endpoint class, provides /product/handling endpoint to manipulate products in database.
+ * Api endpoint class, provides /product/handling endpoint to manipulate data in database.
  */
 @RestController
 @RequestMapping("/product/handling")

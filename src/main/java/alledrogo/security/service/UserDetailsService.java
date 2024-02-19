@@ -4,17 +4,16 @@ import alledrogo.data.entity.UserEntity;
 import alledrogo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
   private final UserService userService;
 
   @Autowired
-  public UserDetailsServiceImpl(UserService userService) {
+  public UserDetailsService(UserService userService) {
     this.userService = userService;
   }
 
@@ -27,15 +26,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       throw new UsernameNotFoundException("User not found with username: " + username);
     }
 
-    switch (userEntity.getAccountStatus()) {
-      case STATUS_DELETED:
-      case STATUS_BANNED:
-        throw new UsernameNotFoundException("User account is disabled");
-      case STATUS_ACTIVE:
-        return new UserDetailsImpl(userEntity);
-      default:
-        throw new IllegalStateException("Unexpected value: " + userEntity.getAccountStatus());
-    }
+    return switch (userEntity.getAccountStatus()) {
+      case STATUS_DELETED, STATUS_BANNED -> throw new UsernameNotFoundException("User account is disabled");
+      case STATUS_ACTIVE -> new UserDetailsImpl(userEntity);
+      default -> throw new IllegalStateException("Unexpected value: " + userEntity.getAccountStatus());
+    };
   }
 }
 

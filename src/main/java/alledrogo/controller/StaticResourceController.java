@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Api endpoint class, provides /static/{fileName} endpoint for "text/javascript" and "text/css" files.
+ * Api endpoint class, provides /static/{fileName} endpoint for frontend related files.
  */
 @RestController
 @RequestMapping("/static")

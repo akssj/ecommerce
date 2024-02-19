@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Api endpoint class, provides /product endpoint to search database.
+ * Api endpoint class, provides /product endpoint to retrieve data from database.
  */
 @RestController
 @RequestMapping("/product")
