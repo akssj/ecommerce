@@ -1,6 +1,8 @@
 package alledrogo.service.implementation;
 
+import alledrogo.data.entity.UserEntity;
 import alledrogo.data.repository.ProductRepository;
+import alledrogo.service.ProductProjection;
 import jakarta.persistence.EntityNotFoundException;
 import alledrogo.data.entity.ProductEntity;
 import alledrogo.service.ProductService;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * ProductService Implementation class.
  * Overrides methods from UserService introducing further logic.
@@ -23,21 +27,51 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+    private ProductProjection mapToProjection(ProductEntity product) {
+        return new ProductProjection() {
+            @Override
+            public Long getId() {
+                return product.getId();
+            }
+            @Override
+            public String getName() {
+                return product.getName();
+            }
+            @Override
+            public Float getPrice() {
+                return product.getPrice();
+            }
+            @Override
+            public String getDescription() {
+                return product.getDescription();
+            }
+            @Override
+            public String getCategory() {
+                return product.getCategory();
+            }
+            @Override
+            public String getSeller() {
+                return product.getSeller().getUsername();
+            }
+            @Override
+            public String getBuyer() {
+                UserEntity buyer = product.getBuyer();
+                return (buyer != null) ? buyer.getUsername() : null;
+            }
+        };
+    }
+
     /**
      * Returns not sold products
      * @return list of products where String Buyer field equals ""
      */
     @Override
-    public List<ProductEntity> findForSaleProduct() {
+    public List<ProductProjection> findForSaleProduct() {
         List<ProductEntity> allProducts = productRepository.findAll();
-        List<ProductEntity> filteredProducts = new ArrayList<>();
-
-        for (ProductEntity product : allProducts) {
-            if (product.getBuyer() == null) {
-                filteredProducts.add(product);
-            }
-        }
-        return filteredProducts;
+        return allProducts.stream()
+                .filter(product -> product.getBuyer() == null)
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -46,16 +80,13 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where String Buyer field equals "" and category equals provided category
      */
     @Override
-    public List<ProductEntity> findProductByCategory(String category) {
+    public List<ProductProjection> findProductByCategory(String category) {
         List<ProductEntity> allProducts = productRepository.findAll();
-        List<ProductEntity> filteredProducts = new ArrayList<>();
 
-        for (ProductEntity product : allProducts) {
-            if (product.getBuyer() == null && category.equals(product.getCategory())) {
-                filteredProducts.add(product);
-            }
-        }
-        return filteredProducts;
+        return allProducts.stream()
+                .filter(product -> product.getBuyer() == null && category.equals(product.getCategory()))
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -64,8 +95,11 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where name is similar to provided string
      */
     @Override
-    public List<ProductEntity> findProductByName(String name) {
-        return productRepository.findProductByName(name);
+    public List<ProductProjection> findProductByName(String name) {
+        List<ProductEntity> products = productRepository.findProductByName(name);
+        return products.stream()
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -74,17 +108,14 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where Creator field equals "username"
      */
     @Override
-    public List<ProductEntity> findMyProducts(String username) {
+    public List<ProductProjection> findMyProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
-        List<ProductEntity> filteredProducts = new ArrayList<>();
-
-        for (ProductEntity product : allProducts) {
-            if (username.equals(product.getSeller().getUsername())) {
-                filteredProducts.add(product);
-            }
-        }
-        return filteredProducts;
+        return allProducts.stream()
+                .filter(product -> username.equals(product.getSeller().getUsername()))
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
+
 
     /**
      * Returns products bought by the user
@@ -92,17 +123,14 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where Buyer field equals "username"
      */
     @Override
-    public List<ProductEntity> findBoughtProducts(String username) {
+    public List<ProductProjection> findBoughtProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
-        List<ProductEntity> filteredProducts = new ArrayList<>();
-
-        for (ProductEntity product : allProducts) {
-            if (username.equals(product.getSeller().getUsername())) {
-                filteredProducts.add(product);
-            }
-        }
-        return filteredProducts;
+        return allProducts.stream()
+                .filter(product -> username.equals(product.getBuyer().getUsername()))
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
+
 
     /**
      * Returns products sold by the user
@@ -110,27 +138,27 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where creator field equals "username" and buyer field is not null
      */
     @Override
-    public List<ProductEntity> findSoldProducts(String username) {
+    public List<ProductProjection> findSoldProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
-        List<ProductEntity> filteredProducts = new ArrayList<>();
-
-        for (ProductEntity product : allProducts) {
-            if (username.equals(product.getSeller().getUsername()) && product.getSeller() != null) {
-                filteredProducts.add(product);
-            }
-        }
-        return filteredProducts;
+        return allProducts.stream()
+                .filter(product -> username.equals(product.getSeller().getUsername()))
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
 
+
     @Override
-    public List<ProductEntity> findAllProduct() {
-        return productRepository.findAll();
+    public List<ProductProjection> findAllProduct() {
+        return productRepository.findAll().stream()
+                .map(this::mapToProjection)
+                .collect(Collectors.toList());
     }
 
     @Override
     public ProductEntity findById(Long id) {
         return productRepository.findById(id).orElseThrow(() ->
-            new EntityNotFoundException("Product not found with id: " + id));}
+                new EntityNotFoundException("Product not found with id: " + id));
+    }
 
     @Override
     public boolean existsById(Long id) {

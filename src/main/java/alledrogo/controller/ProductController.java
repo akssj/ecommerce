@@ -4,6 +4,7 @@ import alledrogo.data.entity.CategoryEntity;
 import alledrogo.security.jwt.JwtUtils;
 import alledrogo.data.entity.ProductEntity;
 import alledrogo.service.ProductCategoryService;
+import alledrogo.service.ProductProjection;
 import alledrogo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +30,7 @@ public class ProductController {
         this.jwtUtils = jwtUtils;
     }
     @GetMapping("/forSale")
-    public List<ProductEntity> findForSaleProducts() {
+    public List<ProductProjection> findForSaleProducts() {
         return productService.findForSaleProduct();
     }
     @GetMapping("/categories")
@@ -37,26 +38,26 @@ public class ProductController {
         return productCategoryService.getCategories();
     }
     @GetMapping("/{category}/category")
-    public List<ProductEntity> findProductByCategory(@PathVariable String category) {
+    public List<ProductProjection> findProductByCategory(@PathVariable String category) {
         return productService.findProductByCategory(category);
     }
     @GetMapping("/{name}/name")
-    public List<ProductEntity> findProductByName(@PathVariable String name) {
+    public List<ProductProjection> findProductByName(@PathVariable String name) {
         return productService.findProductByName(name);
     }
     @GetMapping("/my-products")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
-    public List<ProductEntity> findMyProducts(@CookieValue(name = "token") String token) {
+    public List<ProductProjection> findMyProducts(@CookieValue(name = "token") String token) {
         return productService.findMyProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
     @GetMapping("/bought-products")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
-    public List<ProductEntity> findBoughtProducts(@CookieValue(name = "token") String token) {
+    public List<ProductProjection> findBoughtProducts(@CookieValue(name = "token") String token) {
         return productService.findBoughtProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
     @GetMapping("/sold")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
-    public List<ProductEntity> findSoldProducts(@CookieValue(name = "token") String token) {
+    public List<ProductProjection> findSoldProducts(@CookieValue(name = "token") String token) {
         return productService.findSoldProducts(jwtUtils.getUserNameFromJwtToken(token));
     }
 

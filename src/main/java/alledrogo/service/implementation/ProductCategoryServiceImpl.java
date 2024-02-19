@@ -35,15 +35,13 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public boolean isCategoryValid(String category) {
         for (CategoryEntity mainCategory : categories) {
-            for (String subCategory : mainCategory.getSubCategories()) {
-                String fullCategoryName = mainCategory.getName() + "/" + subCategory;
-                if (fullCategoryName.equals(category)) {
-                    return true;
-                }
+            if (mainCategory.getSubCategories().contains(category)) {
+                return true;
             }
         }
         return false;
     }
+
 
     @Override
     public void updateCategories() {

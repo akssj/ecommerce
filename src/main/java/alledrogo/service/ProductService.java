@@ -7,13 +7,13 @@ import java.util.List;
  * ProductService interface
  */
 public interface ProductService {
-    List<ProductEntity> findForSaleProduct();
-    List<ProductEntity> findProductByCategory(String category);
-    List<ProductEntity> findProductByName(String name);
-    List<ProductEntity> findMyProducts(String username);
-    List<ProductEntity> findBoughtProducts(String username);
-    List<ProductEntity> findSoldProducts(String username);
-    List<ProductEntity> findAllProduct();
+    List<ProductProjection> findForSaleProduct();
+    List<ProductProjection> findProductByCategory(String category);
+    List<ProductProjection> findProductByName(String name);
+    List<ProductProjection> findMyProducts(String username);
+    List<ProductProjection> findBoughtProducts(String username);
+    List<ProductProjection> findSoldProducts(String username);
+    List<ProductProjection> findAllProduct();
 
     ProductEntity findById(Long id);
     boolean existsById(Long id);
