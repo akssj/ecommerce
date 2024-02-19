@@ -37,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             case 'changePassword':
                 await changePassword();
                 break;
+            case 'addItem':
+                addItem();
+                break;
             default:
                 break;
         }
