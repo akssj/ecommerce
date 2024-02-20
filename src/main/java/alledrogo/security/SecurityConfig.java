@@ -1,6 +1,5 @@
 package alledrogo.security;
 
-import alledrogo.security.jwt.AuthEntryPointJwt;
 import alledrogo.security.jwt.AuthTokenFilter;
 import alledrogo.security.service.UserDetailsService;
 
@@ -21,16 +20,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableMethodSecurity
 @EnableWebSecurity
-public class SpringAuthentication {
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+public class SecurityConfig {
   private final UserDetailsService userDetailsService;
-  private final AuthEntryPointJwt authEntryPointJwt;
 
   @Autowired
-  public SpringAuthentication(UserDetailsService userDetailsService, AuthEntryPointJwt authEntryPointJwt) {
+  public SecurityConfig(UserDetailsService userDetailsService) {
     this.userDetailsService = userDetailsService;
-    this.authEntryPointJwt = authEntryPointJwt;
   }
 
   @Bean
@@ -60,7 +57,6 @@ public class SpringAuthentication {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(authEntryPointJwt))
         .sessionManagement(httpSecuritySessionManagementConfigurer  -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/main").permitAll()
@@ -71,6 +67,7 @@ public class SpringAuthentication {
                 .requestMatchers("/product/categories").permitAll()
                 .requestMatchers("/product/{category}/category").permitAll()
                 .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/error/**").permitAll()
                 .anyRequest().authenticated()
         )
         .authenticationProvider(authenticationProvider())

@@ -21,26 +21,26 @@ import java.io.IOException;
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
   private JwtUtils jwtUtils;
-
   @Autowired
   private UserDetailsService userDetailsService;
-
   private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    String requestUri = request.getRequestURI();
+    if (requestUri.startsWith("/static/") || requestUri.startsWith("/images/")) {
+      response.setHeader("Cache-Control", "max-age=3600");
+      filterChain.doFilter(request, response);
+      return;
+    }
     try {
-      String requestUri = request.getRequestURI();
-      if (requestUri.startsWith("/static/") || requestUri.startsWith("/images/")) {
-        response.setHeader("Cache-Control", "max-age=3600");
-      }
       String token = parseJwt(request);
       if (token != null && jwtUtils.validateJwtToken(token)) {
         String username = jwtUtils.getUserNameFromJwtToken(token);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-            userDetails.getAuthorities());
+                userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -50,7 +50,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     } catch (Exception e) {
       logger.error("Cannot set user authentication: ", e);
     }
-
     filterChain.doFilter(request, response);
   }
 

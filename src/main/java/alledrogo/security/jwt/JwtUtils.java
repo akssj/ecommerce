@@ -40,9 +40,6 @@ public class JwtUtils {
   }
 
   public String getUserNameFromJwtToken(String token) {
-    if (token.startsWith("Bearer ")) {
-      token = token.substring(7);
-    }
     return Jwts.parserBuilder().setSigningKey(key()).build()
                .parseClaimsJws(token).getBody().getSubject();
   }
@@ -60,7 +57,6 @@ public class JwtUtils {
     } catch (IllegalArgumentException e) {
       logger.error("JWT claims string is empty: {}", e.getMessage());
     }
-
     return false;
   }
 }

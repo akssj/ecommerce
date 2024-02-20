@@ -13,6 +13,7 @@ import java.util.HashSet;
 public class UserDetailsImpl implements UserDetails {
   @Serial
   private static final long serialVersionUID = 1L;
+  @Autowired
   private final UserEntity userEntity;
   @Autowired
   public UserDetailsImpl(UserEntity userEntity) {
@@ -46,7 +47,10 @@ public class UserDetailsImpl implements UserDetails {
 
   @Override
   public boolean isAccountNonLocked() {
-    return true;
+    return switch (userEntity.getAccountStatus()) {
+      case STATUS_DELETED, STATUS_BANNED -> false;
+      case STATUS_ACTIVE -> true;
+    };
   }
 
   @Override

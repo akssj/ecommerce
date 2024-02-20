@@ -26,11 +26,7 @@ public class UserDetailsService implements org.springframework.security.core.use
       throw new UsernameNotFoundException("User not found with username: " + username);
     }
 
-    return switch (userEntity.getAccountStatus()) {
-      case STATUS_DELETED, STATUS_BANNED -> throw new UsernameNotFoundException("User account is disabled");
-      case STATUS_ACTIVE -> new UserDetailsImpl(userEntity);
-      default -> throw new IllegalStateException("Unexpected value: " + userEntity.getAccountStatus());
-    };
+    return new UserDetailsImpl(userEntity);
   }
 }
 
