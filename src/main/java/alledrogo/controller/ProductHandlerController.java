@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * Api endpoint class, provides /product/handling endpoint to manipulate data in database.
  */
 @RestController
-@RequestMapping("/product/handling")
+@RequestMapping("product/handling")
 @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
 public class ProductHandlerController {
     private final ProductService productService;
@@ -105,27 +105,23 @@ public class ProductHandlerController {
      */
     @PutMapping("/{id}/buy")
     public ResponseEntity<?> buyProduct(@PathVariable Long id, @CookieValue(name = "token") String token){
+        String buyerUsername = jwtUtils.getUserNameFromJwtToken(token);
+        UserEntity userBuyer = userService.findByUsername(buyerUsername);
+        ProductEntity productEntity = productService.findById(id);
 
-        try {
-            String buyerUsername = jwtUtils.getUserNameFromJwtToken(token);
-            UserEntity userBuyer = userService.findByUsername(buyerUsername);
-            ProductEntity productEntity = productService.findById(id);
-
-            if (productEntity.getBuyer() != null) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Item is no longer available for sale!"));
-            }
-            if (productEntity.getSeller().getUsername().equals(buyerUsername)) {
-                return ResponseEntity.badRequest().body(new MessageResponse("You cannot buy your own items!"));
-            }
-
-            //TODO paying for products
-
-            productEntity.setBuyer(userBuyer);
-            productHandlingService.buyProduct(productEntity);
-
-            return ResponseEntity.ok(new MessageResponse("Product bought!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Something went wrong!. " + e.getMessage()));
+        if (productEntity.getBuyer() != null) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Item is no longer available for sale!"));
         }
+        if (productEntity.getSeller().getUsername().equals(buyerUsername)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("You cannot buy your own items!"));
+        }
+
+        //TODO paying for products
+
+        productEntity.setBuyer(userBuyer);
+        productHandlingService.buyProduct(productEntity);
+
+        return ResponseEntity.ok(new MessageResponse("Product bought!"));
     }
+
 }

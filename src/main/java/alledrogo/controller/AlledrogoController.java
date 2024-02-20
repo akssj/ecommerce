@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
  * Core application class
  */
 @RestController
-@RequestMapping("/")
 public class AlledrogoController {
     @GetMapping("/main")
     public ModelAndView mainPage() {

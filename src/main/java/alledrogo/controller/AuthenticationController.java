@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ import java.util.Date;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping(value = "auth")
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
@@ -46,7 +47,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
 
         String username = authenticationRequest.getUsername();
         String password = authenticationRequest.getPassword();
@@ -135,34 +136,26 @@ public class AuthenticationController {
     @GetMapping("/userStatus")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> userStatus(@CookieValue(name = "token") String token) {
-        try {
-            UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
+        UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
 
-            HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
 
-            headers.add("Set-Cookie", "username=" + userEntity.getUsername() + "; Path=/; Secure; SameSite=None; Expires=" + getExpirationTimeString());
+        headers.add("Set-Cookie", "username=" + userEntity.getUsername() + "; Path=/; Secure; SameSite=None; Expires=" + getExpirationTimeString());
 
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(new MessageResponse("User data received successfully!"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
-        }
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new MessageResponse("User data received successfully!"));
     }
 
     @PostMapping("/userData")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
     public ResponseEntity<?> userData(@CookieValue(name = "token") String token) {
-        try {
-            UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
+        UserEntity userEntity = userService.findByUsername(jwtUtils.getUserNameFromJwtToken(token));
 
-            UserDataResponse userDataResponse = new UserDataResponse(userEntity.getUsername(), userEntity.getEmail());
+        UserDataResponse userDataResponse = new UserDataResponse(userEntity.getUsername(), userEntity.getEmail());
 
-            return ResponseEntity.ok()
-                    .body(userDataResponse);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist!"));
-        }
+        return ResponseEntity.ok()
+                .body(userDataResponse);
     }
 
     @PostMapping("/delete")
@@ -200,7 +193,7 @@ public class AuthenticationController {
 
     @PutMapping("/changePassword")
     @PreAuthorize("hasRole('USER') or hasRole('VIP_USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> updateUser(@Valid @RequestBody AuthenticationRequest authenticationRequest,  @CookieValue(name = "token") String token) {
+    public ResponseEntity<?> updateUser(@Valid @RequestBody AuthenticationRequest authenticationRequest,  @CookieValue(name = "token") String token) throws Exception{
 
         String tokenUsername = jwtUtils.getUserNameFromJwtToken(token);
 

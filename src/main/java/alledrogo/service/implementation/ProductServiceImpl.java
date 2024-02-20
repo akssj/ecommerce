@@ -126,10 +126,14 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductProjection> findBoughtProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
         return allProducts.stream()
-                .filter(product -> username.equals(product.getBuyer().getUsername()))
+                .filter(product -> {
+                    UserEntity buyer = product.getBuyer();
+                    return buyer != null && username.equals(buyer.getUsername());
+                })
                 .map(this::mapToProjection)
                 .collect(Collectors.toList());
     }
+
 
 
     /**
@@ -148,10 +152,8 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<ProductProjection> findAllProduct() {
-        return productRepository.findAll().stream()
-                .map(this::mapToProjection)
-                .collect(Collectors.toList());
+    public List<ProductEntity> findAllProduct() {
+        return productRepository.findAll();
     }
 
     @Override

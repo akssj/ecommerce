@@ -13,8 +13,8 @@ public interface ProductService {
     List<ProductProjection> findMyProducts(String username);
     List<ProductProjection> findBoughtProducts(String username);
     List<ProductProjection> findSoldProducts(String username);
-    List<ProductProjection> findAllProduct();
 
+    List<ProductEntity> findAllProduct();
     ProductEntity findById(Long id);
     boolean existsById(Long id);
 }

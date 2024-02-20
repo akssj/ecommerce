@@ -15,10 +15,10 @@ import java.nio.file.Path;
  * Api endpoint class, provides /static/{fileName} endpoint for frontend related files.
  */
 @RestController
-@RequestMapping("/static")
+@RequestMapping("static")
 public class StaticResourceController {
 
-    @GetMapping(value = "/{fileName}", produces = "text/javascript")
+    @GetMapping(value = "/{fileName}", produces = "application/javascript")
     public byte[] getScriptFile(@PathVariable String fileName) throws IOException {
         Resource resource = new ClassPathResource("static/" + fileName);
         return Files.readAllBytes(Path.of(resource.getURI()));

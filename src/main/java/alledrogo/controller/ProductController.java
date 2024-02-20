@@ -2,10 +2,10 @@ package alledrogo.controller;
 
 import alledrogo.data.entity.CategoryEntity;
 import alledrogo.security.jwt.JwtUtils;
-import alledrogo.data.entity.ProductEntity;
 import alledrogo.service.ProductCategoryService;
 import alledrogo.service.ProductProjection;
 import alledrogo.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import java.util.List;
  * Api endpoint class, provides /product endpoint to retrieve data from database.
  */
 @RestController
-@RequestMapping("/product")
+@RequestMapping("product")
 public class ProductController {
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
