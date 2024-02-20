@@ -1,13 +1,8 @@
 # MyFirstWebApp aka alledrogo
 
-![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/cab54146-62f1-4f79-8164-6f099061d113)
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/6f54264c-dde6-4d68-adb4-d302c25de6a6)
 
-![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/ca75208a-14f4-40fb-a756-96652d338729)
-
-![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/75c4f10d-1e58-4233-bdbb-ea7d8ccbcd67)
-
-![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/2abb3ccf-f81c-4c60-b497-1543946c31e2)
-
+![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/27ad341d-348f-461d-aa5b-e688dd3b28e3)
 
 ## Intro
 This is an attempt to make a scalable web app using rest api. 
@@ -20,27 +15,28 @@ https://akssj.github.io/MyFirstWebApp/index.html
 
 ## Features
 + REST MVC webapp
-+ Login (authentication)
-+ JWT and User data saved in cookies
-+ CRUD products, users (TODO authorization)
-+ Database (User and Products tables)
++ Signin Signup (authentication authorization)
++ JWT stored in cookies
++ CRUD products, users (via frontend)
++ Database (User and Product tables)
++ frontend files stored in cache
 + Unit and integration api tests (Java + TestNG + REST Assured + Mockito)
 + Javadoc Documentation
-+ Current task: FRONTEND :(
++ Decent enough frontend
 + TODO use of some external api
-+ TODO User profile, product related pages
++ TODO product related pages
 + TODO Admin role, page, etc.
 + TODO Track user behavior
 + TODO Backend gui
 + TODO Fix bugs (ie errors after token expiration - user is not auto logged out)
 + TODO Error messages, codes
 + TODO Security
-+ TODO refactor backend + Update code to be less painful to look at
++ TODO refactor backend
 
 ## Tech
 + architecture: mvc/rest
 + Language: 
-  + Backend: Java(Spring boot, JWT)
+  + Backend: Java(Springboot)
   + Frontend: html, css(Bootstrap), .js
 + Database: postgresql
 + Test tech: TestNG, REST Assured, postman
