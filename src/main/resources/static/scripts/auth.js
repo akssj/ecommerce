@@ -40,7 +40,6 @@ return fetch('http://localhost:8080/auth/login', requestLogin)
         });
     })
     .catch(error => {
-        console.error("Network error:", error);
         alert(error);
     });
 }
@@ -99,7 +98,6 @@ return fetch('http://localhost:8080/auth/signup', requestSignup)
         });
     })
     .catch(error => {
-        console.error("Network error:", error);
         alert(error);
     });
 
@@ -211,7 +209,6 @@ export function deleteAccount() {
         window.location.href = "http://localhost:8080/main";
     })
     .catch(error => {
-      console.error("Network error:", error);
       alert(error);
     });
 }
@@ -265,7 +262,6 @@ export function changePassword() {
             alert(data.message);
         })
         .catch(error => {
-            console.error("Network error:", error);
             alert(error);
         });
 }

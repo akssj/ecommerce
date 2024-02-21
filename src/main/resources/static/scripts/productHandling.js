@@ -31,7 +31,7 @@ export function addItem() {
         }
     })
     .catch(error => {
-        console.error(error);
+        alert(error.message);
     });
 }
 
@@ -47,8 +47,17 @@ export function buyItem(event) {
             'Content-Type': 'application/json'
         }
     })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage);
+            });
+        } else {
+            window.location.reload();
+        }
+    })
     .catch(error => {
-        console.error(error);
+        alert(error.message);
     });
 }
 
@@ -65,11 +74,16 @@ export function deleteItem(event) {
         }
     })
     .then(response => {
-        if (response.ok) {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                throw new Error(errorMessage);
+            });
+        } else {
             window.location.reload();
         }
     })
     .catch(error => {
-        console.error(error);
+        alert(error.message);
     });
 }
+
