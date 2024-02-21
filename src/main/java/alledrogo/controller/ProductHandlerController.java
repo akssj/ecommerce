@@ -16,6 +16,7 @@ import alledrogo.service.ProductCategoryService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -104,21 +105,22 @@ public class ProductHandlerController {
      * @return ResponseEntity obj. with MessageResponse obj. containing message
      */
     @PutMapping("/{id}/buy")
-    public ResponseEntity<?> buyProduct(@PathVariable Long id, @CookieValue(name = "token") String token){
+    public ResponseEntity<?> buyProduct(@PathVariable Long id, @CookieValue(name = "token") String token) throws Exception{
         String buyerUsername = jwtUtils.getUserNameFromJwtToken(token);
         UserEntity userBuyer = userService.findByUsername(buyerUsername);
         ProductEntity productEntity = productService.findById(id);
 
         if (productEntity.getBuyer() != null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Item is no longer available for sale!"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("Item is no longer available for sale!"));
         }
         if (productEntity.getSeller().getUsername().equals(buyerUsername)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("You cannot buy your own items!"));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new MessageResponse("You cannot buy your own items!"));
         }
 
         //TODO paying for products
 
         productEntity.setBuyer(userBuyer);
+        productEntity.setSold(true);
         productHandlingService.buyProduct(productEntity);
 
         return ResponseEntity.ok(new MessageResponse("Product bought!"));
