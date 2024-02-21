@@ -8,4 +8,5 @@ public interface ProductProjection {
     String getCategory();
     String getSeller();
     String getBuyer();
+    Boolean isSold();
 }

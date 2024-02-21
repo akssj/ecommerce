@@ -26,6 +26,8 @@ public class ProductEntity {
     @ManyToOne
     @JoinColumn(name = "buyer")
     private UserEntity buyer;
+    @Column(name = "sold")
+    private boolean sold;
 
     public ProductEntity() {}
     public ProductEntity(String name, Float price, String description, String category, UserEntity seller) {
@@ -35,6 +37,7 @@ public class ProductEntity {
         this.category = category;
         this.seller = seller;
         this.buyer = null;
+        this.sold = false;
     }
 
     public Long getId() {return id;}
@@ -51,4 +54,6 @@ public class ProductEntity {
     public void setSeller(UserEntity seller) {this.seller = seller;}
     public UserEntity getBuyer() {return buyer;}
     public void setBuyer(UserEntity buyer) {this.buyer = buyer;}
+    public boolean isSold() {return sold;}
+    public void setSold(boolean sold) {this.sold = sold;}
 }

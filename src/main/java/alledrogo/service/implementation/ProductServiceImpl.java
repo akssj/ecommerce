@@ -57,6 +57,8 @@ public class ProductServiceImpl implements ProductService {
                 UserEntity buyer = product.getBuyer();
                 return (buyer != null) ? buyer.getUsername() : null;
             }
+            @Override
+            public Boolean isSold(){return product.isSold();}
         };
     }
 
@@ -68,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductProjection> findForSaleProduct() {
         List<ProductEntity> allProducts = productRepository.findAll();
         return allProducts.stream()
-                .filter(product -> product.getBuyer() == null)
+                .filter(product -> !product.isSold())
                 .map(this::mapToProjection)
                 .collect(Collectors.toList());
     }
@@ -83,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> allProducts = productRepository.findAll();
 
         return allProducts.stream()
-                .filter(product -> product.getBuyer() == null && category.equals(product.getCategory()))
+                .filter(product -> !product.isSold() && category.equals(product.getCategory()))
                 .map(this::mapToProjection)
                 .collect(Collectors.toList());
     }
