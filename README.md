@@ -16,13 +16,12 @@ https://akssj.github.io/MyFirstWebApp/index.html
 ## Features
 + REST MVC webapp
 + Signin Signup (authentication authorization)
-+ JWT stored in cookies
++ JWT in cookies
 + CRUD products, users (via frontend)
 + Database (User and Product tables)
-+ frontend files stored in cache
 + Unit and integration api tests (Java + TestNG + REST Assured + Mockito)
 + Javadoc Documentation
-+ Decent enough frontend
++ Decent frontend
 + TODO use of some external api
 + TODO product related pages
 + TODO Admin role, page, etc.
@@ -33,13 +32,13 @@ https://akssj.github.io/MyFirstWebApp/index.html
 + TODO Security
 + TODO refactor backend
 
-## Tech
-+ architecture: mvc/rest
+## Technologies
++ architecture: REST MVC
 + Language: 
   + Backend: Java(Springboot)
-  + Frontend: html, css(Bootstrap), .js
+  + Frontend: html, css(Bootstrap), JS
 + Database: postgresql
-+ Test tech: TestNG, REST Assured, postman
++ Tests: TestNG, REST Assured, postman
 
 ## Run
 - Import project to IntelliJ IDEA.
