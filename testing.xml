@@ -8,4 +8,10 @@
         </packages>
     </test>
 
+    <test name="UnitTests">
+        <packages>
+            <package name="alledrogo.service.implementation" />
+        </packages>
+    </test>
+
 </suite>
