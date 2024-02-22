@@ -2,24 +2,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="First Suite">
 
-    <test name="DataSetUp">
-        <packages>
-            <package name="alledrogo.tests.dataset" />
-        </packages>
-    </test>
-
-    <test name="UnitTests">
-        <packages>
-            <package name="alledrogo.tests.service" />
-        </packages>
-    </test>
-
     <test name="IntegrationTests">
         <packages>
-            <package name="alledrogo.tests.controller" />
+            <package name="alledrogo.controller" />
         </packages>
     </test>
-
-
 
 </suite>
