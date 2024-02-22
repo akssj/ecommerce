@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 
 public class UserDetailsImpl implements UserDetails {
   @Serial
@@ -22,9 +22,7 @@ public class UserDetailsImpl implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<GrantedAuthority> authorities = new HashSet<>();
-    authorities.add(new SimpleGrantedAuthority(userEntity.getRole().name()));
-    return authorities;
+    return Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole().name()));
   }
   public Long getId(){
     return userEntity.getId();
@@ -40,6 +38,9 @@ public class UserDetailsImpl implements UserDetails {
     return userEntity.getUsername();
   }
 
+  public String getEmail() {
+    return userEntity.getEmail();
+  }
   @Override
   public boolean isAccountNonExpired() {
     return true;

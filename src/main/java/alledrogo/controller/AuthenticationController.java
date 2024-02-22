@@ -61,7 +61,7 @@ public class AuthenticationController {
         String token = jwtUtils.generateJwtToken(authentication);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + getExpirationTimeString());
+        headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=" + getExpirationTimeString());
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -75,7 +75,7 @@ public class AuthenticationController {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Set-Cookie", "token=" + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expireTokens());
+        headers.add("Set-Cookie", "token=" + "; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=" + expireTokens());
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -96,12 +96,12 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body(new MessageResponse("Passwords do not match"));
         }
 
-        if (userService.existsByUsername(username)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("An account with the given Username already exists"));
-        }
-
         if (userService.existsByEmail(email)) {
             return ResponseEntity.badRequest().body(new MessageResponse("An account with the given Email address already exists!"));
+        }
+
+        if (userService.existsByUsername(username)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("An account with the given Username already exists"));
         }
 
         UserEntity userEntity = new UserEntity(username,
@@ -123,7 +123,7 @@ public class AuthenticationController {
 
             HttpHeaders headers = new HttpHeaders();
 
-            headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + getExpirationTimeString());
+            headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=" + getExpirationTimeString());
 
             return ResponseEntity.ok()
                     .headers(headers)
@@ -208,17 +208,14 @@ public class AuthenticationController {
         }
 
         if (!authenticationRequest.getNewPassword().equals(authenticationRequest.getConfirmPassword())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("New password and confirmation do not match!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("New and confirmation password do not match!"));
         }
 
-        String currentEncryptedPassword = userEntity.getPassword();
-
         userEntity.setPassword(passwordEncoder.encode(authenticationRequest.getNewPassword()));
-        userService.updateUser(userEntity);
 
-        UserEntity updatedUserEntity = userService.findByUsername(tokenUsername);
+        boolean isUpdateSuccessful = userService.updateUser(userEntity);
 
-        if (!currentEncryptedPassword.equals(updatedUserEntity.getPassword())) {
+        if (isUpdateSuccessful) {
             return ResponseEntity.ok(new MessageResponse("User password has been updated!"));
         } else {
             return ResponseEntity.badRequest().body(new MessageResponse("Failed to update user password!"));
