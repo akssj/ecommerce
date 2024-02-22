@@ -75,6 +75,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             path.equals("/product/forSale") ||
             path.equals("/product/categories") ||
             path.equals("/error") ||
+            path.matches("/product/\\w+/name") ||
             path.matches("/product/\\w+/category");
   }
 
