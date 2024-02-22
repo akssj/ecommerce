@@ -42,7 +42,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return false;
     }
 
-
     @Override
     public void updateCategories() {
         String filePath = "src/main/resources/Data/ProductCategories.xml";
@@ -51,7 +50,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         categories.addAll(newCategories);
     }
 
-    private List<CategoryEntity> readCategoriesFromFile(String filePath) {
+    List<CategoryEntity> readCategoriesFromFile(String filePath) {
         List<CategoryEntity> categories = new ArrayList<>();
 
         try {

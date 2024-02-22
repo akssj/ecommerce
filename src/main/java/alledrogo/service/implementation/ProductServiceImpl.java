@@ -146,10 +146,11 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductProjection> findSoldProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
         return allProducts.stream()
-                .filter(product -> username.equals(product.getSeller().getUsername()))
+                .filter(product -> product.isSold() && username.equals(product.getSeller().getUsername()))
                 .map(this::mapToProjection)
                 .collect(Collectors.toList());
     }
+
 
 
     @Override
