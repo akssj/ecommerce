@@ -40,13 +40,11 @@ https://akssj.github.io/MyFirstWebApp/index.html
 + Database: postgresql
 + Tests: TestNG, REST Assured, postman
 
-## Run
-- Import project to IntelliJ IDEA.
-- Download and install PostgresSQL from https://www.postgresql.org/
-- Run project from IntelliJ IDEA.
-- Acess web app at http://localhost:8080/main
-
-- Alternatively, you may compile the application and run it.
-- To disable it find it in task manager and kill it.
+## Build and Install
++ Download latest release
++ Unzip and run with terminal
+  
+      java -jar Alledrogo-x.x.jar
++ or download source code, import project to inteljidea and run it
 
 
