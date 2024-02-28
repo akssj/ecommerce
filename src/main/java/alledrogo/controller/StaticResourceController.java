@@ -34,7 +34,6 @@ public class StaticResourceController {
         return ResponseEntity.ok().headers(headers).body(fileContent);
     }
 
-
     @GetMapping(value = "/component/{fileName}", produces = "text/html")
     public ResponseEntity<byte[]> getNavbarHtml(@PathVariable String fileName) throws IOException {
         Resource resource = new ClassPathResource("templates/components/" + fileName);
@@ -50,6 +49,18 @@ public class StaticResourceController {
     @GetMapping(value = "/styles.css", produces = "text/css")
     public ResponseEntity<byte[]> getStyleFile() throws IOException {
         Resource resource = new ClassPathResource("static/styles.css");
+        byte[] fileContent = Files.readAllBytes(Path.of(resource.getURI()));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePublic().getHeaderValue());
+        headers.setExpires(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1));
+
+        return ResponseEntity.ok().headers(headers).body(fileContent);
+    }
+    @GetMapping(value = "/static/favicon.ico", produces = "image/vnd.microsoft.icon")
+    public ResponseEntity<byte[]> getFavicon() throws IOException {
+        String filePath = "static/favicon.ico";
+        Resource resource = new ClassPathResource(filePath);
         byte[] fileContent = Files.readAllBytes(Path.of(resource.getURI()));
 
         HttpHeaders headers = new HttpHeaders();

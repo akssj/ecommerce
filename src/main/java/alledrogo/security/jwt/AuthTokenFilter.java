@@ -67,7 +67,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request){
     String path = request.getRequestURI();
-    return path.matches("/static/\\w+") ||
+    return path.startsWith("/static") ||
             path.equals("/main") ||
             path.matches("/category/\\w+") ||
             path.equals("/auth/login") ||

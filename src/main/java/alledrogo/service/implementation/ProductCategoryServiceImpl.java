@@ -3,6 +3,8 @@ package alledrogo.service.implementation;
 import alledrogo.data.entity.CategoryEntity;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,11 +14,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import alledrogo.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 @Component
 public class ProductCategoryServiceImpl implements ProductCategoryService {
@@ -44,20 +48,26 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public void updateCategories() {
-        String filePath = "src/main/resources/Data/ProductCategories.xml";
-        List<CategoryEntity> newCategories = readCategoriesFromFile(filePath);
-        categories.clear();
-        categories.addAll(newCategories);
+        String filePath = "Data/ProductCategories.xml";
+        Resource resource = new ClassPathResource(filePath);
+
+        try {
+            InputStream inputStream = resource.getInputStream();
+            List<CategoryEntity> newCategories = readCategoriesFromInputStream(inputStream);
+            categories.clear();
+            categories.addAll(newCategories);
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
-    List<CategoryEntity> readCategoriesFromFile(String filePath) {
+    List<CategoryEntity> readCategoriesFromInputStream(InputStream inputStream) {
         List<CategoryEntity> categories = new ArrayList<>();
 
         try {
-            File file = new File(filePath);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
+            Document doc = dBuilder.parse(inputStream);
             doc.getDocumentElement().normalize();
 
             NodeList mainCategoryList = doc.getElementsByTagName("MainCategory");
