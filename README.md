@@ -43,7 +43,8 @@ https://akssj.github.io/MyFirstWebApp/index.html
 ## Build and Install
 + Download latest release
 + Unzip and run with terminal
-  
+
+      cd /d x:/download/location
       java -jar Alledrogo-x.x.jar
 + or download source code, import project to inteljidea and run it
 
