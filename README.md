@@ -1,4 +1,4 @@
-# MyFirstWebApp aka alledrogo
+# ecommerce aka Alledrogo
 
 ![obraz](https://github.com/akssj/MyFirstWebApp/assets/127445850/6f54264c-dde6-4d68-adb4-d302c25de6a6)
 
@@ -11,7 +11,7 @@ Anyway im doing it to get some know-how about creating and maintaining project.
 
 ###
 Project documentation:
-https://akssj.github.io/MyFirstWebApp/index.html
+https://akssj.github.io/ecommerce/index.html
 
 ## Features
 + REST MVC webapp
