@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Alledrogo>
+    <Categories>
+
+        <MainCategory name="Electronics">
+            <SubCategory name="Televisions"/>
+            <SubCategory name="Smartphones"/>
+            <SubCategory name="Laptops"/>
+            <SubCategory name="Tablets"/>
+            <SubCategory name="Cameras"/>
+        </MainCategory>
+
+        <MainCategory name="HomeAndGarden">
+            <SubCategory name="Furniture"/>
+            <SubCategory name="GardenTools"/>
+            <SubCategory name="KitchenAppliances"/>
+            <SubCategory name="HomeDecor"/>
+            <SubCategory name="Lighting"/>
+        </MainCategory>
+
+        <MainCategory name="Fashion">
+            <SubCategory name="Women"/>
+            <SubCategory name="Men"/>
+            <SubCategory name="Kids"/>
+            <SubCategory name="Shoes"/>
+            <SubCategory name="Accessories"/>
+        </MainCategory>
+
+        <MainCategory name="Books">
+            <SubCategory name="Fiction"/>
+            <SubCategory name="NonFiction"/>
+            <SubCategory name="Biographies"/>
+            <SubCategory name="Cookbooks"/>
+            <SubCategory name="SelfHelp"/>
+        </MainCategory>
+
+        <MainCategory name="Sports">
+            <SubCategory name="FitnessEquipment"/>
+            <SubCategory name="Sportswear"/>
+            <SubCategory name="OutdoorActivities"/>
+            <SubCategory name="TeamSports"/>
+            <SubCategory name="CampingGear"/>
+        </MainCategory>
+
+        <MainCategory name="ToysAndGames">
+            <SubCategory name="BoardGames"/>
+            <SubCategory name="OutdoorToys"/>
+            <SubCategory name="BuildingSets"/>
+            <SubCategory name="DollsAndAccessories"/>
+            <SubCategory name="Puzzles"/>
+        </MainCategory>
+
+        <MainCategory name="HealthAndBeauty">
+            <SubCategory name="Skincare"/>
+            <SubCategory name="Haircare"/>
+            <SubCategory name="VitaminsAndSupplements"/>
+            <SubCategory name="Makeup"/>
+            <SubCategory name="PersonalCare"/>
+        </MainCategory>
+
+        <MainCategory name="Automotive">
+            <SubCategory name="CarAccessories"/>
+            <SubCategory name="CarParts"/>
+            <SubCategory name="ToolsAndEquipment"/>
+            <SubCategory name="MotorcycleAccessories"/>
+            <SubCategory name="OilAndFluids"/>
+        </MainCategory>
+
+        <MainCategory name="Pets">
+            <SubCategory name="DogSupplies"/>
+            <SubCategory name="CatSupplies"/>
+            <SubCategory name="FishSupplies"/>
+            <SubCategory name="SmallAnimalSupplies"/>
+            <SubCategory name="BirdSupplies"/>
+        </MainCategory>
+
+        <MainCategory name="Electricals">
+            <SubCategory name="CablesAndAdapters"/>
+            <SubCategory name="Batteries"/>
+            <SubCategory name="PowerStrips"/>
+            <SubCategory name="LightBulbs"/>
+            <SubCategory name="HomeAutomation"/>
+        </MainCategory>
+
+        <MainCategory name="Jewelry">
+            <SubCategory name="Rings"/>
+            <SubCategory name="Necklaces"/>
+            <SubCategory name="Bracelets"/>
+            <SubCategory name="Earrings"/>
+            <SubCategory name="Watches"/>
+        </MainCategory>
+
+        <MainCategory name="Tools">
+            <SubCategory name="PowerTools"/>
+            <SubCategory name="HandTools"/>
+            <SubCategory name="ToolStorage"/>
+            <SubCategory name="MeasuringTools"/>
+            <SubCategory name="WeldingEquipment"/>
+        </MainCategory>
+
+        <MainCategory name="OfficeSupplies">
+            <SubCategory name="PensAndPencils"/>
+            <SubCategory name="PaperProducts"/>
+            <SubCategory name="DeskAccessories"/>
+            <SubCategory name="OfficeFurniture"/>
+            <SubCategory name="CalendarsAndPlanners"/>
+        </MainCategory>
+
+        <MainCategory name="MusicAndInstruments">
+            <SubCategory name="Guitars"/>
+            <SubCategory name="Keyboards"/>
+            <SubCategory name="DrumsAndPercussion"/>
+            <SubCategory name="Microphones"/>
+            <SubCategory name="SheetMusic"/>
+        </MainCategory>
+
+        <MainCategory name="MoviesAndTVShows">
+            <SubCategory name="ActionAndAdventure"/>
+            <SubCategory name="Comedy"/>
+            <SubCategory name="Drama"/>
+            <SubCategory name="ScienceFiction"/>
+            <SubCategory name="Horror"/>
+        </MainCategory>
+
+        <MainCategory name="ArtAndCrafts">
+            <SubCategory name="Painting"/>
+            <SubCategory name="Drawing"/>
+            <SubCategory name="Sculpting"/>
+            <SubCategory name="CraftKits"/>
+            <SubCategory name="KnittingAndCrochet"/>
+        </MainCategory>
+
+        <MainCategory name="Baby">
+            <SubCategory name="Diapering"/>
+            <SubCategory name="Feeding"/>
+            <SubCategory name="BabyGear"/>
+            <SubCategory name="BabySafety"/>
+            <SubCategory name="Nursery"/>
+        </MainCategory>
+
+        <MainCategory name="FoodAndBeverages">
+            <SubCategory name="Snacks"/>
+            <SubCategory name="Beverages"/>
+            <SubCategory name="CannedGoods"/>
+            <SubCategory name="DairyProducts"/>
+            <SubCategory name="CookingIngredients"/>
+        </MainCategory>
+
+        <MainCategory name="HomeImprovement">
+            <SubCategory name="Tools"/>
+            <SubCategory name="PaintingSupplies"/>
+            <SubCategory name="BuildingMaterials"/>
+            <SubCategory name="Plumbing"/>
+            <SubCategory name="Electrical"/>
+        </MainCategory>
+
+        <MainCategory name="Travel">
+            <SubCategory name="Luggage"/>
+            <SubCategory name="TravelAccessories"/>
+            <SubCategory name="TravelElectronics"/>
+            <SubCategory name="TravelComfort"/>
+            <SubCategory name="Backpacks"/>
+        </MainCategory>
+
+        <MainCategory name="Collectibles">
+            <SubCategory name="CoinsAndPaperMoney"/>
+            <SubCategory name="Stamps"/>
+            <SubCategory name="SportsMemorabilia"/>
+            <SubCategory name="ToysAndHobbies"/>
+            <SubCategory name="Art"/>
+        </MainCategory>
+
+        <MainCategory name="Antiques">
+            <SubCategory name="Furniture"/>
+            <SubCategory name="DecorativeArts"/>
+            <SubCategory name="TextilesAndLinens"/>
+            <SubCategory name="Silver"/>
+            <SubCategory name="Glass"/>
+        </MainCategory>
+
+        <MainCategory name="CraftSupplies">
+            <SubCategory name="PaperCrafting"/>
+            <SubCategory name="Scrapbooking"/>
+            <SubCategory name="Sewing"/>
+            <SubCategory name="Knitting"/>
+            <SubCategory name="Crochet"/>
+        </MainCategory>
+
+        <MainCategory name="Fitness">
+            <SubCategory name="ExerciseEquipment"/>
+            <SubCategory name="YogaAndPilates"/>
+            <SubCategory name="FitnessAccessories"/>
+            <SubCategory name="CardioEquipment"/>
+            <SubCategory name="StrengthTraining"/>
+        </MainCategory>
+
+        <MainCategory name="Gaming">
+            <SubCategory name="VideoGames"/>
+            <SubCategory name="GamingConsoles"/>
+            <SubCategory name="GamingAccessories"/>
+            <SubCategory name="BoardGames"/>
+            <SubCategory name="CardGames"/>
+        </MainCategory>
+
+        <MainCategory name="Hobbies">
+            <SubCategory name="ModelBuilding"/>
+            <SubCategory name="RadioControlled"/>
+            <SubCategory name="RemoteControlled"/>
+            <SubCategory name="ScaleModels"/>
+            <SubCategory name="Trains"/>
+        </MainCategory>
+
+        <MainCategory name="PartySupplies">
+            <SubCategory name="PartyDecorations"/>
+            <SubCategory name="PartyFavors"/>
+            <SubCategory name="Balloons"/>
+            <SubCategory name="Tableware"/>
+            <SubCategory name="Costumes"/>
+        </MainCategory>
+
+        <MainCategory name="PetSupplies">
+            <SubCategory name="Food"/>
+            <SubCategory name="Treats"/>
+            <SubCategory name="Toys"/>
+            <SubCategory name="Grooming"/>
+            <SubCategory name="Health"/>
+        </MainCategory>
+
+        <MainCategory name="ReligiousItems">
+            <SubCategory name="Christian"/>
+            <SubCategory name="Jewish"/>
+            <SubCategory name="Muslim"/>
+            <SubCategory name="Buddhist"/>
+            <SubCategory name="Hindu"/>
+        </MainCategory>
+
+        <MainCategory name="Software">
+            <SubCategory name="OperatingSystems"/>
+            <SubCategory name="Business"/>
+            <SubCategory name="Security"/>
+            <SubCategory name="Utilities"/>
+            <SubCategory name="Graphics"/>
+        </MainCategory>
+
+    </Categories>
+</Alledrogo>

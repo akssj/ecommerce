@@ -1,0 +1,55 @@
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-navbar fixed-top px-4">
+  <div class="container-fluid position-relative w-100">
+
+    <!-- Logo -->
+    <a class="navbar-brand me-4" href="/index.html" style="font-size: 1.5rem;">alledrogo</a>
+
+    <!-- Kategorie -->
+    <button id="categoryToggle" class="btn btn-outline-light me-4">Kategorie</button>
+
+    <!-- Search bar -->
+    <form class="d-flex search-bar" id="searchForm" role="search">
+      <input class="form-control me-2" type="search" placeholder="Szukaj" id="searchInput">
+      <button class="btn btn-outline-success" type="submit" id="searchBtn">Szukaj</button>
+    </form>
+    
+
+    <!-- Moje Konto -->
+    <ul class="navbar-nav ms-auto me-2">
+      <li class="nav-item dropdown">
+        <button class="btn btn-outline-light dropdown-toggle" id="accountButton" data-bs-toggle="dropdown">
+          Zaloguj
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end larger-dropdown-menu">
+          <div id="loginForm">
+            <li><input id="loginFormUsername" class="form-control mb-2" placeholder="Username"></li>
+            <li><input id="loginFormPassword" type="password" class="form-control mb-2" placeholder="Password"></li>
+            <li><button class="btn btn-primary w-100 mb-2" data-action="login">Zaloguj</button></li>
+            <li><a class="dropdown-item text-center" href="#" data-action="registerForm">Zarejestruj się</a></li>
+          </div>
+          <div id="registerForm" class="d-none">
+            <li><input id="registerFormUsername" class="form-control mb-2" placeholder="Username"></li>
+            <li><input id="registerFormEmail" class="form-control mb-2" placeholder="Email"></li>
+            <li><input id="registerFormPassword" type="password" class="form-control mb-2" placeholder="Password"></li>
+            <li><input id="registerFormConfirmPassword" type="password" class="form-control mb-2" placeholder="Confirm Password"></li>
+            <li><button class="btn btn-primary w-100 mb-2" data-action="register">Zarejestruj</button></li>
+            <li><a class="dropdown-item text-center" href="#" data-action="loginForm">Masz konto? Zaloguj się</a></li>
+          </div>
+          <div id="accountDropdown" class="d-none">
+            <li><a class="dropdown-item" href="/account.html">Profil</a></li>
+            <li><a class="dropdown-item" href="/my-products.html">Moje produkty</a></li>
+            <li><a class="dropdown-item" href="/add-item.html">Dodaj produkt</a></li>
+            <li><a class="dropdown-item" href="/bought-products.html">Zakupione</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="#" data-action="logout">Wyloguj</a></li>
+          </div>
+        </ul>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<!-- PANEL KATEGORII POZA NAVBAREM -->
+<div id="categoryPanel" class="category-panel d-none"></div>

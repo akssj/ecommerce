@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>alledrogo – Kategorie</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+
+  <script type="module" src="/js/core/main.js"></script>
+
+  <script type="module">
+    import { loadCategories } from '/js/core/pageBuilder.js';
+    import { fillProducts } from '/js/feature/product.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCategories();      // lewa kolumna
+      fillProducts();        // tabele z wybranej kategorii
+    });
+  </script>
+</head>
+
+<body>
+  <div id="navbarPlaceholder"></div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <aside id="categoryContainer" class="col-2"></aside>
+
+      <main class="col">
+        <h2>Items for Sale</h2>
+        <table id="product-table" class="table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Seller</th><th>Description</th>
+              <th>Price</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

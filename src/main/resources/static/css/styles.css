@@ -1,0 +1,150 @@
+.larger-dropdown-menu {
+  margin-top: 8px;
+  padding: 15px;
+  width: 300px;
+  max-height: none;
+  overflow-y: auto;
+}
+
+.form-group input {
+  width: 220px;
+}
+
+body {
+  padding-top: 0px; /* odpowiada wysokości navbaru */
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.square-btn {
+    border-radius: 0 !important;
+}
+
+/* Większy navbar */
+.custom-navbar {
+  font-size: 1.15rem;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #212529; /* ciemny bg jak navbar-dark bg-dark */
+}
+
+/* Wyszukiwarka na środku */
+.search-bar {
+  width: 30%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+
+/* Kategorie submenu przy hoverze */
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+  display: block;
+  top: 0;
+  left: 100%;
+  margin-left: 0.1rem;
+}
+
+/* Dla responsywności (opcjonalnie) */
+@media (max-width: 991px) {
+  .search-bar {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Submenu rozwijane w prawo po hoverze */
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -0.25rem;
+  display: none;
+  position: absolute;
+}
+
+/* Hover na elemencie głównym rozwija submenu */
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+
+#currentCategory {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* Panel */
+.category-panel {
+  position: absolute;
+  top: 80px;
+  left: 80px;
+  background-color: #f8f9fa;
+  z-index: 999;
+  padding: 1rem 2rem;
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;                /* kluczowe */
+  flex-direction: row;          /* poziomo */
+  align-items: flex-start;
+  gap: 2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Główne kategorie (poziomo) */
+.main-category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+}
+
+.main-category > a {
+  font-weight: 600;
+  text-decoration: none;
+  color: #333;
+  padding: 0.5rem 0.75rem;
+  display: block;
+  padding-right: 1.5 rem;
+}
+
+.main-category > a:hover {
+  text-decoration: underline;
+}
+
+/* Submenu */
+.sub-category-list {
+  display: none;
+  background: #f8f9fa;
+  padding: 0.5rem 1rem;
+  list-style: none;
+  min-width: 200px;
+  z-index: 1001;
+  /* border: 1px solid #ccc; */
+  /* box-shadow: 0 4px 10px rgba(0,0,0,0.1); */
+  margin-left: 1rem;
+}
+
+.sub-category-list li a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  padding: 0.25rem 0;
+}
+
+.sub-category-list li a:hover {
+  text-decoration: underline;
+}
+
+/* Hover efekt */
+.main-category:hover .sub-category-list {
+  display: block;
+}

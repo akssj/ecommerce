@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>alledrogo – Panel użytkownika</title>
+
+  <!---- CSS & favicon -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+  <!---- wspólny skrypt (navbar + wyszukiwarka) -->
+  <script type="module" src="/js/core/main.js"></script>
+
+  <!---- moduł-inline tylko dla tej strony -->
+  <script type="module">
+    import { loadUserData } from '/js/core/pageBuilder.js';
+
+    document.addEventListener('DOMContentLoaded', loadUserData);
+  </script>
+</head>
+
+<body>
+  <!-- placeholder na wstrzyknięty navbar -->
+  <div id="navbarPlaceholder"></div>
+
+  <!-- karta z danymi użytkownika -->
+  <div id="userDataContainer" class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header">User data</div>
+
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <p class="form-control" id="username"></p>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <p class="form-control" id="email"></p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#changePasswordModal">
+                Change password
+              </button>
+
+              <button class="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteAccountModal">
+                Delete account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---- MODAL: change password -->
+  <div class="modal fade" id="changePasswordModal" tabindex="-1"
+       aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="changePasswordModalLabel">Change password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="currentPassword">Current password</label>
+            <input id="currentPassword" type="password" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="newPassword">New password</label>
+            <input id="newPassword" type="password" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="confirmNewPassword">Confirm new password</label>
+            <input id="confirmNewPassword" type="password" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-primary" data-action="changePassword">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---- MODAL: delete account -->
+  <div class="modal fade" id="deleteAccountModal" tabindex="-1"
+       aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteAccountModalLabel">Delete account</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="deleteAccountUsername">Username</label>
+            <input id="deleteAccountUsername" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="deleteAccountPassword">Password</label>
+            <input id="deleteAccountPassword" type="password" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-danger" data-action="deleteAccount">Delete account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---- Bootstrap JS (bundle = Popper + BS) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

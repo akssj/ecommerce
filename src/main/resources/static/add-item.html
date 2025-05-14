@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>alledrogo – Dodaj przedmiot</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+  <link rel="icon" href="/favicon.ico">
+
+  <script type="module" src="/js/core/main.js"></script>
+  <script type="module">
+    import { loadCategories } from '/js/core/pageBuilder.js';
+    import { addItem } from '/js/feature/productHandling.js';
+  
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await loadCategories(); // poczekaj, aż załaduje i wyrenderuje
+      } catch (err) {
+        console.error("Błąd ładowania kategorii:", err);
+      }
+  
+      const form = document.getElementById('addItemForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addItem();
+      });
+    });
+  </script>  
+</head>
+
+<body>
+  <div id="navbarPlaceholder"></div>
+
+  <div class="container mt-5">
+    <h2 class="mb-4">Dodaj nowy przedmiot</h2>
+
+    <form id="addItemForm" class="p-4 border rounded shadow-sm bg-light">
+      <div class="mb-3">
+        <label for="itemCategory" class="form-label">Kategoria</label>
+        <select id="itemCategory" class="form-select" required>
+          <option value="" disabled selected>Wybierz kategorię</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="itemSubCategory" class="form-label">Podkategoria</label>
+        <select id="itemSubCategory" class="form-select" required>
+          <option value="" disabled selected>Wybierz podkategorię</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="itemName" class="form-label">Nazwa</label>
+        <input id="itemName" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="itemDescription" class="form-label">Opis</label>
+        <textarea id="itemDescription" class="form-control" rows="3" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="itemPrice" class="form-label">Cena</label>
+        <input id="itemPrice" type="number" class="form-control" step="0.01" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Dodaj przedmiot</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

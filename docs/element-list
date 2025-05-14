@@ -1,0 +1,14 @@
+alledrogo
+alledrogo.controller
+alledrogo.data.entity
+alledrogo.data.repository
+alledrogo.io.request
+alledrogo.io.response
+alledrogo.security
+alledrogo.security.jwt
+alledrogo.security.service
+alledrogo.service
+alledrogo.service.implementation
+alledrogo.tests.controller
+alledrogo.tests.dataset
+alledrogo.tests.service
