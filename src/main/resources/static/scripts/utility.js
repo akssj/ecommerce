@@ -53,3 +53,13 @@ export function getCookie(cookieName) {
     }
     return "";
 }
+
+export function refreshAccessToken() {
+  fetch('http://localhost:8080/auth/refresh-token', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    }    
+  });
+}

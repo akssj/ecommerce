@@ -1,4 +1,4 @@
-import { switchAccountDropDown, setCookie, getCookie } from './utility.js';
+import { switchAccountDropDown, setCookie, getCookie, refreshAccessToken } from './utility.js';
 
 export function loadNavbar() {
     return new Promise((resolve, reject) => {
@@ -128,10 +128,13 @@ export function loadUserData() {
         body: JSON.stringify({})
     })
     .then(response => {
-        if (!response.ok) {
+        if (response.ok) {
+            return response.json();
+        }else if (response.status === 401) {
+            refreshAccessToken();
+        }else{
             throw new Error('Failed to fetch user data');
         }
-        return response.json();
     })
     .then(data => {
         document.getElementById('username').textContent = data.username;

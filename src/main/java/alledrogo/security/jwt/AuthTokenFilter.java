@@ -70,6 +70,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     return path.startsWith("/static") ||
             path.equals("/main") ||
             path.matches("/category/\\w+") ||
+            path.equals("/auth/refresh-token") ||
             path.equals("/auth/login") ||
             path.equals("/auth/signup") ||
             path.equals("/product/forSale") ||

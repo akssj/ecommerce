@@ -61,6 +61,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/main").permitAll()
                 .requestMatchers("/category/{category}").permitAll()
+                .requestMatchers("/auth/refresh-token").permitAll()
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/signup").permitAll()
                 .requestMatchers("/product/forSale").permitAll()

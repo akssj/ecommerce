@@ -1,6 +1,8 @@
 package alledrogo.security.jwt;
 
+import alledrogo.data.entity.UserEntity;
 import alledrogo.security.service.UserDetailsImpl;
+import alledrogo.service.UserService;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.Jwts;
@@ -9,6 +11,7 @@ import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.Authentication;
@@ -24,12 +27,20 @@ import java.util.Date;
 @Component
 public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+  private final UserService userService;
   @Value("${alledrogo.app.jwtExpirationMs}")
   private int jwtExpirationMs;
+  @Value("${alledrogo.app.jwtRefreshExpirationMs}")
+  private int jwtRefreshExpirationMs;
   @Value("${alledrogo.app.jwt.secret-key-file}")
   private String secretKeyFilePath;
   @Value("${alledrogo.app.jwt.public-key-file}")
   private String publicKeyFilePath;
+
+  @Autowired
+  public JwtUtils(UserService userService) {
+    this.userService = userService;
+  }
 
   private PrivateKey readPrivateKey(String filePath) throws IOException, GeneralSecurityException {
     byte[] keyBytes = readKeyFile(filePath);
@@ -67,6 +78,43 @@ public class JwtUtils {
       throw new RuntimeException(e);
     }
   }
+
+  public String generateJwtRefreshToken(Authentication authentication) {
+    try {
+      UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
+      return Jwts.builder()
+              .setSubject((userPrincipal.getUsername()))
+              .claim("email", userPrincipal.getEmail())
+              .setIssuedAt(new Date())
+              .setExpiration(new Date((new Date()).getTime() + jwtRefreshExpirationMs))
+              .signWith(readPrivateKey(secretKeyFilePath), SignatureAlgorithm.RS256)
+              .compact();
+
+    }catch (IOException | GeneralSecurityException e){
+      logger.error("Exception: {}", e.getMessage());
+      throw new RuntimeException(e);
+    }
+  }
+
+  public String generateJwtTokenFromUsername(String username) {
+    try {
+      UserEntity userEntity = userService.findByUsername(username);
+
+      return Jwts.builder()
+              .setSubject(username)
+              .claim("email", userEntity.getEmail())
+              .setIssuedAt(new Date())
+              .setExpiration(new Date((new Date()).getTime() + jwtRefreshExpirationMs))
+              .signWith(readPrivateKey(secretKeyFilePath), SignatureAlgorithm.RS256)
+              .compact();
+
+    } catch (IOException | GeneralSecurityException e) {
+      logger.error("Exception: {}", e.getMessage());
+      throw new RuntimeException(e);
+    }
+  }
+
 
   public String getUserNameFromJwtToken(String token) {
     try {

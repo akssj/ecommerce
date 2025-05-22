@@ -12,7 +12,9 @@ import alledrogo.service.UserService;
 import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,10 +24,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Api endpoint class, provides /auth endpoint to authentication and CRUD user data.
@@ -38,12 +36,40 @@ public class AuthenticationController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    @Value("${alledrogo.app.jwtExpirationMs}")
+    private int jwtExpirationMs;
+    @Value("${alledrogo.app.jwtRefreshExpirationMs}")
+    private int jwtRefreshExpirationMs;
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtils = jwtUtils;
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@CookieValue(name = "refreshToken") String refreshToken) {
+
+        if (refreshToken == null || !jwtUtils.validateJwtToken(refreshToken)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid refresh token"));
+        }
+
+        String username;
+        try {
+            username = jwtUtils.getUserNameFromJwtToken(refreshToken);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new MessageResponse("Could not extract user from refresh token"));
+        }
+
+        String refreshedToken = jwtUtils.generateJwtTokenFromUsername(username);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE, "token=" + refreshedToken + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + jwtExpirationMs / 1000);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new MessageResponse("Token refreshed successfully!"));
     }
 
     @PostMapping("/login")
@@ -59,9 +85,11 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtUtils.generateJwtToken(authentication);
+        String refreshToken = jwtUtils.generateJwtRefreshToken(authentication);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=" + getExpirationTimeString());
+        headers.add(HttpHeaders.SET_COOKIE, "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + jwtExpirationMs / 1000);
+        headers.add(HttpHeaders.SET_COOKIE, "refreshToken=" + refreshToken + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + jwtRefreshExpirationMs / 1000);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -75,7 +103,8 @@ public class AuthenticationController {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Set-Cookie", "token=" + "; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=" + expireTokens());
+        headers.add(HttpHeaders.SET_COOKIE, "token=" + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + 0);
+        headers.add(HttpHeaders.SET_COOKIE, "refreshToken=" + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + 0);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -120,10 +149,11 @@ public class AuthenticationController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String token = jwtUtils.generateJwtToken(authentication);
+            String refreshToken = jwtUtils.generateJwtRefreshToken(authentication);
 
             HttpHeaders headers = new HttpHeaders();
-
-            headers.add("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=" + getExpirationTimeString());
+            headers.add(HttpHeaders.SET_COOKIE, "token=" + token + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + jwtExpirationMs / 1000);
+            headers.add(HttpHeaders.SET_COOKIE, "refreshToken=" + refreshToken + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + jwtRefreshExpirationMs / 1000);
 
             return ResponseEntity.ok()
                     .headers(headers)
@@ -140,7 +170,7 @@ public class AuthenticationController {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Set-Cookie", "username=" + userEntity.getUsername() + "; Path=/; Secure; SameSite=None; Expires=" + getExpirationTimeString());
+        headers.add("Set-Cookie", "username=" + userEntity.getUsername() + "; Path=/; Secure; SameSite=None; Max-Age=" + jwtExpirationMs / 1000);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -184,7 +214,8 @@ public class AuthenticationController {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.add("Set-Cookie", "token=" + "; Path=/; HttpOnly; Secure; SameSite=None; Expires=" + expireTokens());
+        headers.add(HttpHeaders.SET_COOKIE, "token=" + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + 0);
+        headers.add(HttpHeaders.SET_COOKIE, "refreshToken=" + "; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=" + 0);
 
         return ResponseEntity.ok()
                 .headers(headers)
@@ -220,22 +251,6 @@ public class AuthenticationController {
         } else {
             return ResponseEntity.badRequest().body(new MessageResponse("Failed to update user password!"));
         }
-    }
-
-    private String getExpirationTimeString() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 10);
-        Date expirationDate = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-        return sdf.format(expirationDate);
-    }
-
-    private String expireTokens() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, -1);
-        Date expirationDate = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-        return sdf.format(expirationDate);
     }
 }
 

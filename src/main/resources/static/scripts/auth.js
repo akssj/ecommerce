@@ -1,4 +1,4 @@
-import { switchAccountDropDown, hideModal, setCookie, getCookie } from './utility.js';
+import { switchAccountDropDown, hideModal, setCookie, getCookie, refreshAccessToken} from './utility.js';
 
 /*============
 login request
@@ -116,6 +116,8 @@ export function getUserStatus() {
     .then(response => {
       if (response.ok) {
         return response.json();
+      } else if (response.status === 401) {
+        refreshAccessToken();
       } else {
         return response.json().then(data => {
           const errorMessage = data.message;

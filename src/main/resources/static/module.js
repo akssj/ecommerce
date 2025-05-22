@@ -2,7 +2,7 @@ import { loadNavbar, loadCategories, loadUserData } from './scripts/pageBuilder.
 import { login, signup, signOut, deleteAccount, changePassword } from './scripts/auth.js';
 import { fillProducts } from './scripts/product.js';
 import { addItem, buyItem, deleteItem } from './scripts/productHandling.js';
-import { switchAccountDropDown, hideModal, setCookie, getCookie } from './scripts/utility.js';
+import { switchAccountDropDown, hideModal, setCookie, getCookie, refreshAccessToken } from './scripts/utility.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
 
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         switchAccountDropDown('showAccountOptions');
     }
 
-    await Promise.all([loadCategories(), fillProducts(), loadUserData()]);
+    await Promise.all([loadCategories(), fillProducts(), loadUserData(), refreshAccessToken()]);
 
     document.addEventListener('click', async function (e) {
         const action = e.target.getAttribute('data-action');
