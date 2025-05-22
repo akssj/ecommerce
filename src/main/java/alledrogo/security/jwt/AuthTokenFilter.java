@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
 @Configuration
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
@@ -32,8 +33,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
-                                  @NonNull HttpServletResponse response,
-                                  @NonNull FilterChain filterChain) throws ServletException, IOException {
+      @NonNull HttpServletResponse response,
+      @NonNull FilterChain filterChain) throws ServletException, IOException {
     String token = parseJwt(request);
     if (token == null || !jwtUtils.validateJwtToken(token)) {
       logger.error("Invalid or missing JWT token");
@@ -43,7 +44,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         logger.info("Unauthorized request for HTML content");
         request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, HttpServletResponse.SC_UNAUTHORIZED);
         request.getRequestDispatcher("/error").forward(request, response);
-      }else {
+      } else {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("Unauthorized: You need to log in to perform this action.");
       }
@@ -53,7 +54,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
       String username = jwtUtils.getUserNameFromJwtToken(token);
       UserDetails userDetails = userDetailsService.loadUserByUsername(username);
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-        userDetails.getAuthorities());
+          userDetails.getAuthorities());
       authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
       filterChain.doFilter(request, response);
@@ -65,20 +66,27 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   }
 
   @Override
-  protected boolean shouldNotFilter(HttpServletRequest request){
-    String path = request.getRequestURI();
-    return path.startsWith("/static") ||
-            path.equals("/main") ||
-            path.matches("/category/\\w+") ||
-            path.equals("/auth/refresh-token") ||
-            path.equals("/auth/login") ||
-            path.equals("/auth/signup") ||
-            path.equals("/product/forSale") ||
-            path.equals("/product/categories") ||
-            path.equals("/error") ||
-            path.matches("/product/\\w+/name") ||
-            path.matches("/product/\\w+/category");
+  protected boolean shouldNotFilter(HttpServletRequest request) {
+      String path = request.getRequestURI();
+  
+      return path.equals("/") ||
+             path.equals("/index.html") ||
+             path.equals("/search.html") ||
+             path.startsWith("/css/") ||
+             path.startsWith("/js/") ||
+             path.startsWith("/component/") ||
+             path.startsWith("/static/") ||             // jeśli używasz /static/**
+             path.equals("/favicon.ico") ||
+             path.startsWith("/error") ||
+              path.equals("/auth/refresh-token") ||
+             path.equals("/auth/login") ||
+             path.equals("/auth/signup") ||
+             path.equals("/product/forSale") ||
+             path.equals("/product/categories") ||
+             path.matches("^/product/[^/]+/category$") ||   // dokładne dopasowanie
+             path.matches("^/category/[^/]+$");             // np. /category/Elektronika
   }
+  
 
   private String parseJwt(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();

@@ -2,12 +2,15 @@ package alledrogo.service.implementation;
 
 import alledrogo.data.entity.UserEntity;
 import alledrogo.data.repository.ProductRepository;
+import alledrogo.service.ProductCategoryService;
 import alledrogo.service.ProductProjection;
 import jakarta.persistence.EntityNotFoundException;
 import alledrogo.data.entity.ProductEntity;
 import alledrogo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,10 +23,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductCategoryService productCategoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductCategoryService productCategoryService) {
         this.productRepository = productRepository;
+        this.productCategoryService = productCategoryService;
     }
 
     private ProductProjection mapToProjection(ProductEntity product) {
@@ -81,14 +86,22 @@ public class ProductServiceImpl implements ProductService {
      * @return list of products where String Buyer field equals "" and category equals provided category
      */
     @Override
-    public List<ProductProjection> findProductByCategory(String category) {
-        List<ProductEntity> allProducts = productRepository.findAll();
+public List<ProductProjection> findProductByCategory(String category) {
+    boolean exists = productCategoryService.getCategories().stream()
+        .flatMap(cat -> cat.getSubCategories().stream())
+        .anyMatch(sub -> sub.equalsIgnoreCase(category));
 
-        return allProducts.stream()
-                .filter(product -> !product.isSold() && category.equals(product.getCategory()))
-                .map(this::mapToProjection)
-                .collect(Collectors.toList());
+    if (!exists) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Subcategory not found");
     }
+
+    return productRepository.findAll().stream()
+        .filter(product -> !product.isSold() &&
+                           category.equalsIgnoreCase(product.getCategory()))
+        .map(this::mapToProjection)
+        .collect(Collectors.toList());
+}
+
 
     /**
      * Returns not sold products with similar name
@@ -112,7 +125,9 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductProjection> findMyProducts(String username) {
         List<ProductEntity> allProducts = productRepository.findAll();
         return allProducts.stream()
-                .filter(product -> username.equals(product.getSeller().getUsername()))
+                .filter(product -> username.equals(product.getSeller().getUsername()) &&
+                product.getBuyer() == null // ⬅️ filtr na niesprzedane
+                )
                 .map(this::mapToProjection)
                 .collect(Collectors.toList());
     }

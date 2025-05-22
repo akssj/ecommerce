@@ -1,4 +1,5 @@
-import { switchAccountDropDown, hideModal, setCookie, getCookie, refreshAccessToken} from './utility.js';
+import { switchAccountDropDown, hideModal, setCookie, getCookie, refreshAccessToken } from '/js/util/utility.js';
+import { fillProducts } from './product.js';
 
 /*============
 login request
@@ -37,6 +38,8 @@ return fetch('http://localhost:8080/auth/login', requestLogin)
         return getUserStatus().then(() => {
             setCookie('loggedIn', 'true');
             switchAccountDropDown('showAccountOptions');
+            fillProducts();
+            window.location.reload();
         });
     })
     .catch(error => {
@@ -111,7 +114,8 @@ export function getUserStatus() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    credentials: 'include'
   })
     .then(response => {
       if (response.ok) {
@@ -160,7 +164,7 @@ export function signOut() {
       }
     })
     .then(data => {
-      window.location.href = "http://localhost:8080/main";
+      window.location.href = "http://localhost:8080/index.html";
     })
     .catch(error => {
       console.error(error);

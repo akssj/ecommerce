@@ -58,20 +58,33 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(httpSecuritySessionManagementConfigurer  -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/main").permitAll()
-                .requestMatchers("/category/{category}").permitAll()
-                .requestMatchers("/auth/refresh-token").permitAll()
-                .requestMatchers("/auth/login").permitAll()
-                .requestMatchers("/auth/signup").permitAll()
-                .requestMatchers("/product/forSale").permitAll()
-                .requestMatchers("/product/categories").permitAll()
-                .requestMatchers("/product/{category}/category").permitAll()
-                .requestMatchers("/product/{name}/name").permitAll()
-                .requestMatchers("/static/**").permitAll()
-                .requestMatchers("/error").permitAll()
-                .anyRequest().authenticated()
-        )
+        // SecurityConfig
+.authorizeHttpRequests(auth -> auth
+// ====== PUBLICZNE STRONY I STATYKI ======
+.requestMatchers(
+    "/", "/index.html",
+    "/css/**", "/js/**", "/component/**", "/favicon.ico",
+    "/error", "/error/**"
+).permitAll()
+
+// ====== PUBLICZNE ENDPOINTY API (tylko GET!) ======
+.requestMatchers(
+    "/product/forSale",
+    "/product/categories",
+    "/product/{category}/category",
+    "/product/{category}/**",
+    "/category/**",
+    "/product/**",
+    "/search.html"
+).permitAll()
+
+// ====== REJESTRACJA / LOGOWANIE (POST) ======
+.requestMatchers("/auth/login", "/auth/signup", "/auth/refresh-token").permitAll()
+
+// ====== CAŁA RESZTA WYMAGA JWT ======
+.anyRequest().authenticated()
+)
+
         .authenticationProvider(authenticationProvider())
         .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

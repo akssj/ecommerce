@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Moje Produkty – Alledrogo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script type="module" src="/js/core/main.js"></script>
+  <script type="module">
+    import { renderProductTable } from '/js/feature/product.js';
+    import { fetchMyProducts, updateItem } from '/js/feature/productHandling.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const table = document.getElementById('product-table');
+      const products = await fetchMyProducts();
+      renderProductTable(products, table, true); // tryb edycji
+
+      // Obsługa zapisu zmian z modala
+      const form = document.getElementById('editItemForm');
+      form?.addEventListener('submit', e => {
+        e.preventDefault();
+        updateItem();
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="navbarPlaceholder"></div>
+
+  <div class="container mt-4">
+    <h2>Moje Produkty</h2>
+    <table id="product-table" class="table">
+      <thead>
+        <tr>
+          <th>Name</th><th>Seller</th><th>Description</th><th>Price</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Modal edycji produktu -->
+  <div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" id="editItemForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editItemModalLabel">Edytuj produkt</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editItemId">
+          <div class="mb-3">
+            <label for="editItemName" class="form-label">Nazwa</label>
+            <input type="text" class="form-control" id="editItemName" required>
+          </div>
+          <div class="mb-3">
+            <label for="editItemPrice" class="form-label">Cena</label>
+            <input type="number" class="form-control" id="editItemPrice" required>
+          </div>
+          <div class="mb-3">
+            <label for="editItemDescription" class="form-label">Opis</label>
+            <textarea class="form-control" id="editItemDescription" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editItemCategory" class="form-label">Kategoria</label>
+            <input type="text" class="form-control" id="editItemCategory" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
