@@ -6,7 +6,6 @@ import alledrogo.data.enums.UserStatus;
 import alledrogo.data.repository.UserRepository;
 import org.mockito.*;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.*;

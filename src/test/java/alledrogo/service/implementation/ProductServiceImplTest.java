@@ -143,7 +143,6 @@ public class ProductServiceImplTest {
 
         ProductEntity result = productService.findById(idToFind);
 
-        // Then
         assertNotNull(result);
         assertEquals(productToFind, result);
     }
