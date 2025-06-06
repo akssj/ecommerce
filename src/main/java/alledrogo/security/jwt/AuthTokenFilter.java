@@ -83,7 +83,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
              path.equals("/auth/signup") ||
              path.equals("/product/forSale") ||
              path.equals("/product/categories") ||
-             path.matches("^/product/[^/]+/category$") ||   // dokładne dopasowanie
+             path.matches("^/product/[^/]+/category$") || // dokładne dopasowanie
+              path.matches("^/product/[^/]+/name$") || // dokładne dopasowanie
              path.matches("^/category/[^/]+$");             // np. /category/Elektronika
   }
   

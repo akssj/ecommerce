@@ -62,14 +62,16 @@ public class UserServiceImpl implements UserService {
         if (existingUser.isPresent()) {
             return false;
         }
-        return newUserEntity == userRepository.save(newUserEntity);
+        userRepository.save(newUserEntity);
+        return true;
     }
 
     @Override
-    public boolean updateUser(UserEntity userEntity){
-        if (userRepository.existsById(userEntity.getId())){
-            return userEntity == userRepository.save(userEntity);
-        }else {
+    public boolean updateUser(UserEntity userEntity) {
+        if (userRepository.existsById(userEntity.getId())) {
+            userRepository.save(userEntity);
+            return true;
+        } else {
             return false;
         }
     }

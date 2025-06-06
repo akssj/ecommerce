@@ -1,8 +1,10 @@
 package alledrogo.service.implementation;
 
+import alledrogo.data.entity.CategoryEntity;
 import alledrogo.data.entity.ProductEntity;
 import alledrogo.data.entity.UserEntity;
 import alledrogo.data.repository.ProductRepository;
+import alledrogo.service.ProductCategoryService;
 import alledrogo.service.ProductProjection;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,12 +23,16 @@ public class ProductServiceImplTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ProductCategoryService productCategoryService;
+
     @InjectMocks
     private ProductServiceImpl productService;
 
     private final UserEntity seller = new UserEntity();
     private final UserEntity buyer = new UserEntity();
     private List<ProductEntity> mockProducts;
+
     @BeforeClass
     public void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -38,6 +44,12 @@ public class ProductServiceImplTest {
                 new ProductEntity("Test_Item_2", 300.0f, "DescC", "Rings", seller),
                 new ProductEntity("Sold_item", 400.0f, "DescD", "Biographies", seller)
         );
+
+        CategoryEntity powerTools = new CategoryEntity("Tools");
+        powerTools.addSubCategory("PowerTools");
+
+        when(productCategoryService.getCategories()).thenReturn(List.of(powerTools));
+
         mockProducts.get(3).setBuyer(buyer);
         mockProducts.get(3).setSold(true);
     }
@@ -85,7 +97,7 @@ public class ProductServiceImplTest {
 
         List<ProductProjection> result = productService.findMyProducts(username);
 
-        assertEquals(4, result.size());
+        assertEquals(3, result.size());
         for (ProductProjection projection : result) {
             assertEquals(username, projection.getSeller());
         }
