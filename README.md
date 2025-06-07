@@ -32,6 +32,7 @@ https://akssj.github.io/ecommerce/index.html
 
 ## Build and Install
 download source code, import project to inteljidea and run it
+change password for postgres in application.properties
 access via localhost:8080
 
 
